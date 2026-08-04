@@ -7,19 +7,18 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: '20' }
-      - name: assertion suites (must be green)
+      - name: assertion suites
         run: |
           node test.mjs
           node shadow.test.mjs
           node wire.test.mjs
           node didy.test.mjs
-      - name: witness — core.mjs
+          node depth.test.mjs
+      - name: mutation gate (witness)
         run: |
           git clone --depth 1 https://github.com/sjgant80-hub/witness.git .witness
-          node .witness/witness.mjs mutate core.mjs --cap 200 --baseline witness.baseline.json --test node test.mjs
-      - name: witness — shadow.mjs
-        run: node .witness/witness.mjs mutate shadow.mjs --cap 200 --test node shadow.test.mjs
-      - name: witness — wire.mjs (the real organs wired to the core)
-        run: node .witness/witness.mjs mutate wire.mjs --cap 200 --test node wire.test.mjs
-      - name: witness — didy.mjs (the fall-os conductor)
-        run: node .witness/witness.mjs mutate didy.mjs --cap 200 --test node didy.test.mjs
+          node .witness/witness.mjs mutate core.mjs   --cap 200 --baseline witness.baseline.json --test node test.mjs
+          node .witness/witness.mjs mutate shadow.mjs --cap 200 --test node shadow.test.mjs
+          node .witness/witness.mjs mutate wire.mjs   --cap 200 --test node wire.test.mjs
+          node .witness/witness.mjs mutate didy.mjs   --cap 200 --test node didy.test.mjs
+          node .witness/witness.mjs mutate depth.mjs  --cap 200 --test node depth.test.mjs
