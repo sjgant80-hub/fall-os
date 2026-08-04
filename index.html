@@ -149,6 +149,35 @@
   footer a{color:var(--muted)}footer a:hover{color:var(--ink)}
   .theme{background:none;border:1px solid var(--line);color:var(--muted);border-radius:8px;padding:5px 10px;cursor:pointer;font-size:.82rem}
   .anchor{scroll-margin-top:70px}
+  /* ── presence pass ── */
+  body{position:relative}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;
+    background:
+      radial-gradient(900px 520px at 12% -8%, color-mix(in srgb,var(--accent) 13%,transparent), transparent 62%),
+      radial-gradient(760px 440px at 92% 4%, color-mix(in srgb,var(--accent2) 11%,transparent), transparent 60%);}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.42;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:64px 64px;
+    -webkit-mask-image:radial-gradient(circle at 50% 22%, #000 0%, transparent 72%);
+            mask-image:radial-gradient(circle at 50% 22%, #000 0%, transparent 72%);}
+  .hero h1{text-shadow:0 0 70px color-mix(in srgb,var(--accent) 26%,transparent)}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px}
+  .eyebrow::before{content:"";width:22px;height:1px;background:linear-gradient(90deg,var(--accent),transparent)}
+  section h2{position:relative}
+  .card,.tier,.eco-cat,.dial,.diagram,.loop .step{transition:border-color .18s ease,transform .18s ease,box-shadow .18s ease}
+  .card:hover,.eco-cat:hover{border-color:color-mix(in srgb,var(--accent) 42%,var(--line));transform:translateY(-2px);
+    box-shadow:0 10px 34px -22px color-mix(in srgb,var(--accent) 62%,transparent)}
+  .tier:hover{border-color:color-mix(in srgb,var(--accent) 34%,var(--line))}
+  .card .ic{display:inline-block;padding:.16rem .5rem;border:1px solid color-mix(in srgb,var(--accent) 26%,var(--line));border-radius:20px;background:color-mix(in srgb,var(--accent) 7%,transparent)}
+  .stat b{filter:drop-shadow(0 0 24px color-mix(in srgb,var(--accent) 30%,transparent))}
+  .badge{backdrop-filter:blur(6px)}
+  .btn.primary{box-shadow:0 8px 26px -14px color-mix(in srgb,var(--accent) 85%,transparent)}
+  .chip .nm{transition:color .15s}.chip:hover .nm{color:var(--accent)}
+  .quote{border-left:none;padding-left:22px;position:relative}
+  .quote::before{content:"";position:absolute;left:0;top:4px;bottom:4px;width:2px;
+    background:linear-gradient(180deg,var(--accent),var(--accent2),transparent)}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
 </style>
 
 <nav><div class="wrap">
@@ -157,7 +186,8 @@
     <a href="#what">What it is</a>
     <a href="#does">What it does</a>
     <a href="#how">How it works</a>
-    <a href="#ecosystem">Ecosystem</a>
+    <a href="#browser">Runtime</a>
+      <a href="#ecosystem">Ecosystem</a>
     <a href="#demo">Demo</a>
     <a href="#faq">FAQ</a>
     <button class="theme" id="theme">Theme</button>
@@ -261,6 +291,22 @@
   <p class="lead" style="font-size:.93rem;margin-top:14px">The conductor is generic and trainable. A fresh instance ships blank as <code class="mono">didy</code>; registering organs and signing it with an owner prefix produces a <code class="mono">&lt;prefix&gt;-didy</code> — a named instance on the lineage. The reference instance for this estate is private.</p>
 </div></section>
 
+
+<section id="browser" class="anchor"><div class="wrap">
+  <span class="eyebrow">The runtime</span>
+  <h2>All of it runs in a browser tab</h2>
+  <p class="lead big">Not a marketing simplification — a hard architectural constraint the whole estate is held to. A tool is a single file you open. There is no installer, no server to provision, no container, no account. It works offline, it works on a phone, and it works on hardware a decade old. The browser has quietly become a complete operating environment, and almost nobody builds as if that were true.</p>
+  <div class="grid c3" style="margin-top:28px">
+    <div class="card"><span class="ic">Cryptography</span><h3>Real signatures, no server</h3><p>Ed25519 keypairs, signing and verification run natively in the page. Agent identity, signed transfers and tamper-evident ledgers work with nothing behind them.</p></div>
+    <div class="card"><span class="ic">Peer to peer</span><h3>Devices talk directly</h3><p>Browser-native peer connections let machines reconcile with each other rather than through a vendor's server — built on Konomi peer-to-peer (kp2p), <a href="https://github.com/teslasolar" target="_blank" rel="noopener">Thomas Frumkin's</a> work.</p></div>
+    <div class="card"><span class="ic">Compute</span><h3>Near-native speed</h3><p>Compiled modules run in the tab, so signal processing, simulation and search execute locally instead of being shipped to a datacenter and billed back to you.</p></div>
+    <div class="card"><span class="ic">Storage</span><h3>Your data, on your device</h3><p>Structured local storage holds the working set. Nothing is uploaded to be useful, and the tool keeps working with the network switched off.</p></div>
+    <div class="card"><span class="ic">Audio &amp; signal</span><h3>The machine can hear</h3><p>Real-time audio in the page is enough to diagnose a structure by its ring, sonify a system's health, and even pass work between machines as sound.</p></div>
+    <div class="card"><span class="ic">Offline</span><h3>Installs like an app, isn't one</h3><p>Service workers make a tab a durable application — add it to a home screen, lose signal entirely, keep working. The file is the product.</p></div>
+  </div>
+  <p class="lead" style="margin-top:22px;font-size:.95rem">This is why the estate can be a hundred separate tools and still cost nothing to distribute: shipping is publishing a file. It is also why sovereignty is achievable rather than aspirational — if the tool never needed a server, there is no server holding your data.</p>
+</div></section>
+
 <section id="trust" class="anchor"><div class="wrap">
   <span class="eyebrow">The trust rail</span>
   <h2>Nothing ships on a claim; everything ships on a proof</h2>
@@ -335,7 +381,7 @@
   <p class="lead">fall-os consolidates ideas developed across a longer line of work rather than inventing them wholesale.</p>
   <div class="grid c3" style="margin-top:24px">
     <div class="card"><span class="ic">Design line</span><h3>The assos line</h3><p>fall-os shares the governing principle of the <em>assos</em> line of sovereign systems: a system owns its own logic, runs self-contained and offline, and carries its own verification — no external service is required to trust it.</p></div>
-    <div class="card"><span class="ic">Foundational work</span><h3><a href="https://github.com/teslasolar" target="_blank" rel="noopener">Thomas Frumkin</a></h3><p>Co-originator of foundational work this line descends from — the <em>assos</em> systems, the Regulus engine, and a broad body of sovereign human–AI tooling (<span class="mono">github.com/teslasolar</span>).</p></div>
+    <div class="card"><span class="ic">Foundational work</span><h3><a href="https://github.com/teslasolar" target="_blank" rel="noopener">Thomas Frumkin</a></h3><p>The foundations are his: the <em>assos</em> line, the Konomi standard and its fold architecture, Konomi peer-to-peer, the Regulus engine, the guild discipline behind the estate's rubric, and the substrate contribution settles onto (<span class="mono">github.com/teslasolar</span>).</p></div>
     <div class="card"><span class="ic">Author &amp; maintainer</span><h3>The estate</h3><p>Designed, implemented and maintained under <a href="https://github.com/sjgant80-hub" target="_blank" rel="noopener">sjgant80-hub</a>, with mutation-tested verification on every change.</p></div>
   </div>
 </div></section>
