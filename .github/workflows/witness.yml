@@ -11,9 +11,12 @@ jobs:
         run: |
           node test.mjs
           node shadow.test.mjs
-      - name: witness — core.mjs (must be clean)
+          node wire.test.mjs
+      - name: witness — core.mjs
         run: |
           git clone --depth 1 https://github.com/sjgant80-hub/witness.git .witness
           node .witness/witness.mjs mutate core.mjs --cap 200 --baseline witness.baseline.json --test node test.mjs
-      - name: witness — shadow.mjs (must be clean)
+      - name: witness — shadow.mjs
         run: node .witness/witness.mjs mutate shadow.mjs --cap 200 --test node shadow.test.mjs
+      - name: witness — wire.mjs (the real organs wired to the core)
+        run: node .witness/witness.mjs mutate wire.mjs --cap 200 --test node wire.test.mjs
