@@ -1,91 +1,124 @@
 # fall-os
 
-**A deterministic decision-orchestration runtime — one shared core, one conductor, composable organs.**
+**The sovereign edge-AI operating system. Your models, your machine, your estate.**
 
-**Live site & interactive demo → https://sjgant80-hub.github.io/fall-os/**
+**▶ Live site, full explainer & interactive demo → https://sjgant80-hub.github.io/fall-os/**
 
-fall-os factors the machinery common to decision- and build-tools — generating options, scoring
-them, committing to one, caching the result — into a single shared core and a single control loop.
-Any number of tools then plug in as *organs* that route through them. Improving the core improves
-every organ at once. The runtime is deterministic, has no runtime dependencies, and runs offline.
+You chat with a conductor. It runs on **your own models** — a local-first cascade that escalates to
+a frontier API only if you allow it — builds what you ask, wires it into the estate, and runs
+operations once you have trained it. Every agent carries a signed identity and a budget it cannot
+cross. Every build must survive a mutation gate before it ships. No datacenter, no subscription,
+nothing leaves the machine unless you send it.
 
 ---
 
-## Architecture
+## What it is
 
-A **conductor** runs one control loop; every phase of the loop calls the shared **core**; **organs**
-register against phases.
+Cloud AI rents you intelligence by the token and keeps the memory. fall-os inverts that: inference
+defaults to hardware you own, the memory is a corpus you own, and the orchestration is a
+deterministic runtime you can audit line by line. The conductor is the interface — you direct it the
+way you would a coding agent, except the weights, the context, the history and the outputs are yours.
 
-```
-                       Conductor  (one control loop)
-                            |  invokes each phase of
-                     ┌──────┴──────┐
-                     │ Shared core │  expand · score(κ) · commit · cache
-                     └──────┬──────┘
-                            │  every organ calls
-    forward · reinterpretation · synthesis · memory · not-taken index
-```
+**Design thesis:** compression and orchestration beat raw scale. You do not need their datacenter —
+you need the right compression and hardware you already own.
 
-**The control loop:** `explore → resolve → verify → build → remember`
+## What it does
 
-1. **Explore** — expand candidate branches at successive golden-angle offsets (≈137.5°) for
-   near-uniform, low-overlap coverage of the option space.
-2. **Resolve** — score each candidate; it *holds* at or above the threshold κ = 1/φ ≈ 0.618,
-   otherwise it *clashes*.
-3. **Verify** — an author (an automated check or a person) commits one candidate. Nothing is
-   selected implicitly.
-4. **Build** — the committed candidate is produced and cached by content, so identical inputs
-   build once (`run(S) == S`).
-5. **Remember** — the selection is recorded; every not-taken branch is written to an index.
+| | |
+|---|---|
+| **Build** | Describe what you need; the conductor expands candidate implementations, generates code, and runs it through the gate. Anything that fails verification is discarded — it never reaches you as working software. |
+| **Operate** | Trained organs run real deployments: multi-channel reservations with a double-booking guard, offline housekeeping across a multi-unit site, encrypted bookkeeping, cited legal drafting, unified inbox and reply drafting. |
+| **Delegate** | A **90 / 10** operating split — 90 % machine execution, 10 % human judgement. Consequential actions stay authored; autonomy is granted per organ, never assumed. |
+| **Constrain** | Every agent holds an Ed25519 identity that *is* its capability and its budget ceiling. Overrun is impossible by construction, and every transfer is signed onto a hash-chained ledger. |
 
-## Modules
+## How it works
+
+### 1 · The model cascade — local first, frontier optional
+
+Requests descend to the cheapest capable tier. Your key hits your provider directly; there is no
+intermediary service and no token metering by us.
+
+| Tier | Runs on | Notes |
+|---|---|---|
+| **T0** Built-in deterministic logic | on-device | Kernels, templates and gates — no model needed |
+| **T1** In-browser model (WebLLM) | on-device | No install, no server, works offline |
+| **T2** Your local host (Ollama) | your hardware | Mid-size local models, e.g. **Qwen 14B**, over localhost |
+| **T2.5** Large local / co-located | your hardware | Heavier weights where hardware allows |
+| **T3** Free-tier APIs | opt-in · BYOK | Optional burst capacity, your account |
+| **T4** Frontier models | opt-in · BYOK | Maximum capability on demand — never required |
+
+Routing between a local Ollama host and frontier providers by task, quality and cost is a live
+component of the estate (`fallrouter`), not a diagram.
+
+### 2 · The control loop
+
+Every request runs the same five phases, each implemented by the shared core:
+
+`explore → resolve → verify → build → remember`
+
+1. **Explore** — expand candidates at golden-angle offsets (≈137.5°) so options diverge rather than cluster.
+2. **Resolve** — score against one shared acceptance threshold (κ = 1/φ ≈ 0.618).
+3. **Verify** — run proof. Nothing is selected implicitly; commitment is authored.
+4. **Build** — produce the committed result and cache by content (`run(S) == S`).
+5. **Remember** — record the decision and index every alternative not taken, with a recurrence count.
+
+### 3 · The estate is the context
+
+The estate's repositories are treated as a single addressable field — content-signed, graph-indexed,
+retrievable at reasoning time (`the wisp`, `estate-nest`, `fall-remember`, `offramp-v2`). Prior
+sessions become live memory; overnight consolidation reorganises what was learned without retraining
+any weights. **Your corpus is your context, not a vendor's training data.**
+
+### 4 · Runtime modules
 
 | Module | Responsibility | Mutation gate |
 |---|---|---|
-| `core.mjs` | Shared engine: golden-offset expansion, the κ-gate, deliberate commitment, content-addressed cache. | 10/12, clean |
-| `didy.mjs` | The conductor: the control loop, the organ registry, grounded commitment. | 17/17, clean |
-| `shadow.mjs` | Not-taken index: content-addresses discarded branches, deduplicates across decisions, ranks by recurrence. | 10/10, clean |
-| `wire.mjs` (+ `organs/`) | Adapters registering three existing engines as organs; routes their discarded branches into the shared index. | 16/16, clean |
-| `depth.mjs` | Search-depth control: bounds how far the conductor expands before it resolves. | 8/8, clean |
+| `core.mjs` | Shared engine: golden-offset expansion, acceptance gate, deliberate commitment, content-addressed cache | 10/12 · clean |
+| `didy.mjs` | The conductor: five-phase control loop, organ registry, grounded commitment | 17/17 · clean |
+| `shadow.mjs` | Not-taken index: content-addresses discarded options, deduplicates, ranks by recurrence | 10/10 · clean |
+| `wire.mjs` | Adapters registering existing engines as organs without rewriting them | 16/16 · clean |
+| `depth.mjs` | Search-depth control — how far the conductor expands before it resolves | 8/8 · clean |
 
-The conductor is generic and trainable. A fresh instance ships unsigned as `didy`; registering
-organs and signing it with an owner prefix yields a `<prefix>-didy` — a named descendant.
+The conductor is generic and trainable: a fresh instance ships blank as `didy`; registering organs
+and signing it with an owner prefix yields a `<prefix>-didy`. The reference instance is private.
 
-## Verification
+## The trust rail
 
-Each module has a deterministic assertion suite **and** a mutation-testing gate that alters one
-operator at a time and requires the suite to catch it — a passing assertion suite is necessary but
-not sufficient. Both run in CI on every push, for all five modules. Surviving mutants are either
-killed with a new test or recorded in a baseline as reviewed equivalents with a written rationale.
+Nothing ships on a claim; everything ships on a proof.
+
+- **`witness`** — deterministic mutation + fuzz gate. Alters one operator at a time and requires the
+  suite to catch it, so a green suite proves the tests actually constrain behaviour. Runs in CI on
+  every push; packaged as a GitHub Action any repository can adopt.
+- **`acg-assessor`** — deterministic structural rubric, reproducible rather than model opinion.
+- **`proof-of-play` / `earned`** — capability must be demonstrated against a pinned artifact and a
+  canonical grader; a self-graded claim dies on re-grade.
 
 ```bash
 node test.mjs && node shadow.test.mjs && node wire.test.mjs && node didy.test.mjs && node depth.test.mjs
 ```
 
+## The ecosystem
+
+fall-os is the runtime beneath **1,548 repositories** (1,503 public, 45 private) — 50+ load-bearing
+organs across runtime & routing, the three tenses, memory & consolidation, deployed business
+operations, agents/identity/economy, the trust rail, geometric & neuromorphic compute, mesh &
+transport & sensing, legal & consumer, and open-web agents. The live site maps them with links.
+
+The private subset (45) covers foundational architecture and research, the reference conductor and
+governance internals, mesh internals and sensitive tooling. Not listed individually; enquiries welcome.
+
 ## Run locally
 
 ```bash
-node scripts/serve.mjs   # serves the site + modules at http://localhost:8260
+node scripts/serve.mjs   # http://localhost:8260
 ```
 
-The published page imports the same `core.mjs` and `shadow.mjs` the tests verify — the demo is the
-gated logic, not a reimplementation.
-
-## Design notes
-
-- **Deterministic** — no wall-clock or randomness in the kernels; identical inputs give identical
-  results; content-addressing makes repeated work free.
-- **Grounded** — commitment is always authored, and only for candidates at or above the threshold;
-  below threshold the field stays open.
-- **Alternatives retained** — discarded candidates are content-addressed and indexed; a branch
-  reconsidered across separate decisions accrues a queryable recurrence count.
-- **Terminology** — the framework uses possibility/collapse vocabulary (κ, golden offset,
-  content-addressing); the implementation is ordinary deterministic code. κ = 1/φ is a project
-  convention for a single shared acceptance threshold.
+The published page imports the same `core.mjs` and `shadow.mjs` the tests verify — the demo *is* the
+gated logic, not a reimplementation. Pure ES modules, no build step, no runtime dependencies.
 
 ## Lineage
 
-fall-os shares the principle of the *assos* line of sovereign, self-contained systems. It descends
+fall-os shares the principle of the *assos* line of sovereign, self-contained systems, and descends
 from foundational work by [Thomas Frumkin](https://github.com/teslasolar) (the *assos* systems, the
-Regulus engine, and a broad body of sovereign human–AI tooling). Designed, implemented, and
-maintained under [sjgant80-hub](https://github.com/sjgant80-hub).
+Regulus engine, and a broad body of sovereign human–AI tooling). Designed, implemented and maintained
+under [sjgant80-hub](https://github.com/sjgant80-hub).

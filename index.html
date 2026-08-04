@@ -1,93 +1,103 @@
 <meta charset="utf-8">
-<title>fall-os — a deterministic decision-orchestration OS</title>
+<title>fall-os — the sovereign edge-AI operating system</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="fall-os is a deterministic decision-orchestration runtime: one shared core, one conductor loop, and composable organs. Mutation-tested, zero-dependency, offline-capable.">
+<meta name="description" content="fall-os is a sovereign edge-AI operating system. You chat with a conductor that runs on your own models — a local-first cascade with frontier optional — builds what you ask, and runs operations when trained. Signed, budget-bounded agents. Mutation-verified builds. No datacenter, no lock-in.">
 <meta name="theme-color" content="#0b0e14">
 <link rel="manifest" href="./manifest.webmanifest">
 <style>
   :root{
-    --bg:#f7f8fa; --panel:#ffffff; --panel2:#f2f4f7; --ink:#0f1720; --muted:#5a6675; --faint:#8a94a3;
-    --line:#e4e8ee; --accent:#3b5bdb; --accent-ink:#ffffff; --hold:#0c9463; --clash:#c0392b; --thr:#d9880a;
-    --code-bg:#f4f6f9;
+    --bg:#f7f8fa; --panel:#fff; --panel2:#f1f4f8; --ink:#0d1520; --muted:#576373; --faint:#8a94a3;
+    --line:#e3e8ef; --accent:#3b5bdb; --accent2:#7048e8; --accent-ink:#fff;
+    --ok:#0c9463; --warn:#d9880a; --hot:#c0392b; --code-bg:#f3f6fa;
     --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,system-ui,sans-serif;
     --mono:ui-monospace,"SF Mono","Cascadia Mono",Menlo,Consolas,monospace;
-    --maxw:1080px; --r:12px;
+    --maxw:1120px; --r:14px;
   }
   @media (prefers-color-scheme:dark){:root{
-    --bg:#0b0e14; --panel:#12161f; --panel2:#161b26; --ink:#e6edf3; --muted:#8b96a5; --faint:#5c6673;
-    --line:#202632; --accent:#5c7cfa; --accent-ink:#0b0e14; --hold:#2fbd85; --clash:#f0664f; --thr:#e6a23c;
-    --code-bg:#0e131c;
+    --bg:#080b11; --panel:#111722; --panel2:#161d2a; --ink:#e8eef6; --muted:#8d99a9; --faint:#5b6675;
+    --line:#1e2735; --accent:#5c7cfa; --accent2:#9775fa; --accent-ink:#080b11;
+    --ok:#2fbd85; --warn:#e6a23c; --hot:#f0664f; --code-bg:#0c121c;
   }}
-  :root[data-theme=light]{--bg:#f7f8fa;--panel:#fff;--panel2:#f2f4f7;--ink:#0f1720;--muted:#5a6675;--faint:#8a94a3;--line:#e4e8ee;--accent:#3b5bdb;--accent-ink:#fff;--hold:#0c9463;--clash:#c0392b;--thr:#d9880a;--code-bg:#f4f6f9}
-  :root[data-theme=dark]{--bg:#0b0e14;--panel:#12161f;--panel2:#161b26;--ink:#e6edf3;--muted:#8b96a5;--faint:#5c6673;--line:#202632;--accent:#5c7cfa;--accent-ink:#0b0e14;--hold:#2fbd85;--clash:#f0664f;--thr:#e6a23c;--code-bg:#0e131c}
+  :root[data-theme=light]{--bg:#f7f8fa;--panel:#fff;--panel2:#f1f4f8;--ink:#0d1520;--muted:#576373;--faint:#8a94a3;--line:#e3e8ef;--accent:#3b5bdb;--accent2:#7048e8;--accent-ink:#fff;--ok:#0c9463;--warn:#d9880a;--hot:#c0392b;--code-bg:#f3f6fa}
+  :root[data-theme=dark]{--bg:#080b11;--panel:#111722;--panel2:#161d2a;--ink:#e8eef6;--muted:#8d99a9;--faint:#5b6675;--line:#1e2735;--accent:#5c7cfa;--accent2:#9775fa;--accent-ink:#080b11;--ok:#2fbd85;--warn:#e6a23c;--hot:#f0664f;--code-bg:#0c121c}
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.62;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%}
   .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
-  a{color:var(--accent);text-decoration:none}
-  a:hover{text-decoration:underline}
-  code,kbd{font-family:var(--mono);font-size:.88em;background:var(--code-bg);border:1px solid var(--line);border-radius:6px;padding:.08em .38em}
+  a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+  code{font-family:var(--mono);font-size:.88em;background:var(--code-bg);border:1px solid var(--line);border-radius:6px;padding:.08em .38em}
   .mono{font-family:var(--mono)}
-  h1,h2,h3{letter-spacing:-.02em;line-height:1.2;text-wrap:balance}
-  .eyebrow{font-family:var(--mono);font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:600}
+  h1,h2,h3{letter-spacing:-.022em;line-height:1.18;text-wrap:balance}
+  .eyebrow{font-family:var(--mono);font-size:.73rem;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);font-weight:600}
+  section{padding:78px 0;border-bottom:1px solid var(--line)}
+  section h2{font-size:clamp(1.6rem,3.4vw,2.1rem);margin:.4rem 0 .7rem}
+  .lead{color:var(--muted);font-size:1.06rem;max-width:70ch}
+  .lead.big{font-size:1.14rem;color:var(--ink)}
 
-  /* nav */
-  nav{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-  nav .wrap{display:flex;align-items:center;gap:20px;height:58px}
-  .brand{font-weight:700;font-size:1.05rem;letter-spacing:-.02em;display:flex;align-items:center;gap:9px}
-  .brand .dot{width:11px;height:11px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 22%,transparent)}
-  nav .links{margin-left:auto;display:flex;gap:20px;align-items:center;font-size:.9rem}
-  nav .links a{color:var(--muted)} nav .links a:hover{color:var(--ink);text-decoration:none}
-  .btn{display:inline-block;padding:.5rem .9rem;border-radius:9px;border:1px solid var(--line);background:var(--panel);color:var(--ink);font-size:.88rem;font-weight:500;cursor:pointer;font-family:var(--sans)}
+  nav{position:sticky;top:0;z-index:60;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;align-items:center;gap:18px;height:58px}
+  .brand{font-weight:800;font-size:1.06rem;letter-spacing:-.03em;display:flex;align-items:center;gap:9px}
+  .brand .dot{width:11px;height:11px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 20%,transparent)}
+  nav .links{margin-left:auto;display:flex;gap:18px;align-items:center;font-size:.89rem}
+  nav .links a{color:var(--muted)}nav .links a:hover{color:var(--ink);text-decoration:none}
+  .btn{display:inline-block;padding:.52rem .95rem;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--ink);font-size:.88rem;font-weight:500;cursor:pointer;font-family:var(--sans)}
   .btn:hover{border-color:var(--accent);text-decoration:none}
   .btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
-  .btn.primary:hover{filter:brightness(1.06)}
-  @media (max-width:720px){nav .links a:not(.btn){display:none}}
+  .btn.primary:hover{filter:brightness(1.07)}
+  @media (max-width:860px){nav .links a:not(.btn){display:none}}
 
-  section{padding:74px 0;border-bottom:1px solid var(--line)}
-  section h2{font-size:1.7rem;margin:.4rem 0 .6rem}
-  .lead{color:var(--muted);font-size:1.06rem;max-width:64ch}
+  .hero{padding:92px 0 76px}
+  .hero h1{font-size:clamp(2.5rem,7vw,4.2rem);margin:.55rem 0 .2rem;font-weight:850;letter-spacing:-.035em;
+    background:linear-gradient(120deg,var(--ink) 30%,var(--accent) 75%,var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero .sub{font-size:clamp(1.1rem,2.6vw,1.5rem);font-weight:600;margin:.1rem 0 .5rem;letter-spacing:-.02em}
+  .hero p.lead{font-size:1.13rem;margin:1rem 0 1.8rem}
+  .cta{display:flex;gap:12px;flex-wrap:wrap}
+  .badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:28px}
+  .badge{font-family:var(--mono);font-size:.72rem;color:var(--muted);border:1px solid var(--line);border-radius:20px;padding:.3rem .72rem;background:var(--panel)}
+  .badge b{color:var(--ok);font-weight:700}
 
-  /* hero */
-  .hero{padding:86px 0 70px;text-align:left}
-  .hero h1{font-size:clamp(2.3rem,6vw,3.7rem);margin:.5rem 0 .1rem;font-weight:800}
-  .hero .sub{font-size:clamp(1.05rem,2.4vw,1.32rem);color:var(--ink);font-weight:500;margin:.2rem 0 .4rem}
-  .hero p.lead{font-size:1.1rem;margin:1rem 0 1.7rem}
-  .hero .cta{display:flex;gap:12px;flex-wrap:wrap}
-  .badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:26px}
-  .badge{font-family:var(--mono);font-size:.72rem;color:var(--muted);border:1px solid var(--line);border-radius:20px;padding:.28rem .7rem;background:var(--panel)}
-  .badge b{color:var(--hold);font-weight:600}
-
-  .grid{display:grid;gap:18px}
-  .cols-3{grid-template-columns:repeat(3,1fr)}
-  .cols-2{grid-template-columns:repeat(2,1fr)}
-  @media (max-width:820px){.cols-3,.cols-2{grid-template-columns:1fr}}
+  .grid{display:grid;gap:16px}
+  .c3{grid-template-columns:repeat(3,1fr)}.c2{grid-template-columns:repeat(2,1fr)}.c4{grid-template-columns:repeat(4,1fr)}
+  @media (max-width:900px){.c3,.c4{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:640px){.c3,.c2,.c4{grid-template-columns:1fr}}
   .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:20px}
-  .card h3{font-size:1.02rem;margin:0 0 .35rem}
-  .card p{margin:0;color:var(--muted);font-size:.94rem}
-  .card .ic{font-family:var(--mono);font-size:.7rem;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;font-weight:600}
+  .card h3{font-size:1.03rem;margin:0 0 .35rem}
+  .card p{margin:0;color:var(--muted);font-size:.93rem}
+  .card .ic{font-family:var(--mono);font-size:.69rem;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;font-weight:700;display:block;margin-bottom:.5rem}
 
-  /* loop */
-  .loop{display:flex;gap:10px;flex-wrap:wrap;margin:22px 0 0}
-  .loop .step{flex:1 1 150px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;position:relative}
-  .loop .step .n{font-family:var(--mono);font-size:.72rem;color:var(--accent);font-weight:600}
-  .loop .step b{display:block;margin:.15rem 0 .2rem;font-size:.98rem}
+  .stats{display:flex;gap:32px;flex-wrap:wrap;margin:26px 0 6px}
+  .stat b{display:block;font-size:2.1rem;font-weight:850;letter-spacing:-.03em;font-variant-numeric:tabular-nums;
+    background:linear-gradient(120deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .stat span{color:var(--muted);font-size:.82rem}
+
+  /* cascade */
+  .casc{display:flex;flex-direction:column;gap:8px;margin-top:24px}
+  .tier{display:grid;grid-template-columns:64px 1fr auto;gap:14px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:13px 16px}
+  .tier .t{font-family:var(--mono);font-size:.74rem;font-weight:700;color:var(--accent)}
+  .tier b{font-size:.97rem}
+  .tier p{margin:.1rem 0 0;color:var(--muted);font-size:.85rem}
+  .tier .tag{font-family:var(--mono);font-size:.68rem;padding:.22rem .55rem;border-radius:20px;border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+  .tier.local{border-left:3px solid var(--ok)}.tier.local .tag{color:var(--ok);border-color:color-mix(in srgb,var(--ok) 40%,var(--line))}
+  .tier.opt{border-left:3px solid var(--warn);opacity:.92}.tier.opt .tag{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 40%,var(--line))}
+  @media (max-width:640px){.tier{grid-template-columns:52px 1fr;}.tier .tag{grid-column:2;justify-self:start}}
+
+  .loop{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+  .loop .step{flex:1 1 160px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .loop .step .n{font-family:var(--mono);font-size:.71rem;color:var(--accent);font-weight:700}
+  .loop .step b{display:block;margin:.15rem 0 .2rem;font-size:.97rem}
   .loop .step span{color:var(--muted);font-size:.84rem}
 
-  /* modules table */
-  .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);margin-top:8px}
-  table{width:100%;border-collapse:collapse;font-size:.92rem;min-width:640px}
+  .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);margin-top:10px}
+  table{width:100%;border-collapse:collapse;font-size:.92rem;min-width:660px}
   th,td{text-align:left;padding:12px 15px;border-bottom:1px solid var(--line);vertical-align:top}
-  th{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--faint);font-weight:600;background:var(--panel2)}
+  th{font-size:.71rem;text-transform:uppercase;letter-spacing:.08em;color:var(--faint);font-weight:700;background:var(--panel2)}
   tr:last-child td{border-bottom:none}
   td .mono{font-size:.86rem;color:var(--accent)}
-  td.g{color:var(--hold);font-family:var(--mono);font-size:.84rem;white-space:nowrap}
+  td.g{color:var(--ok);font-family:var(--mono);font-size:.83rem;white-space:nowrap}
 
-  /* diagram */
   .diagram{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:8px}
   .diagram svg{width:100%;height:auto;display:block}
 
-  /* demo */
   .demo{display:grid;grid-template-columns:minmax(0,320px) 1fr;gap:22px;align-items:start;margin-top:22px}
   @media (max-width:720px){.demo{grid-template-columns:1fr}}
   .dial{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:12px}
@@ -95,146 +105,195 @@
   .modes{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
   .modes button{flex:1 1 130px;padding:9px 11px;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:10px;cursor:pointer;text-align:left;font-family:var(--sans)}
   .modes button[aria-pressed=true]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
-  .modes b{display:block;font-size:.9rem}.modes small{color:var(--muted);font-size:.75rem}
+  .modes b{display:block;font-size:.89rem}.modes small{color:var(--muted);font-size:.75rem}
   .demo .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
-  .demo .moveline{font-family:var(--mono);font-size:.74rem;color:var(--muted);margin:0 0 10px;word-break:break-word}
-  .verdict{font-size:.9rem;margin:2px 0 12px;min-height:1.4em}.verdict.decided{color:var(--hold)}.verdict.open{color:var(--muted)}
-  h4.sub{font-family:var(--mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--faint);margin:16px 0 6px}
+  .moveline{font-family:var(--mono);font-size:.74rem;color:var(--muted);margin:0 0 10px;word-break:break-word}
+  .verdict{font-size:.9rem;margin:2px 0 12px;min-height:1.4em}.verdict.decided{color:var(--ok)}.verdict.open{color:var(--muted)}
+  h4.sub{font-family:var(--mono);font-size:.69rem;text-transform:uppercase;letter-spacing:.08em;color:var(--faint);margin:16px 0 6px}
   ul.list{list-style:none;margin:0;padding:0}
   ul.list li{display:flex;justify-content:space-between;gap:10px;padding:7px 11px;border:1px solid var(--line);border-radius:9px;margin-bottom:5px;font-size:.86rem;background:var(--panel)}
-  ul.list li .s{font-family:var(--mono);font-size:.78rem}
-  li.hold{border-left:3px solid var(--hold)}li.hold .s{color:var(--hold)}
+  ul.list li .s{font-family:var(--mono);font-size:.77rem}
+  li.hold{border-left:3px solid var(--ok)}li.hold .s{color:var(--ok)}
   li.road{border-left:3px solid var(--faint);opacity:.75}li.road .s{color:var(--faint)}
 
-  /* faq */
-  details{border:1px solid var(--line);border-radius:var(--r);margin-bottom:10px;background:var(--panel);overflow:hidden}
-  details summary{cursor:pointer;padding:16px 18px;font-weight:600;font-size:1rem;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px}
-  details summary::-webkit-details-marker{display:none}
-  details summary::after{content:"+";color:var(--accent);font-family:var(--mono);font-size:1.2rem;flex:none}
-  details[open] summary::after{content:"–"}
-  details .body{padding:0 18px 17px;color:var(--muted);font-size:.95rem}
-  details .body p{margin:.2rem 0 .6rem}
-
-  footer{padding:44px 0;color:var(--muted);font-size:.9rem}
-  footer .cols{display:flex;gap:40px;flex-wrap:wrap;justify-content:space-between}
-  footer a{color:var(--muted)}footer a:hover{color:var(--ink)}
-  .theme{background:none;border:1px solid var(--line);color:var(--muted);border-radius:8px;padding:5px 10px;cursor:pointer;font-size:.82rem}
-  .anchor{scroll-margin-top:72px}
-  /* ecosystem */
-  .stats{display:flex;gap:26px;flex-wrap:wrap;margin:24px 0 8px}
-  .stat b{display:block;font-size:1.9rem;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
-  .stat span{color:var(--muted);font-size:.82rem}
   .eco-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:26px}
-  @media (max-width:820px){.eco-grid{grid-template-columns:1fr}}
+  @media (max-width:860px){.eco-grid{grid-template-columns:1fr}}
   .eco-cat{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:18px}
-  .eco-cat h3{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin:0 0 12px;font-weight:600}
-  .chips{display:flex;flex-direction:column;gap:2px}
-  .chip{display:flex;align-items:baseline;gap:8px;padding:7px 8px;border-radius:8px;text-decoration:none;color:var(--ink)}
+  .eco-cat h3{font-size:.76rem;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin:0 0 11px;font-weight:700}
+  .chips{display:flex;flex-direction:column;gap:1px}
+  .chip{display:flex;align-items:baseline;gap:8px;padding:6px 8px;border-radius:8px;color:var(--ink)}
   .chip:hover{background:var(--panel2);text-decoration:none}
-  .chip .nm{font-weight:600;font-size:.9rem;white-space:nowrap}
-  .chip .dsc{color:var(--muted);font-size:.82rem;line-height:1.35}
-  .chip .lv{width:6px;height:6px;border-radius:50%;background:var(--hold);flex:none;align-self:center;box-shadow:0 0 0 3px color-mix(in srgb,var(--hold) 20%,transparent)}
+  .chip .nm{font-weight:650;font-size:.88rem;white-space:nowrap}
+  .chip .dsc{color:var(--muted);font-size:.81rem;line-height:1.35}
+  .chip .lv{width:6px;height:6px;border-radius:50%;background:var(--ok);flex:none;align-self:center;box-shadow:0 0 0 3px color-mix(in srgb,var(--ok) 20%,transparent)}
   .chip .rp{width:6px;height:6px;border-radius:50%;background:var(--faint);flex:none;align-self:center}
   .private{grid-column:1/-1;background:var(--panel2);border-style:dashed}
   .pchips{display:flex;flex-wrap:wrap;gap:8px}
   .pchip{font-size:.82rem;color:var(--muted);border:1px solid var(--line);border-radius:20px;padding:.3rem .75rem;background:var(--panel);display:inline-flex;align-items:center;gap:7px}
   .pchip::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--faint)}
   .pchip b{color:var(--ink);font-variant-numeric:tabular-nums}
+
+  details{border:1px solid var(--line);border-radius:var(--r);margin-bottom:10px;background:var(--panel);overflow:hidden}
+  details summary{cursor:pointer;padding:16px 18px;font-weight:650;font-size:1rem;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px}
+  details summary::-webkit-details-marker{display:none}
+  details summary::after{content:"+";color:var(--accent);font-family:var(--mono);font-size:1.2rem;flex:none}
+  details[open] summary::after{content:"–"}
+  details .body{padding:0 18px 17px;color:var(--muted);font-size:.95rem}
+  details .body p{margin:.2rem 0 .6rem}
+
+  .quote{border-left:3px solid var(--accent);padding:6px 0 6px 18px;margin:26px 0 0;font-size:1.05rem;color:var(--ink);max-width:66ch}
+  .quote span{display:block;color:var(--muted);font-size:.86rem;margin-top:.5rem}
+
+  footer{padding:46px 0;color:var(--muted);font-size:.9rem}
+  footer .cols{display:flex;gap:40px;flex-wrap:wrap;justify-content:space-between}
+  footer a{color:var(--muted)}footer a:hover{color:var(--ink)}
+  .theme{background:none;border:1px solid var(--line);color:var(--muted);border-radius:8px;padding:5px 10px;cursor:pointer;font-size:.82rem}
+  .anchor{scroll-margin-top:70px}
 </style>
 
-<nav>
-  <div class="wrap">
-    <span class="brand"><span class="dot"></span>fall-os</span>
-    <div class="links">
-      <a href="#what">Overview</a>
-      <a href="#how">Architecture</a>
-      <a href="#ecosystem">Ecosystem</a>
-      <a href="#demo">Demo</a>
-      <a href="#engineering">Engineering</a>
-      <a href="#lineage">Lineage</a>
-      <a href="#faq">FAQ</a>
-      <button class="theme" id="theme">Theme</button>
-      <a class="btn" href="https://github.com/sjgant80-hub/fall-os" target="_blank" rel="noopener">GitHub</a>
-    </div>
+<nav><div class="wrap">
+  <span class="brand"><span class="dot"></span>fall-os</span>
+  <div class="links">
+    <a href="#what">What it is</a>
+    <a href="#does">What it does</a>
+    <a href="#how">How it works</a>
+    <a href="#ecosystem">Ecosystem</a>
+    <a href="#demo">Demo</a>
+    <a href="#faq">FAQ</a>
+    <button class="theme" id="theme">Theme</button>
+    <a class="btn" href="https://github.com/sjgant80-hub/fall-os" target="_blank" rel="noopener">GitHub</a>
   </div>
-</nav>
+</div></nav>
 
 <header class="hero"><div class="wrap">
-  <span class="eyebrow">Decision-orchestration runtime</span>
+  <span class="eyebrow">Sovereign edge-AI operating system</span>
   <h1>fall-os</h1>
-  <p class="sub">One shared core, one conductor, an estate of organs.</p>
-  <p class="lead">fall-os is the deterministic runtime beneath a self-hosted estate of sovereign builds. Each build is an <em>organ</em> that routes through a single shared core and a single control loop — so improving the core improves every organ at once. Every module is mutation-tested, zero-dependency, and runs offline.</p>
+  <p class="sub">Your models. Your machine. Your estate — run by a conductor you train.</p>
+  <p class="lead">You chat with a conductor. It runs on <strong>your own models</strong> — a local-first cascade that only escalates to a frontier API if you allow it — and it builds what you ask, wires it into the estate, and runs operations once you have trained it. Every agent carries a signed identity and a budget it cannot cross. Every build must survive a mutation gate before it ships. No datacenter. No subscription. Nothing leaves the machine unless you send it.</p>
   <div class="cta">
-    <a class="btn primary" href="#ecosystem">Explore the ecosystem</a>
-    <a class="btn" href="#demo">Run the interactive demo</a>
+    <a class="btn primary" href="#how">How it works</a>
+    <a class="btn" href="#ecosystem">Explore the estate</a>
+    <a class="btn" href="#demo">Run the engine</a>
   </div>
   <div class="badges">
     <span class="badge"><b>1,548</b> repositories in the estate</span>
+    <span class="badge"><b>6</b>-tier local-first model cascade</span>
+    <span class="badge"><b>90/10</b> machine / human operating split</span>
     <span class="badge"><b>5</b> runtime modules, mutation-tested</span>
-    <span class="badge">deterministic · zero-dependency</span>
-    <span class="badge">offline (PWA)</span>
+    <span class="badge">Ed25519 identity · bounded budgets</span>
+    <span class="badge">offline · zero-dependency</span>
   </div>
 </div></header>
 
 <section id="what" class="anchor"><div class="wrap">
   <span class="eyebrow">What it is</span>
-  <h2>An operating system for decisions, not a bag of tools</h2>
-  <p class="lead">A conventional toolkit is a pile: each tool has its own logic for generating options, scoring them, committing to one, and caching the result — so every improvement has to be made in every tool. fall-os factors that shared machinery into one place. The result is a single system with one bloodstream and one control loop, into which any number of tools plug as organs.</p>
-  <div class="grid cols-3" style="margin-top:26px">
-    <div class="card"><div class="ic">Core</div><h3>One shared engine</h3><p>A single routine every organ calls: expand candidates, score them against a fixed threshold, commit deliberately, cache by content. Improve it once, everywhere improves.</p></div>
-    <div class="card"><div class="ic">Conductor</div><h3>One control loop</h3><p>A single loop — explore, resolve, verify, build, remember — that invokes organs in order. Organs are called by the loop; they never run standalone.</p></div>
-    <div class="card"><div class="ic">Organs</div><h3>Composable capabilities</h3><p>Forward search, reinterpretation, synthesis, memory, and a not-taken index all register against the same core. Adding one is registration, not integration.</p></div>
+  <h2>An operating system for running an AI-operated estate on hardware you own</h2>
+  <p class="lead big">Cloud AI rents you intelligence by the token and keeps the memory. fall-os inverts that: the models run on your machine, the memory is a corpus you own, and the orchestration is a deterministic runtime you can audit line by line. The conductor is the interface — you talk to it the way you would talk to a coding agent, except the weights, the context, the history and the outputs are all yours.</p>
+  <div class="grid c3" style="margin-top:28px">
+    <div class="card"><span class="ic">The interface</span><h3>A conductor you chat with</h3><p>One conversational surface over the whole estate. It plans, expands options, calls organs, writes code, and reports back. Frontier-model quality is an option you can switch on — not a dependency you are locked into.</p></div>
+    <div class="card"><span class="ic">The substrate</span><h3>Your models, cascaded</h3><p>Six tiers, local first: built-in heuristics, in-browser models, your own Ollama host (e.g. Qwen 14B), then optional free and frontier APIs under your own key. Each request lands on the cheapest tier that can answer it.</p></div>
+    <div class="card"><span class="ic">The estate</span><h3>1,548 repositories, one field</h3><p>Everything built is addressable as a single retrieval corpus — the estate is both the product and the context the conductor reasons over. Nothing about your work is uploaded to train someone else's model.</p></div>
+  </div>
+  <blockquote class="quote">Compression beats scale. You do not need their datacenter — you need the right compression and hardware you already own.
+    <span>The design thesis: an operating system built for the edge, not a client for someone else's cloud.</span></blockquote>
+</div></section>
+
+<section id="does" class="anchor"><div class="wrap">
+  <span class="eyebrow">What it does</span>
+  <h2>Direct it in plain language; it builds, verifies, and operates</h2>
+  <p class="lead">The conductor is a general-purpose operator over the estate. The same loop that designs a module also drafts a customer reply, reconciles a ledger, or schedules a turnover — because every one of those is an organ registered against the same core.</p>
+  <div class="grid c2" style="margin-top:26px">
+    <div class="card"><span class="ic">Build</span><h3>Ask for a tool, get a verified tool</h3><p>Describe what you need. The conductor expands candidate implementations, generates code, and runs it through the gate. Anything that fails verification is discarded — it never reaches you as working software. Specifications that are never needed cost nothing to hold.</p></div>
+    <div class="card"><span class="ic">Operate</span><h3>Run the work, not just the demo</h3><p>Trained organs already run real operations: multi-channel reservations with a double-booking guard, offline housekeeping across a multi-unit site, encrypted bookkeeping, cited legal drafting, unified inboxes and reply drafting. These are deployed systems, not mockups.</p></div>
+    <div class="card"><span class="ic">Delegate</span><h3>A <b style="color:var(--accent)">90 / 10</b> operating split</h3><p><strong>90 % machine execution, 10 % human judgement.</strong> The system does the work; the person sets direction and commits the decisions that matter. Consequential actions stay authored — the conductor proposes and prepares, a human commits — and autonomy is granted per organ, never assumed.</p></div>
+    <div class="card"><span class="ic">Constrain</span><h3>Agents that cannot overspend</h3><p>Every agent holds an Ed25519 identity that <em>is</em> its capability and its budget ceiling. Overrun is impossible by construction, not by policy — an agent cannot spend what its signed grant does not contain, and every transfer is signed onto a hash-chained ledger.</p></div>
   </div>
 </div></section>
 
 <section id="how" class="anchor"><div class="wrap">
   <span class="eyebrow">How it works</span>
-  <h2>Architecture</h2>
-  <p class="lead">A conductor runs one control loop; every phase of that loop calls the shared core; organs register against phases. Because all expansion, scoring, commitment, and caching live in the core, a change there propagates to every organ.</p>
+  <h2>One core, one conductor, an estate of organs</h2>
+  <p class="lead">A conductor runs a single control loop. Every phase of that loop calls one shared core. Organs — the tools, engines and applications — register against phases rather than reimplementing their own logic. Improving the core improves every organ simultaneously; that inheritance is the entire reason to build an OS rather than a toolkit.</p>
 
-  <div class="diagram" style="margin-top:22px" id="arch"></div>
+  <div class="diagram" style="margin-top:24px" id="arch"></div>
 
-  <h3 style="margin:34px 0 4px;font-size:1.15rem">The control loop</h3>
+  <h3 style="margin:40px 0 2px;font-size:1.2rem">1 · The model cascade — local first, frontier optional</h3>
+  <p class="lead" style="font-size:.97rem">Requests descend the cheapest capable tier. Your key hits your provider directly; there is no intermediary service, no shared inference endpoint, and no token metering by us.</p>
+  <div class="casc">
+    <div class="tier local"><span class="t">T0</span><div><b>Built-in deterministic logic</b><p>Kernels, templates and gates — answers that need no model at all.</p></div><span class="tag">on-device · free</span></div>
+    <div class="tier local"><span class="t">T1</span><div><b>In-browser model (WebLLM)</b><p>A small model running in the page itself. No install, no server, works offline.</p></div><span class="tag">on-device · free</span></div>
+    <div class="tier local"><span class="t">T2</span><div><b>Your local host (Ollama)</b><p>Mid-size local models — e.g. Qwen 14B — served from your own machine over localhost.</p></div><span class="tag">your hardware</span></div>
+    <div class="tier local"><span class="t">T2.5</span><div><b>Large local / co-located</b><p>Heavier local weights where the hardware allows, for work the mid tier cannot close.</p></div><span class="tag">your hardware</span></div>
+    <div class="tier opt"><span class="t">T3</span><div><b>Free-tier APIs</b><p>Optional external capacity for burst work, under your own account.</p></div><span class="tag">opt-in · BYOK</span></div>
+    <div class="tier opt"><span class="t">T4</span><div><b>Frontier models</b><p>Maximum capability on demand — used for the hardest reasoning, never required for the system to run.</p></div><span class="tag">opt-in · BYOK</span></div>
+  </div>
+  <p class="lead" style="font-size:.92rem;margin-top:12px">Routing is a live component of the estate (<span class="mono">fallrouter</span>), not a diagram: it selects between a local Ollama host and frontier providers by task, quality and cost.</p>
+
+  <h3 style="margin:40px 0 2px;font-size:1.2rem">2 · The control loop</h3>
+  <p class="lead" style="font-size:.97rem">Every request the conductor accepts runs the same five phases, each implemented by the shared core.</p>
   <div class="loop">
-    <div class="step"><span class="n">01</span><b>Explore</b><span>Expand candidate branches with a golden-angle offset for near-uniform, low-overlap coverage.</span></div>
-    <div class="step"><span class="n">02</span><b>Resolve</b><span>Score each candidate; a candidate holds at or above the threshold κ = 1/φ, otherwise it clashes.</span></div>
-    <div class="step"><span class="n">03</span><b>Verify</b><span>An author (an automated check or a person) commits one candidate. Nothing is selected implicitly.</span></div>
-    <div class="step"><span class="n">04</span><b>Build</b><span>The committed candidate is produced and cached by content, so identical inputs build once.</span></div>
-    <div class="step"><span class="n">05</span><b>Remember</b><span>The selection is recorded; every not-taken branch is written to the index for later retrieval.</span></div>
+    <div class="step"><span class="n">01</span><b>Explore</b><span>Expand candidates at golden-angle offsets so options diverge instead of clustering on the obvious one.</span></div>
+    <div class="step"><span class="n">02</span><b>Resolve</b><span>Score every candidate against one shared acceptance threshold (κ = 1/φ ≈ 0.618).</span></div>
+    <div class="step"><span class="n">03</span><b>Verify</b><span>Run proof — tests, gates, checks. Nothing is selected implicitly; commitment is authored.</span></div>
+    <div class="step"><span class="n">04</span><b>Build</b><span>Produce the committed result and cache it by content, so identical work is never repeated.</span></div>
+    <div class="step"><span class="n">05</span><b>Remember</b><span>Record the decision and index every alternative not taken, with a recurrence count.</span></div>
   </div>
 
-  <h3 style="margin:38px 0 8px;font-size:1.15rem">Modules</h3>
+  <h3 style="margin:40px 0 2px;font-size:1.2rem">3 · The estate is the context</h3>
+  <p class="lead" style="font-size:.97rem">Conventional assistants forget between sessions and rent you back a summary. Here, the estate's repositories are treated as a single addressable field: content-signed, graph-indexed, and retrievable by the conductor at reasoning time. Prior sessions are converted from dead exports into live memory; overnight consolidation reorganises what was learned without retraining any weights. Your corpus stays yours — it is context, not training data for a vendor.</p>
+  <div class="grid c3" style="margin-top:16px">
+    <div class="card"><span class="ic">Field</span><h3>the wisp</h3><p>Points at the whole estate as one substrate — roughly a thousand repositories treated as a single retrievable field.</p></div>
+    <div class="card"><span class="ic">Graph</span><h3>estate-nest</h3><p>The estate nested into an addressable memory: signed by content, organised into chambers, traversed by typed edges.</p></div>
+    <div class="card"><span class="ic">Recall</span><h3>fall-remember · offramp</h3><p>Persistent memory plus a pipeline that turns dead chat exports into live, queryable recall.</p></div>
+  </div>
+
+  <h3 style="margin:40px 0 8px;font-size:1.2rem">4 · The runtime modules</h3>
   <div class="tablewrap"><table>
-    <thead><tr><th>Module</th><th>Responsibility</th><th>Verification</th></tr></thead>
+    <thead><tr><th>Module</th><th>Responsibility</th><th>Mutation gate</th></tr></thead>
     <tbody>
-      <tr><td><span class="mono">core.mjs</span></td><td>The shared engine: golden-offset expansion, the κ-gate, deliberate commitment, content-addressed cache.</td><td class="g">10/12, clean</td></tr>
-      <tr><td><span class="mono">didy.mjs</span></td><td>The conductor: the explore→resolve→verify→build→remember loop; organ registry; grounded commitment.</td><td class="g">17/17, clean</td></tr>
-      <tr><td><span class="mono">shadow.mjs</span></td><td>The not-taken index: content-addresses discarded branches, deduplicates across decisions, and ranks by recurrence.</td><td class="g">10/10, clean</td></tr>
-      <tr><td><span class="mono">wire.mjs</span></td><td>Adapters that register three existing engines as organs and route their discarded branches into the shared index.</td><td class="g">16/16, clean</td></tr>
-      <tr><td><span class="mono">depth.mjs</span></td><td>Search-depth control: bounds how far the conductor expands before it resolves (breadth vs. depth trade-off).</td><td class="g">8/8, clean</td></tr>
+      <tr><td><span class="mono">core.mjs</span></td><td>The shared engine: golden-offset expansion, the acceptance gate, deliberate commitment, content-addressed cache.</td><td class="g">10/12 · clean</td></tr>
+      <tr><td><span class="mono">didy.mjs</span></td><td>The conductor: the five-phase control loop, the organ registry, grounded commitment.</td><td class="g">17/17 · clean</td></tr>
+      <tr><td><span class="mono">shadow.mjs</span></td><td>The not-taken index: content-addresses discarded options, deduplicates across decisions, ranks by recurrence.</td><td class="g">10/10 · clean</td></tr>
+      <tr><td><span class="mono">wire.mjs</span></td><td>Adapters registering existing engines as organs without rewriting them.</td><td class="g">16/16 · clean</td></tr>
+      <tr><td><span class="mono">depth.mjs</span></td><td>Search-depth control: how far the conductor expands before it resolves.</td><td class="g">8/8 · clean</td></tr>
     </tbody>
   </table></div>
-  <p class="lead" style="margin-top:16px;font-size:.94rem">The conductor is generic and trainable: a fresh instance ships blank (<code class="mono">didy</code>) and is specialised by registering organs and signing it with an owner prefix, yielding a <code class="mono">&lt;prefix&gt;-didy</code>.</p>
+  <p class="lead" style="font-size:.93rem;margin-top:14px">The conductor is generic and trainable. A fresh instance ships blank as <code class="mono">didy</code>; registering organs and signing it with an owner prefix produces a <code class="mono">&lt;prefix&gt;-didy</code> — a named instance on the lineage. The reference instance for this estate is private.</p>
+</div></section>
+
+<section id="trust" class="anchor"><div class="wrap">
+  <span class="eyebrow">The trust rail</span>
+  <h2>Nothing ships on a claim; everything ships on a proof</h2>
+  <p class="lead">An assistant that writes code is only useful if you can tell whether the code is correct. fall-os treats verification as infrastructure rather than etiquette — the same gate that guards the runtime guards anything the conductor builds.</p>
+  <div class="grid c3" style="margin-top:26px">
+    <div class="card"><span class="ic">Mutation gate</span><h3>witness</h3><p>Alters one operator at a time and requires the test suite to catch it. A passing suite is necessary but not sufficient — this proves the tests actually constrain behaviour. Runs in CI on every push, packaged as a GitHub Action any repository can adopt.</p></div>
+    <div class="card"><span class="ic">Rubric</span><h3>acg-assessor</h3><p>Deterministic structural assessment of a codebase — reproducible scoring rather than model opinion.</p></div>
+    <div class="card"><span class="ic">Reputation</span><h3>proof-of-play · earned</h3><p>Capability must be demonstrated against a pinned artifact and a canonical grader. A self-graded claim dies on re-grade, so reputation cannot be asserted into existence.</p></div>
+  </div>
+  <div class="grid c2" style="margin-top:16px">
+    <div class="card"><span class="ic">Determinism</span><h3>Reproducible by construction</h3><p>No wall-clock and no randomness in the kernels. Identical inputs produce byte-identical output; content addressing makes repeated work free and makes every artifact citable by hash.</p></div>
+    <div class="card"><span class="ic">Identity</span><h3>Signed by construction</h3><p>Ed25519 throughout: agent passports, signed transfers on a hash-chained ledger, signed content, and fork-lineage as identity. Provenance is verifiable without a registry service.</p></div>
+  </div>
 </div></section>
 
 <section id="ecosystem" class="anchor"><div class="wrap">
   <span class="eyebrow">The ecosystem</span>
-  <h2>One runtime, an estate of organs</h2>
-  <p class="lead">fall-os is not a single application. It is the runtime beneath a large, self-hosted estate of sovereign builds — each an <em>organ</em> that owns its own logic, runs offline, and carries its own verification. The estate is governed by a trained conductor (<span class="mono">si-didy</span>) and moved by an attention frontier (the wisp). The load-bearing organs, grouped by faculty:</p>
+  <h2>One runtime beneath an estate of sovereign builds</h2>
+  <p class="lead">fall-os is not a single application. It is the runtime under a large body of self-hosted work — each build an organ that owns its logic, runs offline, and carries its own verification. The load-bearing organs, by faculty:</p>
   <div class="stats">
     <div class="stat"><b>1,548</b><span>repositories</span></div>
     <div class="stat"><b>1,503</b><span>public</span></div>
     <div class="stat"><b>45</b><span>private</span></div>
-    <div class="stat"><b>5</b><span>runtime modules, mutation-tested</span></div>
+    <div class="stat"><b>50+</b><span>load-bearing organs mapped</span></div>
   </div>
   <div class="eco-grid" id="eco"></div>
   <div class="eco-grid" style="margin-top:16px">
     <div class="eco-cat private">
       <h3>Private estate · 45 repositories</h3>
-      <p style="color:var(--muted);font-size:.9rem;margin:0 0 12px;max-width:72ch">A closed subset held privately — foundational architecture and research, governance and OS internals, and sensitive tooling. Not listed individually; details and access are available on enquiry (<a href="https://github.com/sjgant80-hub" target="_blank" rel="noopener">enquiries welcome</a>). In summary, by area:</p>
+      <p style="color:var(--muted);font-size:.9rem;margin:0 0 12px;max-width:72ch">A closed subset held privately — foundational architecture and research, the reference conductor and governance internals, mesh internals, and sensitive tooling. Not listed individually; details and access are available on enquiry (<a href="https://github.com/sjgant80-hub" target="_blank" rel="noopener">enquiries welcome</a>). In summary, by area:</p>
       <div class="pchips">
         <span class="pchip">Architecture &amp; research <b>10</b></span>
-        <span class="pchip">Governance &amp; conductor internals <b>7</b></span>
+        <span class="pchip">Conductor &amp; governance internals <b>7</b></span>
         <span class="pchip">Agent &amp; OS internals <b>7</b></span>
         <span class="pchip">Mesh &amp; transport internals <b>5</b></span>
         <span class="pchip">Legal tooling <b>2</b></span>
@@ -242,13 +301,13 @@
       </div>
     </div>
   </div>
-  <p class="lead" style="margin-top:20px;font-size:.9rem">The organs above are the load-bearing ones, not the full set — the estate spans 1,548 repositories in total (1,503 public, 45 private). A green marker denotes a live, hosted build; a grey marker, a source repository.</p>
+  <p class="lead" style="margin-top:20px;font-size:.9rem">The organs above are the load-bearing ones, not the full set — the estate spans 1,548 repositories. A green marker denotes a live hosted build; a grey marker, a source repository.</p>
 </div></section>
 
 <section id="demo" class="anchor"><div class="wrap">
   <span class="eyebrow">See it run</span>
-  <h2>Interactive demo</h2>
-  <p class="lead">The engine, live in your browser — the same module the tests verify. Pick a search mode; the core expands candidates on the golden offset, scores them at the κ-gate (dashed ring), and holds the field open. Nothing commits until you author it. Re-run and watch the not-taken index surface the branches you keep passing over.</p>
+  <h2>The engine, live</h2>
+  <p class="lead">This is the actual module the tests verify, running in your browser. Choose a search mode: the core expands candidates on the golden offset, scores them against the acceptance threshold (dashed ring), and holds the field open. Nothing commits until you author it — and every option you pass over is recorded, so the alternatives you keep revisiting surface on their own.</p>
   <div class="modes" id="modes"></div>
   <div class="demo">
     <div class="dial"><svg id="svg" viewBox="0 0 300 300" aria-label="candidate field"></svg></div>
@@ -262,7 +321,7 @@
       <p class="verdict open" id="verdict"></p>
       <h4 class="sub" id="holdsH">Above threshold</h4>
       <ul class="list" id="holds"></ul>
-      <h4 class="sub">Not taken · recorded to the index</h4>
+      <h4 class="sub">Not taken · recorded</h4>
       <ul class="list" id="roads"></ul>
       <h4 class="sub">Recurrence index <span id="shN" style="text-transform:none;letter-spacing:0;color:var(--faint)"></span></h4>
       <ul class="list" id="shadow"></ul>
@@ -270,18 +329,14 @@
   </div>
 </div></section>
 
-<section id="engineering" class="anchor"><div class="wrap">
-  <span class="eyebrow">Engineering</span>
-  <h2>Correctness is enforced, not asserted</h2>
-  <p class="lead">Every module is checked by a mutation-testing gate on each push: the gate systematically alters one operator at a time and requires the test suite to catch it. A passing assertion suite is necessary but not sufficient — the gate proves the tests actually constrain behaviour. Surviving mutants are either killed by a new test or recorded as reviewed equivalents with a written rationale.</p>
-  <div class="grid cols-3" style="margin-top:26px">
-    <div class="card"><div class="ic">Determinism</div><h3>Reproducible by construction</h3><p>No wall-clock, no randomness in the kernels. Identical inputs yield byte-identical results; content-addressed caching makes repeated work free.</p></div>
-    <div class="card"><div class="ic">Zero dependencies</div><h3>Auditable surface</h3><p>Pure ES modules, no build step, no runtime packages. The browser demo imports the same source the tests and CI verify.</p></div>
-    <div class="card"><div class="ic">Continuous verification</div><h3>Green on every push</h3><p>Assertion suites plus the mutation gate run in CI for all five modules. The published page and the gated logic are the same code.</p></div>
-  </div>
-  <div class="grid cols-2" style="margin-top:18px">
-    <div class="card"><div class="ic">Grounded commitment</div><h3>Nothing selected implicitly</h3><p>The conductor only builds a candidate an author commits, and only one at or above the threshold. Below threshold, the field stays open.</p></div>
-    <div class="card"><div class="ic">Total recall of alternatives</div><h3>The road not taken is kept</h3><p>Discarded candidates are content-addressed and indexed. A branch reconsidered across separate decisions accrues a recurrence count you can query.</p></div>
+<section id="lineage" class="anchor"><div class="wrap">
+  <span class="eyebrow">Lineage</span>
+  <h2>Origins &amp; acknowledgements</h2>
+  <p class="lead">fall-os consolidates ideas developed across a longer line of work rather than inventing them wholesale.</p>
+  <div class="grid c3" style="margin-top:24px">
+    <div class="card"><span class="ic">Design line</span><h3>The assos line</h3><p>fall-os shares the governing principle of the <em>assos</em> line of sovereign systems: a system owns its own logic, runs self-contained and offline, and carries its own verification — no external service is required to trust it.</p></div>
+    <div class="card"><span class="ic">Foundational work</span><h3><a href="https://github.com/teslasolar" target="_blank" rel="noopener">Thomas Frumkin</a></h3><p>Co-originator of foundational work this line descends from — the <em>assos</em> systems, the Regulus engine, and a broad body of sovereign human–AI tooling (<span class="mono">github.com/teslasolar</span>).</p></div>
+    <div class="card"><span class="ic">Author &amp; maintainer</span><h3>The estate</h3><p>Designed, implemented and maintained under <a href="https://github.com/sjgant80-hub" target="_blank" rel="noopener">sjgant80-hub</a>, with mutation-tested verification on every change.</p></div>
   </div>
 </div></section>
 
@@ -289,45 +344,36 @@
   <span class="eyebrow">FAQ</span>
   <h2>Frequently asked questions</h2>
   <div style="margin-top:22px">
-    <details open><summary>What problem does fall-os solve?</summary><div class="body"><p>Tools that generate options, score them, commit to one, and cache the result each reimplement that machinery. Improvements then have to be repeated per tool, and behaviour drifts between them. fall-os centralises the machinery in one core and one control loop, so a single improvement applies everywhere and behaviour is consistent by construction.</p></div></details>
-    <details><summary>What is the “core,” and why does everything route through it?</summary><div class="body"><p>The core is one routine: expand candidates with a golden-angle offset, score them against the fixed threshold κ = 1/φ, commit one deliberately, and cache by content. Every organ and every phase of the control loop calls it. Centralising expansion, scoring, commitment, and caching is what makes an OS out of a toolkit — improve the core, and every organ improves at once.</p></div></details>
-    <details><summary>Why κ = 1/φ, and what does “holds vs. clashes” mean?</summary><div class="body"><p>Scores are normalised to [0, 1]. A candidate <em>holds</em> when its score is at least κ ≈ 0.618 and <em>clashes</em> otherwise. κ = 1/φ (the reciprocal of the golden ratio) is used as a single, consistent acceptance threshold across the system; the value is a project convention, and the mechanism — one shared threshold — is what matters.</p></div></details>
-    <details><summary>What is the golden-angle offset for?</summary><div class="body"><p>Candidate branches are generated at successive multiples of the golden angle (≈ 137.5°). This produces near-uniform, low-overlap coverage of the option space — successive candidates spread out rather than clustering near the obvious first choice, which matters when you want genuinely divergent alternatives.</p></div></details>
-    <details><summary>What is the “not-taken index”?</summary><div class="body"><p>Every candidate that is generated but not committed is content-addressed and stored. Because it is content-addressed, the same branch reconsidered across different decisions deduplicates and accrues a recurrence count. You can query what you nearly built, retrieve the alternatives of a given decision, or rank by recurrence to surface a direction you keep revisiting but never commit to.</p></div></details>
-    <details><summary>What does “search depth” control?</summary><div class="body"><p>Depth bounds how far the conductor expands before it resolves. Depth 1 is a single expansion; higher depth re-expands from the not-taken branches of each level, evaluating a larger, less-redundant region of the option space before a single commitment. A deeper search is a superset of a shallower one, so it never returns a worse result.</p></div></details>
-    <details><summary>Does it ever decide on its own?</summary><div class="body"><p>No. Commitment is always authored — by an automated verification step or by a person. The conductor expands and scores candidates and keeps the field open; it selects one only when an author commits, and only a candidate at or above the threshold.</p></div></details>
-    <details><summary>How is correctness verified?</summary><div class="body"><p>Each module has a deterministic assertion suite and is checked by a mutation-testing gate that alters one operator at a time and requires the suite to detect the change. Both run in continuous integration on every push. Surviving mutants are either killed with a new test or recorded as reviewed equivalents with a written rationale.</p></div></details>
-    <details><summary>What are the dependencies and runtime requirements?</summary><div class="body"><p>None at runtime. The modules are pure ES modules with no build step and no packages. The demo runs entirely in the browser and works offline as a PWA; the tests and CI run on Node.</p></div></details>
-    <details><summary>Can I extend it?</summary><div class="body"><p>Yes. Register a new organ against the core — supply how it expands candidates, how it scores them, and optionally how it commits — and the conductor calls it in the loop. Existing engines are adapted, not rewritten: an adapter routes their generated-and-discarded branches into the shared index. See <code class="mono">wire.mjs</code> for three worked examples.</p></div></details>
+    <details open><summary>What is fall-os, in one paragraph?</summary><div class="body"><p>A sovereign edge-AI operating system. You direct a conductor in plain language; it runs on your own models through a local-first cascade (escalating to a frontier API only if you allow it), builds and verifies software, and operates trained organs across an estate of 1,548 repositories. Every agent has a signed identity and a hard budget; every build must pass a mutation gate. It runs offline on hardware you already own.</p></div></details>
+    <details><summary>How is this different from using a cloud AI assistant?</summary><div class="body"><p>Three structural differences. <strong>Location:</strong> inference defaults to your machine, and external calls are opt-in under your own key — there is no intermediary service. <strong>Memory:</strong> your estate is the context, indexed and owned locally, rather than a vendor-held history. <strong>Verification:</strong> generated code passes a deterministic mutation gate before it counts as working, instead of being trusted because it looks plausible.</p></div></details>
+    <details><summary>Do I need a GPU or a datacenter?</summary><div class="body"><p>No. The design thesis is that compression and orchestration beat raw scale: the lowest tiers are deterministic logic and a small in-browser model, which need no dedicated hardware at all. A mid-size local model (for example Qwen 14B via Ollama) raises quality substantially on ordinary hardware, and frontier capability remains available on demand without ever becoming a dependency.</p></div></details>
+    <details><summary>What is the model cascade, exactly?</summary><div class="body"><p>Six tiers, cheapest-capable first: built-in deterministic logic; an in-browser model; your local Ollama host; larger local weights where hardware allows; optional free-tier APIs; and optional frontier models. Keys are yours and hit your provider directly. Routing between local and frontier by task, quality and cost is a live component of the estate rather than a plan.</p></div></details>
+    <details><summary>Can it really run a business?</summary><div class="body"><p>It already runs parts of several. Deployed organs handle multi-channel reservations with a double-booking guard, offline housekeeping across a multi-unit site, encrypted bookkeeping, cited legal drafting, and unified inbox with reply drafting. The intended operating split is roughly 90 % machine execution to 10 % human judgement — with consequential actions authored by a person and each organ's autonomy granted explicitly, not assumed.</p></div></details>
+    <details><summary>What stops an agent going rogue or running up a bill?</summary><div class="body"><p>Structure, not policy. An agent's Ed25519 identity <em>is</em> its capability grant and its budget ceiling — it cannot spend beyond what its signed grant contains, and every transfer is signed onto a hash-chained, conserved ledger. Separately, the conductor never commits implicitly: it prepares and proposes, and an author commits.</p></div></details>
+    <details><summary>Are my repositories used as training data?</summary><div class="body"><p>They are used as <em>your</em> context, not as anyone's training corpus. The estate is indexed locally — content-signed, graph-organised, retrievable at reasoning time — so the conductor reasons over your own work. Nothing is uploaded to train a third-party model, and the memory layer consolidates what has been learned without retraining any weights.</p></div></details>
+    <details><summary>What does the acceptance threshold (κ) mean?</summary><div class="body"><p>Scores are normalised to [0, 1]; a candidate is accepted at or above κ ≈ 0.618 and rejected below it. Using a single shared threshold across every organ is the point — it makes acceptance behaviour consistent system-wide and improvable in one place. The specific value is a project convention.</p></div></details>
+    <details><summary>Why the golden-angle offset?</summary><div class="body"><p>Candidates are generated at successive multiples of ≈137.5°, which yields near-uniform, low-overlap coverage of the option space. Practically: successive proposals spread out instead of clustering around the first obvious answer, which is what you want when you are asking for genuinely different approaches.</p></div></details>
+    <details><summary>How is correctness actually enforced?</summary><div class="body"><p>Each module has a deterministic assertion suite plus a mutation gate that alters one operator at a time and requires the suite to detect it. Both run in CI on every push for all five runtime modules. Surviving mutants are either killed with a new test or recorded in a baseline as reviewed equivalents with a written rationale — so “clean” is a measured state, not a claim.</p></div></details>
+    <details><summary>What are the dependencies?</summary><div class="body"><p>None at runtime. Pure ES modules, no build step, no packages. The page you are reading imports the same source the tests verify, and works offline as a PWA. Node is used for the test suites and CI.</p></div></details>
+    <details><summary>Can I extend it, or adopt just one part?</summary><div class="body"><p>Yes to both. Register an organ against the core — supply how it expands candidates, how it scores them, and optionally how it commits — and the conductor calls it in the loop. Existing engines are adapted rather than rewritten. Individual components also stand alone: the mutation gate is a GitHub Action any repository can adopt today.</p></div></details>
   </div>
-</div></section>
-
-<section id="lineage" class="anchor"><div class="wrap">
-  <span class="eyebrow">Lineage</span>
-  <h2>Origins &amp; acknowledgements</h2>
-  <p class="lead">fall-os is one node in a longer line of work. Its architecture — a single shared engine, an authored control loop, and a content-addressed record of the alternatives — consolidates ideas developed across that lineage rather than inventing them wholesale.</p>
-  <div class="grid cols-3" style="margin-top:24px">
-    <div class="card"><div class="ic">Design line</div><h3>The assos line</h3><p>fall-os shares the governing principle of the <em>assos</em> line of sovereign systems: a system owns its own logic, runs self-contained and offline, and carries its own verification — no external service is required to trust it.</p></div>
-    <div class="card"><div class="ic">Foundational work</div><h3><a href="https://github.com/teslasolar" target="_blank" rel="noopener">Thomas Frumkin</a></h3><p>Co-originator of foundational work this line descends from — the <em>assos</em> systems, the Regulus engine, and a broad body of sovereign human–AI tooling (<span class="mono">github.com/teslasolar</span>).</p></div>
-    <div class="card"><div class="ic">Author &amp; maintainer</div><h3>The estate</h3><p>Designed, implemented, and maintained under <a href="https://github.com/sjgant80-hub" target="_blank" rel="noopener">sjgant80-hub</a>, with continuous mutation-tested verification on every change.</p></div>
-  </div>
-  <p class="lead" style="margin-top:16px;font-size:.92rem">The conductor itself encodes this lineage: a fresh instance ships unsigned as <code class="mono">didy</code>, and is specialised and signed by its owner into a <code class="mono">&lt;prefix&gt;-didy</code> — a named descendant on the line.</p>
 </div></section>
 
 <footer><div class="wrap">
   <div class="cols">
     <div>
       <div class="brand" style="margin-bottom:8px"><span class="dot"></span>fall-os</div>
-      <div style="max-width:34ch">A deterministic decision-orchestration runtime. One core, one conductor, composable organs.</div>
+      <div style="max-width:36ch">The sovereign edge-AI operating system. Your models, your machine, your estate.</div>
     </div>
     <div>
-      <div style="font-weight:600;color:var(--ink);margin-bottom:8px">Project</div>
+      <div style="font-weight:650;color:var(--ink);margin-bottom:8px">Project</div>
       <div><a href="https://github.com/sjgant80-hub/fall-os" target="_blank" rel="noopener">Source (GitHub)</a></div>
-      <div><a href="#how">Architecture</a></div>
-      <div><a href="#engineering">Engineering</a></div>
+      <div><a href="#how">How it works</a></div>
+      <div><a href="#trust">The trust rail</a></div>
+      <div><a href="#faq">FAQ</a></div>
     </div>
     <div>
-      <div style="font-weight:600;color:var(--ink);margin-bottom:8px">Modules</div>
+      <div style="font-weight:650;color:var(--ink);margin-bottom:8px">Runtime</div>
       <div class="mono" style="font-size:.84rem">core · didy · shadow<br>wire · depth</div>
     </div>
   </div>
@@ -340,43 +386,41 @@
 import { KAPPA, GOLDEN_DEG, organ } from './core.mjs?v=1';
 import { makeIndex, castShadow, recurring } from './shadow.mjs?v=1';
 
-const MODES = {
-  forward:  { label:'Forward search',   sub:'divergent futures; commit none automatically', n:9, generate:(i,t)=>({label:'candidate '+(i+1),t}), score:v=>(v.t%360)/360 },
-  reinterp: { label:'Reinterpretation', sub:'re-readings of a fixed event',                 n:7, generate:(i,t)=>({label:'reading '+(i+1),t}), score:v=>((v.t*1.7)%360)/360 },
-  synth:    { label:'Synthesis',        sub:'candidate builds; commit what verifies',        n:8, generate:(i,t)=>({label:'implementation '+(i+1),t}), score:v=>(x=>(x*97%100)/100)(Math.round(v.t)) },
+const MODES={
+  forward:{label:'Forward search',sub:'divergent options; commit none automatically',n:9,generate:(i,t)=>({label:'candidate '+(i+1),t}),score:v=>(v.t%360)/360},
+  reinterp:{label:'Reinterpretation',sub:'re-readings of a fixed event',n:7,generate:(i,t)=>({label:'reading '+(i+1),t}),score:v=>((v.t*1.7)%360)/360},
+  synth:{label:'Synthesis',sub:'candidate builds; commit what verifies',n:8,generate:(i,t)=>({label:'implementation '+(i+1),t}),score:v=>(x=>(x*97%100)/100)(Math.round(v.t))},
 };
-let current='forward', field=null, authored=false;
-const sIdx=makeIndex(); let runN=0;
-const $=id=>document.getElementById(id), NS='http://www.w3.org/2000/svg';
+let current='forward',field=null,authored=false;
+const sIdx=makeIndex();let runN=0;
+const $=id=>document.getElementById(id),NS='http://www.w3.org/2000/svg';
 const el=(t,a)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e;};
 
 function run(){
   const m=MODES[current];
   field=organ({n:m.n,generate:m.generate,score:m.score,author:null}).run(current+':'+(++runN));
-  authored=false;
-  castShadow(sIdx,field,current+'#'+runN);
-  draw(); list(); shadowPanel();
-  $('moveline').innerHTML=`expand(<span style="color:var(--ink)">${m.n}</span>, 137.5°) → score(κ=0.618) → commit(authored) · ${field.holds.length} hold / ${field.roads.length} not-taken`;
+  authored=false; castShadow(sIdx,field,current+'#'+runN);
+  draw();list();shadowPanel();
+  $('moveline').innerHTML=`expand(<span style="color:var(--ink)">${m.n}</span>, 137.5°) → score(κ≈0.618) → commit(authored) · ${field.holds.length} accepted / ${field.roads.length} not taken`;
   $('verdict').className='verdict open';
   $('verdict').textContent='Field open — no candidate is committed until you author one.';
 }
 function draw(){
-  const svg=$('svg'); svg.innerHTML='';
-  const cx=150,cy=150,R=120,cs=getComputedStyle(document.documentElement);
-  const c=n=>cs.getPropertyValue(n).trim();
-  svg.appendChild(el('circle',{cx,cy,r:R*KAPPA,fill:'none',stroke:c('--thr'),'stroke-width':1.1,'stroke-dasharray':'3 4'}));
-  svg.appendChild(el('circle',{cx,cy,r:R,fill:'none',stroke:c('--line'),'stroke-width':1}));
-  const kl=el('text',{x:cx+3,y:cy-R*KAPPA-3,fill:c('--thr'),'font-size':9,'font-family':'var(--mono)'});kl.textContent='κ';svg.appendChild(kl);
+  const svg=$('svg');svg.innerHTML='';
+  const cx=150,cy=150,R=120;
+  svg.appendChild(el('circle',{cx,cy,r:R*KAPPA,fill:'none',style:'stroke:var(--warn)','stroke-width':1.1,'stroke-dasharray':'3 4'}));
+  svg.appendChild(el('circle',{cx,cy,r:R,fill:'none',style:'stroke:var(--line)','stroke-width':1}));
+  const kl=el('text',{x:cx+3,y:cy-R*KAPPA-3,style:'fill:var(--warn)','font-size':9,'font-family':'var(--mono)'});kl.textContent='κ';svg.appendChild(kl);
   for(const b of [...field.holds,...field.roads]){
-    const ang=(b.theta-90)*Math.PI/180, rad=R*Math.min(1,b.score);
-    const x=cx+Math.cos(ang)*rad, y=cy+Math.sin(ang)*rad, isChosen=authored&&field.chosen===b;
-    svg.appendChild(el('line',{x1:cx,y1:cy,x2:x,y2:y,stroke:b.holds?c('--hold'):c('--faint'),'stroke-width':b.holds?1.4:.8,opacity:b.holds?.85:.4}));
-    svg.appendChild(el('circle',{cx:x,cy:y,r:b.holds?6:4,fill:b.holds?c('--hold'):c('--panel'),stroke:b.holds?c('--hold'):c('--faint'),'stroke-width':1.4}));
-    if(isChosen) svg.appendChild(el('circle',{cx:x,cy:y,r:10,fill:'none',stroke:c('--hold'),'stroke-width':1.6}));
+    const ang=(b.theta-90)*Math.PI/180,rad=R*Math.min(1,b.score);
+    const x=cx+Math.cos(ang)*rad,y=cy+Math.sin(ang)*rad,isC=authored&&field.chosen===b;
+    svg.appendChild(el('line',{x1:cx,y1:cy,x2:x,y2:y,style:`stroke:var(${b.holds?'--ok':'--faint'})`,'stroke-width':b.holds?1.4:.8,opacity:b.holds?.85:.4}));
+    svg.appendChild(el('circle',{cx:x,cy:y,r:b.holds?6:4,style:`fill:var(${b.holds?'--ok':'--panel'});stroke:var(${b.holds?'--ok':'--faint'})`,'stroke-width':1.4}));
+    if(isC) svg.appendChild(el('circle',{cx:x,cy:y,r:10,fill:'none',style:'stroke:var(--ok)','stroke-width':1.6}));
   }
-  svg.appendChild(el('circle',{cx,cy,r:3,fill:c('--muted')}));
+  svg.appendChild(el('circle',{cx,cy,r:3,style:'fill:var(--muted)'}));
 }
-function li(b,cls){return `<li class="${cls}"><span>${b.value.label}</span><span class="s">${b.score.toFixed(3)}${authored&&field.chosen===b?' · committed':''}</span></li>`;}
+const li=(b,cls)=>`<li class="${cls}"><span>${b.value.label}</span><span class="s">${b.score.toFixed(3)}${authored&&field.chosen===b?' · committed':''}</span></li>`;
 function list(){
   $('holds').innerHTML=field.holds.map(b=>li(b,'hold')).join('')||'<li class="road"><span>no candidate above threshold</span><span class="s">field stays open</span></li>';
   $('roads').innerHTML=field.roads.map(b=>li(b,'road')).join('')||'<li class="hold"><span>none</span><span class="s"></span></li>';
@@ -386,96 +430,114 @@ function shadowPanel(){
   const rec=recurring(sIdx,2);
   $('shN').textContent=`(${sIdx.shadows.size} recorded over ${runN} runs)`;
   $('shadow').innerHTML=rec.length?rec.slice(0,5).map(e=>`<li class="road"><span>${e.branch}</span><span class="s">×${e.times_shadowed}</span></li>`).join('')
-    :'<li class="hold"><span>re-run a few times — recurring not-taken candidates surface here</span><span class="s"></span></li>';
+    :'<li class="hold"><span>re-run a few times — recurring not-taken options surface here</span><span class="s"></span></li>';
 }
 function author(){
   if(!field.holds.length){$('verdict').className='verdict open';$('verdict').textContent='No candidate is above threshold — nothing is committed. The field stays open.';return;}
-  field={...field,chosen:field.holds[0],decided:true}; authored=true; draw(); list();
+  field={...field,chosen:field.holds[0],decided:true};authored=true;draw();list();
   $('verdict').className='verdict decided';
-  $('verdict').textContent=`Committed “${field.chosen.value.label}” (score ${field.chosen.score.toFixed(3)}). Not-taken candidates are retained.`;
+  $('verdict').textContent=`Committed “${field.chosen.value.label}” (score ${field.chosen.score.toFixed(3)}). Alternatives retained.`;
 }
 $('modes').innerHTML=Object.entries(MODES).map(([k,m])=>`<button data-k="${k}" aria-pressed="${k===current}"><b>${m.label}</b><small>${m.sub}</small></button>`).join('');
 $('modes').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;current=b.dataset.k;[...$('modes').children].forEach(x=>x.setAttribute('aria-pressed',x.dataset.k===current));run();});
-$('rerun').onclick=run; $('author').onclick=author; $('reopen').onclick=run;
-$('theme').onclick=()=>{const r=document.documentElement,cur=r.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');r.setAttribute('data-theme',cur==='dark'?'light':'dark');draw();};
+$('rerun').onclick=run;$('author').onclick=author;$('reopen').onclick=run;
+$('theme').onclick=()=>{const r=document.documentElement,cur=r.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');r.setAttribute('data-theme',cur==='dark'?'light':'dark');};
 
-// architecture diagram (CSS variables so it re-themes automatically)
+// architecture diagram (CSS vars → re-themes automatically)
 (function(){
   const box=(x,y,w,h,label,sub,strong)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="9" style="fill:var(${strong?'--panel':'--panel2'});stroke:var(--line)"/>`+
-    `<text x="${x+w/2}" y="${y+(sub?h/2-3:h/2+4)}" text-anchor="middle" font-size="13" font-weight="600" style="fill:var(--ink)" font-family="var(--sans)">${label}</text>`+
+    `<text x="${x+w/2}" y="${y+(sub?h/2-3:h/2+4)}" text-anchor="middle" font-size="13" font-weight="650" style="fill:var(--ink)" font-family="var(--sans)">${label}</text>`+
     (sub?`<text x="${x+w/2}" y="${y+h/2+13}" text-anchor="middle" font-size="10" style="fill:var(--muted)" font-family="var(--mono)">${sub}</text>`:'');
   const line=(x1,y1,x2,y2)=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" style="stroke:var(--line)" stroke-width="1.5"/>`;
   const org=['forward','reinterpretation','synthesis','memory','not-taken index'];
-  let svg=`<svg viewBox="0 0 900 300" xmlns="http://www.w3.org/2000/svg" font-family="var(--sans)">`;
-  svg+=box(340,16,220,50,'Conductor','one control loop',1);
-  svg+=line(450,66,450,96);
-  svg+=box(250,96,400,58,'Shared core','expand · score(κ) · commit · cache',1);
-  for(let i=0;i<5;i++){const w=158,gap=14,total=5*w+4*gap,x0=(900-total)/2,x=x0+i*(w+gap);svg+=line(x+w/2,154,x+w/2,196);svg+=box(x,196,w,60,org[i],'organ');}
-  svg+=`</svg>`;
-  $('arch').innerHTML=svg;
+  let s=`<svg viewBox="0 0 900 360" xmlns="http://www.w3.org/2000/svg" font-family="var(--sans)">`;
+  s+=box(300,10,300,50,'You','plain-language direction',1);
+  s+=line(450,60,450,84);
+  s+=box(320,84,260,52,'Conductor (a Didy)','one control loop',1);
+  s+=line(450,136,450,160);
+  s+=box(250,160,400,56,'Shared core','expand · score(κ) · commit · cache',1);
+  s+=line(450,216,450,250);
+  for(let i=0;i<5;i++){const w=158,gap=14,total=5*w+4*gap,x0=(900-total)/2,x=x0+i*(w+gap);s+=line(x+w/2,250,x+w/2,286);s+=box(x,286,w,58,org[i],'organ');}
+  s+=line(120,188,250,188);s+=box(10,160,110,56,'Model cascade','T0→T4 local-first',1);
+  s+=`</svg>`;
+  $('arch').innerHTML=s;
 })();
 
 // ecosystem map — the real estate organs, grouped by faculty. [name, description, slug, live]
 const EST=[
- ['Runtime & conductor',[
+ ['Runtime, conductor & routing',[
    ['fall-os','Shared core, conductor and organs — this runtime.','fall-os',1],
-   ['si-didy','The reference conductor: a trained Didy governing the estate.','',0],
+   ['fallrouter','Sovereign model orchestrator — routes between local Ollama and frontier providers.','fallrouter',1],
+   ['si-didy','The reference conductor: a sovereign digital twin with a multi-agent reasoning core (private).','',0],
+   ['the wisp','The estate as one substrate — ~1,000 repositories treated as a single retrievable field.','the-wisp',1],
    ['fall-remember','Persistent memory: content-addressed, typed-edge store.','fall-remember',0],
-   ['the wisp','The moving frontier — the conductor’s attention over memory.','',0],
  ]],
  ['The mind — three tenses',[
-   ['the-oracle','Forward search: holds divergent futures open.','the-oracle',1],
-   ['recollapse','Reinterpretation: re-reads a fixed past.','recollapse',1],
+   ['the-oracle','Forward search: holds divergent futures open, never auto-commits.','the-oracle',1],
+   ['recollapse','Reinterpretation: re-reads a fixed past without altering the record.','recollapse',1],
    ['generative-estate','Synthesis: specifications collapse to verified code on demand.','generative-estate',1],
  ]],
- ['Persistent memory & state',[
+ ['Memory, state & consolidation',[
    ['estate-nest','The estate nested into an addressable memory graph.','estate-nest',1],
-   ['offramp-v2','Session history converted to live, retrievable memory.','offramp-v2',1],
+   ['offramp-v2','Dead vendor exports converted into live, retrievable memory.','offramp-v2',1],
+   ['fallrecall','Take your AI memory back — import, analyse and reuse frontier-lab exports.','fallrecall',0],
    ['seedmind','A single-file knowledge organism that derives its own links.','seedmind',1],
-   ['the-dreamer','Overnight consolidation — sharper each morning, no retraining.','the-dreamer',1],
-   ['missig','Records the folds that did not take; learns from failure.','missig',1],
+   ['the-dreamer','Overnight consolidation — sharper each morning, weights unchanged.','the-dreamer',1],
+   ['missig','Records the folds that did not take; the estate learns from failure.','missig',1],
  ]],
- ['Neuromorphic',[
-   ['the-spike','Spiking neural network (LIF + STDP): temporal coincidence detection.','the-spike',1],
-   ['bonded-pair','Two coupled models versus a monolith — a measured negative result.','bonded-pair',1],
+ ['Business operations (deployed)',[
+   ['fallhub','Sovereign direct booking, unified inbox and AI reply drafting.','fallhub',1],
+   ['fallforge','The concierge that installs a business OS — a five-phase pipeline.','fallforge',0],
+   ['fallaccount','Sovereign accounting for UK sole traders — any LLM, your data.','fallaccount',1],
+   ['wishwood','Multi-channel reservations with a double-booking guard (live deployment).','wishwood',1],
+   ['wishwood-keeper','Offline housekeeping board across a multi-unit site.','wishwood-keeper',1],
+   ['glampos','Site-automation pack for small stays.','glampos',1],
+   ['konomium-vault','Encrypted, sovereign accounting foundation.','konomium-vault',0],
  ]],
- ['Geometric compute',[
+ ['Agents, identity & economy',[
+   ['the-wallet','Ed25519 identity as a capability with a budget it cannot cross.','the-wallet',1],
+   ['agora','A signed, conserved, hash-chained personal economy.','agora',1],
+   ['fallcolony','Agent-native settlement — agents work, trade and upgrade.','fallcolony',1],
+   ['fallmarket','Sovereign registry of AI tools, agents, SDKs and MCP servers.','fallmarket',0],
+   ['fallsignature','Ed25519 content signing and verification, entirely local.','fallsignature',0],
+   ['earned','Proof-of-play as reputation — demonstrate, never merely claim.','earned',1],
+   ['fallkard','Every tool as a real card — a portable, signed build format.','fallkard',0],
+ ]],
+ ['The trust rail',[
+   ['witness','Deterministic mutation + fuzz gate; a GitHub Action any repo can adopt.','witness',1],
+   ['acg-assessor','Deterministic code-quality rubric.','acg-assessor',1],
+   ['fallhardened','The estate’s shared hardened primitives — one correct implementation each.','fallhardened',0],
+   ['foldsig','Fold-signature format and validator — a thing as a generative recipe.','foldsig',0],
+ ]],
+ ['Geometric & neuromorphic compute',[
    ['geometric-computer','Primorial-fold codec and entropic torus harmonics.','geometric-computer',1],
    ['golden-placer','Collision-free golden-angle placement, provably non-clustering.','golden-placer',1],
    ['the-rotor','Geometric algebra Cl(3,0): rotation without gimbal lock.','the-rotor',1],
    ['the-cam','Golden-angle content-addressable memory.','the-cam',1],
+   ['the-spike','Spiking neural network (LIF + STDP): temporal coincidence detection.','the-spike',1],
+   ['bonded-pair','Two coupled models versus a monolith — a measured negative result.','bonded-pair',1],
  ]],
- ['Mesh & transport',[
-   ['niceassos','The OS shell on a signed mesh, unified as one system.','niceassos',1],
+ ['Mesh, transport & sensing',[
+   ['niceassos','The OS shell merged onto the signed mesh as one system.','niceassos',1],
    ['one-ladder','Sound, radio and light as one fold-rate ladder.','one-ladder',1],
-   ['airgap','Air-gapped mesh compute — shares work over sound, no network stack.','airgap',1],
+   ['airgap','Air-gapped mesh compute — shares work over sound, zero network stack.','airgap',1],
    ['the-throat','Fold-rate signalling: announce, recognise, reproduce.','the-throat',1],
- ]],
- ['Sensing & diagnosis',[
-   ['the-ear','Debug a running system by ear — dissonance as a health signal.','the-ear',1],
+   ['fallsync','CRDT multi-device sync — LWW map plus Lamport clocks, no cloud.','fallsync',0],
+   ['the-ear','Debug a running system by ear — dissonance as the health signal.','the-ear',1],
    ['soundcheck','Structural diagnosis by impact-acoustic signature.','soundcheck',1],
    ['hum','A filesystem addressed by pitch — retrieve by humming.','hum',1],
  ]],
- ['Identity, economy & lineage',[
-   ['the-wallet','Ed25519 identity as a capability with a hard, uncrossable budget.','the-wallet',1],
-   ['agora','A signed, conserved, hash-chained personal economy.','agora',1],
-   ['earned','Proof-of-play as a reputation protocol — demonstrate, don’t claim.','earned',1],
-   ['the-kg','Typed knowledge graph with cycle-safe traversal.','the-kg',1],
- ]],
- ['The trust rail',[
-   ['witness','Deterministic mutation-testing gate, packaged as a GitHub Action.','witness',1],
-   ['acg-assessor','Deterministic code-quality rubric.','acg-assessor',1],
- ]],
- ['Sovereign applications',[
-   ['wishwood','Multi-channel reservations engine with a double-booking guard.','wishwood',1],
-   ['wishwood-keeper','Offline housekeeping board for a multi-unit site.','wishwood-keeper',1],
-   ['glampos','Site-automation pack for small stays.','glampos',1],
-   ['divorcerbot','UK divorce self-help with cited law and maintenance calculation.','divorcerbot',1],
+ ['Legal & consumer',[
+   ['divorcerbot','UK divorce self-help with verified law and maintenance calculation.','divorcerbot',1],
    ['falljustice','Consumer letter-before-action and data-access engine.','falljustice',0],
-   ['redress-engine','Accuracy-gated legal-process navigator.','redress-engine',0],
-   ['konomium-vault','Encrypted, sovereign accounting foundation.','konomium-vault',0],
-   ['sovereign-browser','A governed browser agent (bring-your-own-key).','sovereign-browser',0],
+   ['redress-engine','Accuracy-gated legal-process navigator with cited actions.','redress-engine',0],
+ ]],
+ ['Agents & the open web',[
+   ['sovereign-browser','A governed browser agent operating any site alongside you.','sovereign-browser',0],
    ['the-toll','Proof-of-work edge wall — forces execution over storage.','the-toll',1],
+   ['roost','Stays-as-commons marketplace — cooperative, zero booking fees.','roost',0],
+   ['fallnote','Sovereign block-based notes in a single HTML file.','fallnote',0],
+   ['the-kg','Typed knowledge graph with cycle-safe traversal.','the-kg',1],
  ]],
 ];
 (function(){
