@@ -1,0 +1,174 @@
+<meta charset="utf-8">
+<title>LIVEWARE · the one move</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0e1116">
+<link rel="manifest" href="./manifest.webmanifest">
+<style>
+  :root{
+    --bg:#f6f7f9; --panel:#ffffff; --ink:#12151a; --muted:#5b6472; --line:#e3e7ec;
+    --hold:#1f9d63; --clash:#b1290a; --kappa:#c98a00; --accent:#3a5bd9; --shadow:#8a91a0;
+    --r:14px; --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,system-ui,sans-serif;
+  }
+  @media (prefers-color-scheme:dark){:root{
+    --bg:#0d1014; --panel:#151a21; --ink:#e8ecf1; --muted:#8b94a3; --line:#252c36;
+    --hold:#37c481; --clash:#ff6a45; --kappa:#e7b64b; --accent:#7f9cff; --shadow:#5a6373;
+  }}
+  :root[data-theme=light]{--bg:#f6f7f9;--panel:#fff;--ink:#12151a;--muted:#5b6472;--line:#e3e7ec;--hold:#1f9d63;--clash:#b1290a;--kappa:#c98a00;--accent:#3a5bd9;--shadow:#8a91a0}
+  :root[data-theme=dark]{--bg:#0d1014;--panel:#151a21;--ink:#e8ecf1;--muted:#8b94a3;--line:#252c36;--hold:#37c481;--clash:#ff6a45;--kappa:#e7b64b;--accent:#7f9cff;--shadow:#5a6373}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5;-webkit-text-size-adjust:100%}
+  .wrap{max-width:860px;margin:0 auto;padding:22px 16px 60px}
+  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:4px}
+  h1{font-size:1.5rem;margin:0;letter-spacing:-.02em}
+  .k{font-family:var(--mono);color:var(--kappa);font-size:.82rem}
+  .lede{color:var(--muted);font-size:.95rem;margin:.35rem 0 1.1rem;max-width:60ch}
+  .organs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+  .organs button{flex:1 1 150px;min-width:0;padding:10px 12px;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:var(--r);cursor:pointer;text-align:left;transition:border-color .15s,transform .05s}
+  .organs button:hover{border-color:var(--accent)}
+  .organs button:active{transform:translateY(1px)}
+  .organs button[aria-pressed=true]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+  .organs b{display:block;font-size:.92rem}
+  .organs small{color:var(--muted);font-size:.76rem}
+  .stage{display:grid;grid-template-columns:minmax(0,300px) 1fr;gap:18px;align-items:start}
+  @media (max-width:640px){.stage{grid-template-columns:1fr}}
+  .dial{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:10px}
+  .dial svg{width:100%;height:auto;display:block}
+  .side{min-width:0}
+  .move-line{font-family:var(--mono);font-size:.74rem;color:var(--muted);margin:0 0 10px;word-break:break-word}
+  .move-line span{color:var(--ink)}
+  .row{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+  .btn{padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--ink);cursor:pointer;font-size:.85rem}
+  .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+  .btn:active{transform:translateY(1px)}
+  .verdict{font-size:.9rem;margin:2px 0 12px;min-height:1.4em}
+  .verdict.decided{color:var(--hold)} .verdict.open{color:var(--muted)}
+  h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:16px 0 6px}
+  ul{list-style:none;margin:0;padding:0}
+  li{display:flex;justify-content:space-between;gap:10px;padding:6px 10px;border:1px solid var(--line);border-radius:10px;margin-bottom:5px;font-size:.85rem;background:var(--panel)}
+  li .s{font-family:var(--mono);font-size:.78rem}
+  li.hold{border-left:3px solid var(--hold)} li.hold .s{color:var(--hold)}
+  li.road{border-left:3px solid var(--shadow);opacity:.72} li.road .s{color:var(--shadow)}
+  li.chosen{box-shadow:0 0 0 1px var(--hold)}
+  footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:.8rem}
+  footer code{font-family:var(--mono);color:var(--ink)}
+  a{color:var(--accent)}
+  .theme{margin-left:auto;font-size:.8rem;background:none;border:1px solid var(--line);color:var(--muted);border-radius:8px;padding:4px 9px;cursor:pointer}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>LIVEWARE</h1>
+    <span class="k">κ = 1/φ ≈ 0.618 · offset 137.5°</span>
+    <button class="theme" id="theme">theme</button>
+  </header>
+  <p class="lede">One move, aimed at a different target. <b>Hold</b> possibility open → <b>fork</b> on the golden
+    offset (so branches diverge, not cluster) → <b>resolve</b> at the κ-gate (≥κ holds, &lt;κ clashes) →
+    <b>collapse deliberately</b> (never auto) → <b>cache</b> by content. The Oracle, re-collapse and the
+    generative estate are this same move — organs of one body. Pick one:</p>
+
+  <div class="organs" id="organs"></div>
+
+  <div class="stage">
+    <div class="dial"><svg id="svg" viewBox="0 0 300 300" aria-label="the held field"></svg></div>
+    <div class="side">
+      <p class="move-line" id="moveLine"></p>
+      <div class="row">
+        <button class="btn" id="refork">re-fork</button>
+        <button class="btn primary" id="author">author the collapse ▸</button>
+        <button class="btn" id="reopen">re-open</button>
+      </div>
+      <p class="verdict open" id="verdict">held open — nothing collapses until you author it.</p>
+      <h3 id="holdsH">holds (≥κ)</h3>
+      <ul id="holds"></ul>
+      <h3>roads not taken (the shadow · &lt;κ, kept)</h3>
+      <ul id="roads"></ul>
+    </div>
+  </div>
+
+  <footer>
+    Kernel-backed: this page imports <code>core.mjs</code> — the gated logic IS the live logic
+    (<code>node test.mjs</code> → 26/26; <code>witness</code> → 10/12 killed, 2 clamp-equivalents baselined,
+    clean). The three organs above run the <em>same</em> <code>move()</code> with a different
+    (generate, score, author) injected. The collapse is always <b>authored</b> — nothing is decided for you.
+    <br><br>Honest: the veil/shadow language is a way to think, not a claim — the buildable shape is the
+    roads-not-taken you see kept above. Part of the estate.
+  </footer>
+</div>
+
+<script type="module">
+import { KAPPA, GOLDEN_DEG, organ } from './core.mjs?v=1';
+
+// three organs = the one move, differently injected (past / present / future / build-space)
+const ORGANS = {
+  future: {
+    label: 'The Oracle', sub: 'future · fork futures, never auto-collapse',
+    n: 9, generate: (i, t) => ({ label: 'future ' + (i + 1), t }), score: v => (v.t % 360) / 360, author: null,
+  },
+  past: {
+    label: 'Re-collapse', sub: 'past · re-read a fixed event, author one',
+    n: 7, generate: (i, t) => ({ label: 'reading ' + (i + 1), t }), score: v => ((v.t * 1.7) % 360) / 360, author: h => h[0] || null,
+  },
+  build: {
+    label: 'Generative estate', sub: 'build-space · collapse what verifies',
+    n: 8, generate: (i, t) => ({ label: 'impl ' + (i + 1), t }), score: v => (i => (i * 97 % 100) / 100)(Math.round(v.t)), author: h => h[0] || null,
+  },
+};
+let current = 'future', field = null, authored = false;
+
+const svg = document.getElementById('svg'), NS = 'http://www.w3.org/2000/svg';
+const el = (t, a) => { const e = document.createElementNS(NS, t); for (const k in a) e.setAttribute(k, a[k]); return e; };
+const $ = id => document.getElementById(id);
+
+function run() {
+  const o = ORGANS[current];
+  field = organ({ n: o.n, generate: o.generate, score: o.score, author: null }).run(current + ':' + Date.now());
+  authored = false;
+  draw(); list();
+  $('moveLine').innerHTML = `move: fork(<span>${o.n}</span>, 137.5°) → hold(≥κ) → collapse(<span>authored</span>) · ${field.holds.length} hold / ${field.roads.length} shadow`;
+  $('verdict').className = 'verdict open';
+  $('verdict').textContent = o.author ? 'held open — press “author” to collapse the top-holding branch.' : 'held open — the Oracle never auto-collapses; author it yourself, or leave it open.';
+}
+function draw() {
+  svg.innerHTML = '';
+  const cx = 150, cy = 150, R = 120;
+  // κ ring
+  svg.appendChild(el('circle', { cx, cy, r: R * KAPPA, fill: 'none', stroke: 'var(--kappa)', 'stroke-width': 1.2, 'stroke-dasharray': '3 4' }));
+  svg.appendChild(el('circle', { cx, cy, r: R, fill: 'none', stroke: 'var(--line)', 'stroke-width': 1 }));
+  const kl = el('text', { x: cx + 3, y: cy - R * KAPPA - 3, fill: 'var(--kappa)', 'font-size': 9, 'font-family': 'var(--mono)' }); kl.textContent = 'κ'; svg.appendChild(kl);
+  const all = [...field.holds, ...field.roads];
+  for (const b of all) {
+    const ang = (b.theta - 90) * Math.PI / 180, rad = R * Math.min(1, b.score);
+    const x = cx + Math.cos(ang) * rad, y = cy + Math.sin(ang) * rad;
+    svg.appendChild(el('line', { x1: cx, y1: cy, x2: x, y2: y, stroke: b.holds ? 'var(--hold)' : 'var(--shadow)', 'stroke-width': b.holds ? 1.4 : .8, opacity: b.holds ? .8 : .4 }));
+    svg.appendChild(el('circle', { cx: x, cy: y, r: b.holds ? 6 : 4, fill: b.holds ? 'var(--hold)' : 'var(--panel)', stroke: b.holds ? 'var(--hold)' : 'var(--shadow)', 'stroke-width': 1.4, class: authored && field.chosen === b ? 'chosen' : '' }));
+    if (authored && field.chosen === b) svg.appendChild(el('circle', { cx: x, cy: y, r: 10, fill: 'none', stroke: 'var(--hold)', 'stroke-width': 1.6 }));
+  }
+  svg.appendChild(el('circle', { cx, cy, r: 3, fill: 'var(--muted)' }));
+}
+function list() {
+  const li = (b, cls) => `<li class="${cls}${authored && field.chosen === b ? ' chosen' : ''}"><span>${b.value.label}</span><span class="s">${b.score.toFixed(3)}${authored && field.chosen === b ? ' ◂ chosen' : ''}</span></li>`;
+  $('holds').innerHTML = field.holds.map(b => li(b, 'hold')).join('') || '<li class="road"><span>nothing holds</span><span class="s">field stays open</span></li>';
+  $('roads').innerHTML = field.roads.map(b => li(b, 'road')).join('') || '<li class="hold"><span>no roads not taken</span><span class="s">all held</span></li>';
+  $('holdsH').textContent = `holds (≥κ) · ${field.holds.length}`;
+}
+function author() {
+  if (!field.holds.length) { $('verdict').className = 'verdict open'; $('verdict').textContent = 'nothing holds — nothing to collapse. The field stays open (a bad collapse is never faked).'; return; }
+  field = { ...field, chosen: field.holds[0], decided: true }; authored = true;
+  draw(); list();
+  $('verdict').className = 'verdict decided';
+  $('verdict').textContent = `collapsed — you authored “${field.chosen.value.label}” (score ${field.chosen.score.toFixed(3)}). The roads not taken are kept.`;
+}
+
+// organ buttons
+$('organs').innerHTML = Object.entries(ORGANS).map(([k, o]) =>
+  `<button data-k="${k}" aria-pressed="${k === current}"><b>${o.label}</b><small>${o.sub}</small></button>`).join('');
+$('organs').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; current = b.dataset.k; [...$('organs').children].forEach(c => c.setAttribute('aria-pressed', c.dataset.k === current)); run(); });
+$('refork').onclick = run; $('author').onclick = author; $('reopen').onclick = run;
+
+// theme toggle
+$('theme').onclick = () => { const r = document.documentElement, cur = r.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light'); r.setAttribute('data-theme', cur === 'dark' ? 'light' : 'dark'); };
+
+run();
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(() => {});
+</script>
