@@ -135,6 +135,11 @@
   .chip .dsc{color:var(--muted);font-size:.82rem;line-height:1.35}
   .chip .lv{width:6px;height:6px;border-radius:50%;background:var(--hold);flex:none;align-self:center;box-shadow:0 0 0 3px color-mix(in srgb,var(--hold) 20%,transparent)}
   .chip .rp{width:6px;height:6px;border-radius:50%;background:var(--faint);flex:none;align-self:center}
+  .private{grid-column:1/-1;background:var(--panel2);border-style:dashed}
+  .pchips{display:flex;flex-wrap:wrap;gap:8px}
+  .pchip{font-size:.82rem;color:var(--muted);border:1px solid var(--line);border-radius:20px;padding:.3rem .75rem;background:var(--panel);display:inline-flex;align-items:center;gap:7px}
+  .pchip::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--faint)}
+  .pchip b{color:var(--ink);font-variant-numeric:tabular-nums}
 </style>
 
 <nav>
@@ -223,7 +228,21 @@
     <div class="stat"><b>5</b><span>runtime modules, mutation-tested</span></div>
   </div>
   <div class="eco-grid" id="eco"></div>
-  <p class="lead" style="margin-top:20px;font-size:.9rem">The organs above are the load-bearing ones, not the full set — the estate spans 1,548 repositories in total. A green marker denotes a live, hosted build; a grey marker, a source repository.</p>
+  <div class="eco-grid" style="margin-top:16px">
+    <div class="eco-cat private">
+      <h3>Private estate · 45 repositories</h3>
+      <p style="color:var(--muted);font-size:.9rem;margin:0 0 12px;max-width:72ch">A closed subset held privately — foundational architecture and research, governance and OS internals, and sensitive tooling. Not listed individually; details and access are available on enquiry (<a href="https://github.com/sjgant80-hub" target="_blank" rel="noopener">enquiries welcome</a>). In summary, by area:</p>
+      <div class="pchips">
+        <span class="pchip">Architecture &amp; research <b>10</b></span>
+        <span class="pchip">Governance &amp; conductor internals <b>7</b></span>
+        <span class="pchip">Agent &amp; OS internals <b>7</b></span>
+        <span class="pchip">Mesh &amp; transport internals <b>5</b></span>
+        <span class="pchip">Legal tooling <b>2</b></span>
+        <span class="pchip">Other private tooling <b>14</b></span>
+      </div>
+    </div>
+  </div>
+  <p class="lead" style="margin-top:20px;font-size:.9rem">The organs above are the load-bearing ones, not the full set — the estate spans 1,548 repositories in total (1,503 public, 45 private). A green marker denotes a live, hosted build; a grey marker, a source repository.</p>
 </div></section>
 
 <section id="demo" class="anchor"><div class="wrap">
