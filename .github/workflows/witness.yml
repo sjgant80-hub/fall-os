@@ -7,9 +7,13 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: '20' }
-      - name: assertion suite (must be green)
-        run: node test.mjs
-      - name: witness mutation gate (must be clean)
+      - name: assertion suites (must be green)
+        run: |
+          node test.mjs
+          node shadow.test.mjs
+      - name: witness — core.mjs (must be clean)
         run: |
           git clone --depth 1 https://github.com/sjgant80-hub/witness.git .witness
           node .witness/witness.mjs mutate core.mjs --cap 200 --baseline witness.baseline.json --test node test.mjs
+      - name: witness — shadow.mjs (must be clean)
+        run: node .witness/witness.mjs mutate shadow.mjs --cap 200 --test node shadow.test.mjs

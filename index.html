@@ -83,6 +83,8 @@
       <ul id="holds"></ul>
       <h3>roads not taken (the shadow · &lt;κ, kept)</h3>
       <ul id="roads"></ul>
+      <h3>the shadow-index · what you keep circling <span id="shN" style="color:var(--muted);text-transform:none;letter-spacing:0"></span></h3>
+      <ul id="shadow"></ul>
     </div>
   </div>
 
@@ -98,6 +100,8 @@
 
 <script type="module">
 import { KAPPA, GOLDEN_DEG, organ } from './core.mjs?v=1';
+import { makeIndex, castShadow, recurring } from './shadow.mjs?v=1';
+const sIdx = makeIndex(); let runN = 0;   // the shadow-index catches every road-not-taken across your runs
 
 // three organs = the one move, differently injected (past / present / future / build-space)
 const ORGANS = {
@@ -122,9 +126,10 @@ const $ = id => document.getElementById(id);
 
 function run() {
   const o = ORGANS[current];
-  field = organ({ n: o.n, generate: o.generate, score: o.score, author: null }).run(current + ':' + Date.now());
+  field = organ({ n: o.n, generate: o.generate, score: o.score, author: null }).run(current + ':' + (++runN));
   authored = false;
-  draw(); list();
+  castShadow(sIdx, field, current + '#' + runN);   // catch this run's roads-not-taken (each run = a distinct decision)
+  draw(); list(); shadowPanel();
   $('moveLine').innerHTML = `move: fork(<span>${o.n}</span>, 137.5°) → hold(≥κ) → collapse(<span>authored</span>) · ${field.holds.length} hold / ${field.roads.length} shadow`;
   $('verdict').className = 'verdict open';
   $('verdict').textContent = o.author ? 'held open — press “author” to collapse the top-holding branch.' : 'held open — the Oracle never auto-collapses; author it yourself, or leave it open.';
@@ -151,6 +156,13 @@ function list() {
   $('holds').innerHTML = field.holds.map(b => li(b, 'hold')).join('') || '<li class="road"><span>nothing holds</span><span class="s">field stays open</span></li>';
   $('roads').innerHTML = field.roads.map(b => li(b, 'road')).join('') || '<li class="hold"><span>no roads not taken</span><span class="s">all held</span></li>';
   $('holdsH').textContent = `holds (≥κ) · ${field.holds.length}`;
+}
+function shadowPanel() {
+  const rec = recurring(sIdx, 2);
+  $('shN').textContent = `(${sIdx.shadows.size} roads caught over ${runN} runs)`;
+  $('shadow').innerHTML = rec.length
+    ? rec.slice(0, 5).map(e => `<li class="road"><span>${e.branch}</span><span class="s">circled ×${e.times_shadowed}</span></li>`).join('')
+    : `<li class="hold"><span>re-fork a few times — the roads you keep passing over will surface here as the next-build signal</span><span class="s"></span></li>`;
 }
 function author() {
   if (!field.holds.length) { $('verdict').className = 'verdict open'; $('verdict').textContent = 'nothing holds — nothing to collapse. The field stays open (a bad collapse is never faked).'; return; }

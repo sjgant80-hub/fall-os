@@ -37,8 +37,28 @@ engineering: fork with a non-clustering offset, gate at a threshold, collapse on
 authored, cache by content — and keep the roads not taken. The shape works whether or not the
 cosmology behind it is true.
 
+## The shadow-index — catch the un-collapsed 99% (Layer 6, first shadow-catcher)
+
+Every collapse casts a **shadow**: the roads-not-taken the core keeps but that otherwise
+evaporate. `shadow.mjs` **catches** them — content-addresses each un-collapsed branch (so the
+same branch forked-toward across *different* decisions dedupes and counts up) and runs a
+**recurrence detector**: the branch you keep circling but never commit to is the signal for the
+next build.
+
+> **Proven** (`shadow.test.mjs §3`): three unrelated decisions each fork toward "notes that dream
+> overnight"; the detector surfaces it as the single 3× signal, naming the three decisions —
+> the cross-time pattern memory alone would never connect. The demo shows it live: re-fork and
+> the roads you keep passing over rank up.
+
+Zero myth ("keep, address, count, search the un-collapsed"), zero new compute (a collector on
+outputs the organs already discard). Query it: *what did I nearly build here* (`shadowsOf`),
+*the un-collapsed twin of X* (`twinsOf`), *what do I keep circling* (`recurring`), *resurrect a
+shadow into a live spec* (`resurrect`). `witness mutate shadow.mjs --cap 200` → **10/10 killed,
+clean** (no baseline needed).
+
 ## Files
 - `core.mjs` — the kernel (fork / hold / collapse / cache / move / organ). Generators + scorers injected; pure, deterministic, gated.
-- `test.mjs` — proof-of-play (26/26, incl. the three-tenses reduction).
-- `index.html` — the live demo (imports the kernel, visualises the field + the golden-offset fork + authored collapse).
+- `shadow.mjs` — the shadow-index (cast / castShadow / recurring / query / resurrect). Imports only the core's `h16`.
+- `test.mjs` · `shadow.test.mjs` — proof-of-play (26/26 + 22/22, incl. the three-tenses reduction and the recurrence detector).
+- `index.html` — the live demo (the field + golden-offset fork + authored collapse + the shadow-index recurrence panel).
 - `sw.js` · `manifest.webmanifest` — offline PWA.
