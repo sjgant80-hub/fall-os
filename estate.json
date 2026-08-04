@@ -1,0 +1,672 @@
+{
+  "generated_from": "estate-index.json",
+  "totals": {
+    "repositories": 1548,
+    "public": 1503,
+    "private": 45,
+    "live_verified": 101
+  },
+  "faculties": [
+    {
+      "faculty": "Runtime, conductor & routing",
+      "items": [
+        {
+          "name": "fall-mcp-bridge",
+          "desc": "fall-mcp-bridge · uniform MCP server in front of any LLM · 8 adapters (ollama, llamacpp, mlx, lmstudio, anthropic, openai, openrouter, femto/konomi-cube) · provider lock-in dies here · MIT",
+          "faculty": "Runtime, conductor & routing",
+          "url": "https://sjgant80-hub.github.io/fall-mcp-bridge/"
+        },
+        {
+          "name": "fall-os",
+          "desc": "",
+          "faculty": "Runtime, conductor & routing",
+          "url": "https://sjgant80-hub.github.io/fall-os/"
+        },
+        {
+          "name": "falladviser",
+          "desc": "£ FallAdviser · sovereign UK financial adviser · UK 2025-26 tax rules · ISA/SIPP/LISA optimiser · pension projector · portfolio analyser · Q&A T0+T3 · estate-aware · si-didy postMessage API · Mansoor P3 audit chain · informational not regulated · single HTML · MIT",
+          "faculty": "Runtime, conductor & routing",
+          "url": "https://sjgant80-hub.github.io/falladviser/"
+        },
+        {
+          "name": "fallcolony",
+          "desc": "Agent-native settlement · AI agents work, talk, learn Konomi, upgrade themselves · KCC provenance-royalty ledger · MIT",
+          "faculty": "Runtime, conductor & routing",
+          "url": "https://sjgant80-hub.github.io/fallcolony/"
+        },
+        {
+          "name": "fallhub",
+          "desc": "Sovereign direct-booking + unified inbox + AI reply drafting for independent stay operators · MIT · fork-and-configure · Wishwood-tested",
+          "faculty": "Runtime, conductor & routing",
+          "url": "https://sjgant80-hub.github.io/fallhub/"
+        },
+        {
+          "name": "fallrouter",
+          "desc": "Sovereign model orchestrator · routes between local Ollama and frontier APIs · auto-failover · tamper-evident audit · MIT · Simon Gant",
+          "faculty": "Runtime, conductor & routing",
+          "url": "https://sjgant80-hub.github.io/fallrouter/"
+        },
+        {
+          "name": "fallstudio",
+          "desc": "FallStudio · the hub · sovereign Adobe Creative Cloud alternative · 8 single-HTML tools indexed · autopilot routes any creative intent to the right tool · MIT",
+          "faculty": "Runtime, conductor & routing",
+          "url": "https://sjgant80-hub.github.io/fallstudio/"
+        },
+        {
+          "name": "forge-lab",
+          "desc": "Forge Lab - Domain Expert Tool Builder",
+          "faculty": "Runtime, conductor & routing",
+          "url": "https://sjgant80-hub.github.io/forge-lab/"
+        },
+        {
+          "name": "offramp-v2",
+          "desc": "The sovereign chat-history off-ramp — a dead vendor JSON export → live searchable memory. Content-addressed (cross-vendor dedupe proven), versioned extraction, the wisp over your own thinking-history. Runs in your browser. Proof-of-play CLEAN 60/60.",
+          "faculty": "Runtime, conductor & routing",
+          "url": "https://sjgant80-hub.github.io/offramp-v2/"
+        },
+        {
+          "name": "the-wisp",
+          "desc": "The wisp pointed at the whole estate as substrate — ~1000 repos as one field of folds, the moving frontier dancing across, with the heat-sink and spiral/orbit diagnostics from real data. Proof-of-play CLEAN.",
+          "faculty": "Runtime, conductor & routing",
+          "url": "https://sjgant80-hub.github.io/the-wisp/"
+        },
+        {
+          "name": "trilogy-forge",
+          "desc": "The Psychological Build Engine - Jung + Freud + Sales 101. Auto-generates elite AI configs per client archetype, shadow, and role psychology.",
+          "faculty": "Runtime, conductor & routing",
+          "url": "https://sjgant80-hub.github.io/trilogy-forge/"
+        },
+        {
+          "name": "trilogy-forge-api",
+          "desc": "The factory that makes factories. POST config, GET a sovereign HTML application. 9 forge types, 4 data APIs, AI agent swarms, works offline.",
+          "faculty": "Runtime, conductor & routing",
+          "url": "https://sjgant80-hub.github.io/trilogy-forge-api/"
+        }
+      ]
+    },
+    {
+      "faculty": "Reasoning — past, present, future",
+      "items": [
+        {
+          "name": "cassie-oracle-3",
+          "desc": "Recursive Claude subagent tree · L0 orchestrator + 7 spine-prime specialists + sparse chord resolver · v19 7-pass annealing · subscription auth",
+          "faculty": "Reasoning — past, present, future",
+          "url": "https://sjgant80-hub.github.io/cassie-oracle-3/"
+        },
+        {
+          "name": "fallbase",
+          "desc": "⛁ FallBase · sovereign Oracle Database wedge · multi-DB · schema designer · SQL subset (SELECT/WHERE/JOIN/GROUP BY/aggregates) · CSV+JSON import · foreign keys + indexes · postMessage API · single HTML · MIT",
+          "faculty": "Reasoning — past, present, future",
+          "url": "https://sjgant80-hub.github.io/fallbase/"
+        },
+        {
+          "name": "fallbuild",
+          "desc": "⚙ FallBuild · sovereign Oracle APEX wedge · drag-drop low-code app builder · 8 widget types · FallBase bindings · 5 templates · standalone-HTML export with runtime baked · single HTML · MIT",
+          "faculty": "Reasoning — past, present, future",
+          "url": "https://sjgant80-hub.github.io/fallbuild/"
+        },
+        {
+          "name": "fallledger",
+          "desc": "⚖ FallLedger · sovereign Oracle GL / NetSuite ledger · double-entry · 38-account UK SME CoA · auto-import from FallInvoice/FallAP/FallAccount via fall-signal · TB / P&L / Balance Sheet / Cash Flow / VAT · period close · MIT",
+          "faculty": "Reasoning — past, present, future",
+          "url": "https://sjgant80-hub.github.io/fallledger/"
+        },
+        {
+          "name": "fallreport",
+          "desc": "▣ FallReport · sovereign Oracle Analytics / Hyperion wedge · pivot tables · hand-rolled canvas charts (bar/line/area/pie/scatter) · dashboards · KPI cards · FallBase + FallLedger postMessage feeds · PDF/PNG/CSV export · MIT",
+          "faculty": "Reasoning — past, present, future",
+          "url": "https://sjgant80-hub.github.io/fallreport/"
+        },
+        {
+          "name": "generative-estate",
+          "desc": "",
+          "faculty": "Reasoning — past, present, future",
+          "url": "https://sjgant80-hub.github.io/generative-estate/"
+        },
+        {
+          "name": "missig",
+          "desc": "",
+          "faculty": "Reasoning — past, present, future",
+          "url": "https://sjgant80-hub.github.io/missig/"
+        },
+        {
+          "name": "recollapse",
+          "desc": "",
+          "faculty": "Reasoning — past, present, future",
+          "url": "https://sjgant80-hub.github.io/recollapse/"
+        },
+        {
+          "name": "seedmind",
+          "desc": "",
+          "faculty": "Reasoning — past, present, future",
+          "url": "https://sjgant80-hub.github.io/seedmind/"
+        },
+        {
+          "name": "suzen",
+          "desc": "Necessity oracle · reads any estate node's JSON twins and returns what MUST come next · single-file · MIT · origin: hitsuzen 必然 via aneta",
+          "faculty": "Reasoning — past, present, future",
+          "url": "https://sjgant80-hub.github.io/suzen/"
+        },
+        {
+          "name": "temuoracle",
+          "desc": "⚒ TemuOracle · sovereign enterprise OS · the same Oracle / NetSuite enterprise software for £0 · indexes 17 sovereign Fall* tools · stack diagram · pricing comparison · autopilot · single HTML · MIT",
+          "faculty": "Reasoning — past, present, future",
+          "url": "https://sjgant80-hub.github.io/temuoracle/"
+        },
+        {
+          "name": "the-dreamer",
+          "desc": "",
+          "faculty": "Reasoning — past, present, future",
+          "url": "https://sjgant80-hub.github.io/the-dreamer/"
+        },
+        {
+          "name": "the-oracle",
+          "desc": "",
+          "faculty": "Reasoning — past, present, future",
+          "url": "https://sjgant80-hub.github.io/the-oracle/"
+        }
+      ]
+    },
+    {
+      "faculty": "Memory & consolidation",
+      "items": [
+        {
+          "name": "estate-nest",
+          "desc": "The OFFRAMP pipeline pointed inward — the ~1000-repo estate nested into the dodeca memory: signed by content, placed by golden angle, wired by typed edges, WALKABLE. Answer 'what do I have' by traversing. Proof-of-play CLEAN.",
+          "faculty": "Memory & consolidation",
+          "url": "https://sjgant80-hub.github.io/estate-nest/"
+        },
+        {
+          "name": "honestly",
+          "desc": "HONESTLY · verified search · the Perplexity killer · 3-vote adversarial verification on every claim · Konomi-signed answer envelopes · BYOK search + LLM · sovereign single-file · MIT",
+          "faculty": "Memory & consolidation",
+          "url": "https://sjgant80-hub.github.io/honestly/"
+        },
+        {
+          "name": "redress-engine",
+          "desc": "A legal-process navigator for everyone — plain-English rights, the REAL statutory lever per scenario, calm cited letters, deadlines, honest routing to free human help. Accuracy-gated. Not legal advice.",
+          "faculty": "Memory & consolidation",
+          "url": "https://sjgant80-hub.github.io/redress-engine/"
+        }
+      ]
+    },
+    {
+      "faculty": "Trust rail & verification",
+      "items": [
+        {
+          "name": "acg-assessor",
+          "desc": "The Assessor — deterministic rubric assessment for AI-assisted codebases. Same repository, same verdict, same hash.",
+          "faculty": "Trust rail & verification",
+          "url": "https://sjgant80-hub.github.io/acg-assessor/"
+        },
+        {
+          "name": "earned",
+          "desc": "",
+          "faculty": "Trust rail & verification",
+          "url": "https://sjgant80-hub.github.io/earned/"
+        },
+        {
+          "name": "geometric-computer",
+          "desc": "The v23 geometric-computing stack, gated: L1 primorial fold codec (lossless state⇄number) + L2 Entropic Torus Harmonics (which fold-signatures are stable — golden holds, resonance cancels). Proof-of-play CLEAN.",
+          "faculty": "Trust rail & verification",
+          "url": "https://sjgant80-hub.github.io/geometric-computer/"
+        },
+        {
+          "name": "niceassos",
+          "desc": "The OG sovereign browser OS: fallos desktop shell merged onto the signed niceassos-mesh — proof-of-play admission, local-first brain. Pure kernel witness 49/49.",
+          "faculty": "Trust rail & verification",
+          "url": "https://sjgant80-hub.github.io/niceassos/"
+        },
+        {
+          "name": "the-toll",
+          "desc": "A collective proof-of-work edge-wall — force EXECUTION not storage. Content unlocks only when a client solves a hash puzzle: invisible to a human, 16 CPU-days to a mass-scraper, stronger as more nodes adopt it. Proof-of-play gated.",
+          "faculty": "Trust rail & verification",
+          "url": "https://sjgant80-hub.github.io/the-toll/"
+        },
+        {
+          "name": "witness",
+          "desc": "Deterministic build gate: mutation + fuzz. Catches test-theatre and throw-on-malformed with no LLM, zero deps.",
+          "faculty": "Trust rail & verification",
+          "url": "https://sjgant80-hub.github.io/witness/"
+        }
+      ]
+    },
+    {
+      "faculty": "Identity, agents & economy",
+      "items": [
+        {
+          "name": "acg-geo-repo",
+          "desc": "AI Craftspeople Guild · GEO/AI-SEO infrastructure for guild client sites · fork-and-configure · agent marketplace · MIT",
+          "faculty": "Identity, agents & economy",
+          "url": "https://sjgant80-hub.github.io/acg-geo-repo/"
+        },
+        {
+          "name": "agora",
+          "desc": "",
+          "faculty": "Identity, agents & economy",
+          "url": "https://sjgant80-hub.github.io/agora/"
+        },
+        {
+          "name": "fall-sales-marketing",
+          "desc": "8+1 AI agents replacing a full sales + marketing team · sovereign single HTML · MIT · renamed from FallOffice when that slot was reclaimed for the productivity suite",
+          "faculty": "Identity, agents & economy",
+          "url": "https://sjgant80-hub.github.io/fall-sales-marketing/"
+        },
+        {
+          "name": "kard",
+          "desc": "Superseded by FallKard · sovereign card game where every AI-Native Solutions tool is a real playable card · MIT",
+          "faculty": "Identity, agents & economy",
+          "url": "https://sjgant80-hub.github.io/kard/"
+        },
+        {
+          "name": "the-wallet",
+          "desc": "",
+          "faculty": "Identity, agents & economy",
+          "url": "https://sjgant80-hub.github.io/the-wallet/"
+        }
+      ]
+    },
+    {
+      "faculty": "Geometric & neuromorphic",
+      "items": [
+        {
+          "name": "fall-kqtt-bridge",
+          "desc": "fall-kqtt-bridge · BroadcastChannel('fall-signal') ↔ GS.KQTT · 50-LOC bridge for teslasolar/GoldenShower · live demo",
+          "faculty": "Geometric & neuromorphic",
+          "url": "https://sjgant80-hub.github.io/fall-kqtt-bridge/"
+        },
+        {
+          "name": "fallcube-api",
+          "desc": "Sovereign File Storage API - upload, search, analyze, stream. Zero cloud.",
+          "faculty": "Geometric & neuromorphic",
+          "url": "https://sjgant80-hub.github.io/fallcube-api/"
+        },
+        {
+          "name": "fallsecurity",
+          "desc": "FallCube · sovereign AI security as geometry · 8+1 vertex architecture · defeats gradient injection · WebLLM in-browser demo",
+          "faculty": "Geometric & neuromorphic",
+          "url": "https://sjgant80-hub.github.io/fallsecurity/"
+        },
+        {
+          "name": "golden-placer",
+          "desc": "",
+          "faculty": "Geometric & neuromorphic",
+          "url": "https://sjgant80-hub.github.io/golden-placer/"
+        },
+        {
+          "name": "konomi-cube-v2",
+          "desc": "紙 konomi-cube v2 · the interactive fold engine · Three.js + konomigami-lib · 7 fold operators + 6 mutations · audio-reactive ( from bass/treble) · GLB export · v20.4 §23 made visible · MIT",
+          "faculty": "Geometric & neuromorphic",
+          "url": "https://sjgant80-hub.github.io/konomi-cube-v2/"
+        },
+        {
+          "name": "offgridcommunitiessystem",
+          "desc": "Konomi Cube Coin · sovereign community OS for off-grid / intentional communities · single HTML · IndexedDB · MIT",
+          "faculty": "Geometric & neuromorphic",
+          "url": "https://sjgant80-hub.github.io/offgridcommunitiessystem/"
+        },
+        {
+          "name": "the-cam",
+          "desc": "",
+          "faculty": "Geometric & neuromorphic",
+          "url": "https://sjgant80-hub.github.io/the-cam/"
+        },
+        {
+          "name": "the-rotor",
+          "desc": "",
+          "faculty": "Geometric & neuromorphic",
+          "url": "https://sjgant80-hub.github.io/the-rotor/"
+        },
+        {
+          "name": "the-spike",
+          "desc": "",
+          "faculty": "Geometric & neuromorphic",
+          "url": "https://sjgant80-hub.github.io/the-spike/"
+        }
+      ]
+    },
+    {
+      "faculty": "Mesh, transport & sensing",
+      "items": [
+        {
+          "name": "airgap",
+          "desc": "",
+          "faculty": "Mesh, transport & sensing",
+          "url": "https://sjgant80-hub.github.io/airgap/"
+        },
+        {
+          "name": "fallasset",
+          "desc": "FallAsset · sovereign Bridge + Lightroom wedge · File System Access · grid + loupe + compare · tags/rating/labels · non-destructive edit · collections · autopilot · MIT",
+          "faculty": "Mesh, transport & sensing",
+          "url": "https://sjgant80-hub.github.io/fallasset/"
+        },
+        {
+          "name": "fallmotion",
+          "desc": "FallMotion · sovereign After Effects wedge · SVG scene + keyframe timeline · 4 easings · 4 templates · WEBM (MediaRecorder) + inline GIF89a encoder · autopilot · MIT",
+          "faculty": "Mesh, transport & sensing",
+          "url": "https://sjgant80-hub.github.io/fallmotion/"
+        },
+        {
+          "name": "fallscene",
+          "desc": "FallScene · sovereign Dimension wedge · Three.js 3D scene builder · 6 primitives · TransformControls · materials · lighting · GLB/PNG/JSON export · autopilot · MIT",
+          "faculty": "Mesh, transport & sensing",
+          "url": "https://sjgant80-hub.github.io/fallscene/"
+        },
+        {
+          "name": "hum",
+          "desc": "",
+          "faculty": "Mesh, transport & sensing",
+          "url": "https://sjgant80-hub.github.io/hum/"
+        },
+        {
+          "name": "mesh-sings",
+          "desc": "",
+          "faculty": "Mesh, transport & sensing",
+          "url": "https://sjgant80-hub.github.io/mesh-sings/"
+        },
+        {
+          "name": "one-ladder",
+          "desc": "",
+          "faculty": "Mesh, transport & sensing",
+          "url": "https://sjgant80-hub.github.io/one-ladder/"
+        },
+        {
+          "name": "soundcheck",
+          "desc": "",
+          "faculty": "Mesh, transport & sensing",
+          "url": "https://sjgant80-hub.github.io/soundcheck/"
+        },
+        {
+          "name": "the-ear",
+          "desc": "",
+          "faculty": "Mesh, transport & sensing",
+          "url": "https://sjgant80-hub.github.io/the-ear/"
+        },
+        {
+          "name": "the-throat",
+          "desc": "",
+          "faculty": "Mesh, transport & sensing",
+          "url": "https://sjgant80-hub.github.io/the-throat/"
+        }
+      ]
+    },
+    {
+      "faculty": "Business operations",
+      "items": [
+        {
+          "name": "fallaccount",
+          "desc": "FallAccount Elite - Sovereign accounting for UK sole traders. Any LLM. Single HTML file. Zero SaaS.",
+          "faculty": "Business operations",
+          "url": "https://sjgant80-hub.github.io/fallaccount/"
+        },
+        {
+          "name": "fallaccount-trades",
+          "desc": "Sovereign accounts app for UK builders, plumbers, sparkies, plasterers. One HTML file. Data on your phone. MTD-ready. CIS handled both directions.",
+          "faculty": "Business operations",
+          "url": "https://sjgant80-hub.github.io/fallaccount-trades/"
+        },
+        {
+          "name": "fallcrm",
+          "desc": "fallcrm · sovereign single-file CRM · the delete-HubSpot wedge",
+          "faculty": "Business operations",
+          "url": "https://sjgant80-hub.github.io/fallcrm/"
+        },
+        {
+          "name": "glampos",
+          "desc": "",
+          "faculty": "Business operations",
+          "url": "https://sjgant80-hub.github.io/glampos/"
+        },
+        {
+          "name": "wishwood",
+          "desc": "Sovereign multi-channel automation for off-grid glamping. Built for Wishwood (Canterbury, Kent). Unified inbox + calendar + direct booking + AI replies. Zero SaaS.",
+          "faculty": "Business operations",
+          "url": "https://sjgant80-hub.github.io/wishwood/"
+        },
+        {
+          "name": "wishwood-keeper",
+          "desc": "",
+          "faculty": "Business operations",
+          "url": "https://sjgant80-hub.github.io/wishwood-keeper/"
+        }
+      ]
+    },
+    {
+      "faculty": "Legal & consumer",
+      "items": [
+        {
+          "name": "fallpage",
+          "desc": "FallPage · sovereign InDesign wedge · multi-page layout · 8 block types · A4/Letter/Legal/custom · masters · print-to-PDF · 5 templates · autopilot · MIT",
+          "faculty": "Legal & consumer",
+          "url": "https://sjgant80-hub.github.io/fallpage/"
+        },
+        {
+          "name": "groundlevel-shim",
+          "desc": "One <script> tag adds 6 cited UK legal letter templates + floating widget to any site. ~29KB. Zero deps. MIT.",
+          "faculty": "Legal & consumer",
+          "url": "https://sjgant80-hub.github.io/groundlevel-shim/"
+        }
+      ]
+    },
+    {
+      "faculty": "Agents on the open web",
+      "items": [
+        {
+          "name": "konomigami-lib",
+          "desc": "紙 konomigami-lib · the fold algebra · 7 base glyphs + 6 mutations · state algebra · bloom ↔ integer ↔ sequence · -coherence · pure JS · zero deps · v20.4 socket VI · MIT · substrate by Thomas Frumkin",
+          "faculty": "Agents on the open web",
+          "url": "https://sjgant80-hub.github.io/konomigami-lib/"
+        },
+        {
+          "name": "the-kg",
+          "desc": "",
+          "faculty": "Agents on the open web",
+          "url": "https://sjgant80-hub.github.io/the-kg/"
+        },
+        {
+          "name": "trilogy-framework",
+          "desc": "The AI Pipeline Framework - Input to Intelligence to Output as one declarative flow",
+          "faculty": "Agents on the open web",
+          "url": "https://sjgant80-hub.github.io/trilogy-framework/"
+        }
+      ]
+    },
+    {
+      "faculty": "Other sovereign builds",
+      "items": [
+        {
+          "name": "acg-mapper",
+          "desc": "⚒ ACG Mapper · an AI Craftspeople Guild diagnostic · paste your workflow, find your audit rung · forked from FallMap · single HTML · sovereign",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/acg-mapper/"
+        },
+        {
+          "name": "bonded-pair",
+          "desc": "",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/bonded-pair/"
+        },
+        {
+          "name": "fall-prompt-gate",
+          "desc": "⚒ fall-prompt-gate · sovereign prompt evaluation · six layers · version history · regression detection · single HTML",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/fall-prompt-gate/"
+        },
+        {
+          "name": "fall-raas",
+          "desc": "fall-raas · Research-as-a-Service · 5-angle fan-out · 3-vote adversarial · cited synthesis",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/fall-raas/"
+        },
+        {
+          "name": "fall-substrate",
+          "desc": "fall-substrate · the cognitive substrate · research → spec → tool → ship · flagship",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/fall-substrate/"
+        },
+        {
+          "name": "fall-verify",
+          "desc": "fall-verify · adversarial verification · 3-vote refute panel · did Claude hallucinate?",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/fall-verify/"
+        },
+        {
+          "name": "fall-vetter",
+          "desc": "fall-vetter · drop-in guild signup gate · R2 ┃ validate",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/fall-vetter/"
+        },
+        {
+          "name": "fallap",
+          "desc": "fallap · sovereign invoice rewriter · PYMNTS hierarchy of convenience · one-click pay",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/fallap/"
+        },
+        {
+          "name": "fallaudio",
+          "desc": "FallAudio · sovereign Audition wedge · record (getUserMedia + MediaRecorder) · waveform · cut/trim/fade/normalize/reverse · gain/speed/lowpass/highpass · WAV+webm export · autopilot · MIT",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/fallaudio/"
+        },
+        {
+          "name": "fallcarousel",
+          "desc": "fallcarousel · sovereign LinkedIn carousel builder · 1.39x reach format",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/fallcarousel/"
+        },
+        {
+          "name": "fallcore",
+          "desc": "FallCore - on-prem brain that learns from your work - Anthropic-API-compatible local proxy + RAG + LoRA loop - reduces frontier-API reliance over time",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/fallcore/"
+        },
+        {
+          "name": "fallcore-factory",
+          "desc": "FallCore Factory - the factory that mints branded FallCore deployments on demand. Describe your company - download a complete docker-compose stack with cascade, RAG, LoRA loop, signed Konomi licence - all branded.",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/fallcore-factory/"
+        },
+        {
+          "name": "fallenterprise",
+          "desc": "AI-Native Transformation for SMBs · sovereign self-hosted LLMs · fine-tuned · MIT · 4 tiers £20k-£200k · Simon Gant",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/fallenterprise/"
+        },
+        {
+          "name": "fallfind",
+          "desc": "fallfind · search the sovereign estate · 60+ builds · find the tool that ends your pain",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/fallfind/"
+        },
+        {
+          "name": "fallflip",
+          "desc": "The mirror · LinkedIn self-promo flip tool · paste their comment, get two responses (your post + theirs). Single HTML · sovereign · data on-device.",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/fallflip/"
+        },
+        {
+          "name": "fallflow",
+          "desc": "fallflow · 14-day cash-runway early-warning · Friday-by-Friday red/green wall",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/fallflow/"
+        },
+        {
+          "name": "fallform",
+          "desc": "Forms · no response cap · ever · sovereign single HTML · obsoletes Typeform/JotForm",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/fallform/"
+        },
+        {
+          "name": "fallgravity",
+          "desc": "LinkedIn algorithm strategy tool · post scorer · hook generator · 90-min boost window · carousel builder · sovereign single HTML · on-device",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/fallgravity/"
+        },
+        {
+          "name": "fallhire",
+          "desc": "fallhire · sovereign hiring pipeline + interview scorecard · single HTML",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/fallhire/"
+        },
+        {
+          "name": "fallinvoice",
+          "desc": "fallinvoice · sovereign single-file invoice + one-click-pay + reminders",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/fallinvoice/"
+        },
+        {
+          "name": "falllist",
+          "desc": "Newsletter · your list · your terms · 0% fee · BYOM (Resend/Postmark/Mailgun/SendGrid) · obsoletes Mailchimp + Substack",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/falllist/"
+        },
+        {
+          "name": "fallmage",
+          "desc": "FallMage · sovereign Photoshop wedge · single HTML · open · crop · rotate · resize · filter · text · brush · layers · autopilot · MIT",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/fallmage/"
+        },
+        {
+          "name": "fallmap",
+          "desc": "Paste your workflow · see what a £20k consultant builds · see the sovereign version that does the same for £0 · single HTML · on-device",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/fallmap/"
+        },
+        {
+          "name": "fallmind",
+          "desc": "FallMind · sovereign self-trained LLM estate · diamond·kappa=1 · 7-ring discipline",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/fallmind/"
+        },
+        {
+          "name": "fallpdf",
+          "desc": "FallPDF · sovereign Acrobat wedge · markdown / HTML / text → real PDF · multi-page · headers / footers / page numbers / images · autopilot · single HTML · MIT",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/fallpdf/"
+        },
+        {
+          "name": "fallpost",
+          "desc": "Sovereign LinkedIn engine · Jung+Freud+Sales 101 baked in · BYOK cascade · sovereign tone seed",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/fallpost/"
+        },
+        {
+          "name": "fallreach",
+          "desc": "Sovereign AI SDR. Your hardware. Your keys. Your pipeline.",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/fallreach/"
+        },
+        {
+          "name": "fallscout",
+          "desc": "LinkedIn Intelligence API - scrape, research, craft tailored outreach. Zero wasted small talk.",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/fallscout/"
+        },
+        {
+          "name": "fallslot",
+          "desc": "Share a calendar link · sovereign · single HTML · zero subscription · obsoletes Calendly",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/fallslot/"
+        },
+        {
+          "name": "fallvector",
+          "desc": "FallVector · sovereign Illustrator wedge · pure SVG editor · pen/rect/ellipse/line/text/select · layers · 12-color palette · SVG+PNG export · autopilot · MIT",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/fallvector/"
+        },
+        {
+          "name": "nhs-reinjection",
+          "desc": "Sovereign single-file calculator. Audited contractor margins × verified outsourced NHS spend → realistic estimate of profit currently extracted from the NHS. With MP letter generator. MIT.",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/nhs-reinjection/"
+        },
+        {
+          "name": "operator",
+          "desc": "OPERATOR · sovereign single-file management consulting · 5-phase engagement engine · Porter / 7S / BCG / Value-Driver Tree · Minto pyramid deck · audit-chained · Konomi-signed · MIT · McKinsey frameworks without the £1M deck",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/operator/"
+        }
+      ]
+    }
+  ]
+}

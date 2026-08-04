@@ -1,7 +1,7 @@
 <meta charset="utf-8">
-<title>fall-os — the sovereign edge-AI operating system</title>
+<title>fall-os — the sovereign operating system for an AI-run estate</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="fall-os is a sovereign edge-AI operating system. You chat with a conductor that runs on your own models — a local-first cascade with frontier optional — builds what you ask, and runs operations when trained. Signed, budget-bounded agents. Mutation-verified builds. No datacenter, no lock-in.">
+<meta name="description" content="fall-os is a sovereign operating system for an AI-operated estate: one shared core, one conductor you direct in plain language, and 1,548 repositories of organs that route through them. Runs on your own models. Every agent bounded by a signed budget; every build proven by a mutation gate.">
 <meta name="theme-color" content="#0b0e14">
 <link rel="manifest" href="./manifest.webmanifest">
 <style>
@@ -166,10 +166,10 @@
 </div></nav>
 
 <header class="hero"><div class="wrap">
-  <span class="eyebrow">Sovereign edge-AI operating system</span>
+  <span class="eyebrow">The sovereign operating system for an AI-run estate</span>
   <h1>fall-os</h1>
-  <p class="sub">Your models. Your machine. Your estate — run by a conductor you train.</p>
-  <p class="lead">You chat with a conductor. It runs on <strong>your own models</strong> — a local-first cascade that only escalates to a frontier API if you allow it — and it builds what you ask, wires it into the estate, and runs operations once you have trained it. Every agent carries a signed identity and a budget it cannot cross. Every build must survive a mutation gate before it ships. No datacenter. No subscription. Nothing leaves the machine unless you send it.</p>
+  <p class="sub">One core. One conductor. An estate of 1,548 repositories that runs on hardware you own.</p>
+  <p class="lead">Every serious AI system today is rented: someone else's weights, someone else's datacenter, someone else's memory of your work. fall-os is the opposite bet, built to completion — a runtime where you direct a conductor in plain language, it runs on <strong>your own models</strong>, reasons over <strong>your own corpus</strong>, builds what you ask and proves it before it ships. Every agent carries a signed identity and a budget it cannot cross. Nothing leaves the machine unless you send it. This is not a prototype of that idea — it is an estate of 1,548 repositories already standing on it.</p>
   <div class="cta">
     <a class="btn primary" href="#how">How it works</a>
     <a class="btn" href="#ecosystem">Explore the estate</a>
@@ -195,7 +195,7 @@
     <div class="card"><span class="ic">The estate</span><h3>1,548 repositories, one field</h3><p>Everything built is addressable as a single retrieval corpus — the estate is both the product and the context the conductor reasons over. Nothing about your work is uploaded to train someone else's model.</p></div>
   </div>
   <blockquote class="quote">Compression beats scale. You do not need their datacenter — you need the right compression and hardware you already own.
-    <span>The design thesis: an operating system built for the edge, not a client for someone else's cloud.</span></blockquote>
+    <span>The design thesis: an operating system that owns its own intelligence, rather than a client for someone else's cloud.</span></blockquote>
 </div></section>
 
 <section id="does" class="anchor"><div class="wrap">
@@ -233,7 +233,7 @@
   <p class="lead" style="font-size:.97rem">Every request the conductor accepts runs the same five phases, each implemented by the shared core.</p>
   <div class="loop">
     <div class="step"><span class="n">01</span><b>Explore</b><span>Expand candidates at golden-angle offsets so options diverge instead of clustering on the obvious one.</span></div>
-    <div class="step"><span class="n">02</span><b>Resolve</b><span>Score every candidate against one shared acceptance threshold (κ = 1/φ ≈ 0.618).</span></div>
+    <div class="step"><span class="n">02</span><b>Resolve</b><span>Score every candidate against one shared acceptance threshold — the same bar in every organ.</span></div>
     <div class="step"><span class="n">03</span><b>Verify</b><span>Run proof — tests, gates, checks. Nothing is selected implicitly; commitment is authored.</span></div>
     <div class="step"><span class="n">04</span><b>Build</b><span>Produce the committed result and cache it by content, so identical work is never repeated.</span></div>
     <div class="step"><span class="n">05</span><b>Remember</b><span>Record the decision and index every alternative not taken, with a recurrence count.</span></div>
@@ -281,10 +281,10 @@
   <h2>One runtime beneath an estate of sovereign builds</h2>
   <p class="lead">fall-os is not a single application. It is the runtime under a large body of self-hosted work — each build an organ that owns its logic, runs offline, and carries its own verification. The load-bearing organs, by faculty:</p>
   <div class="stats">
-    <div class="stat"><b>1,548</b><span>repositories</span></div>
-    <div class="stat"><b>1,503</b><span>public</span></div>
-    <div class="stat"><b>45</b><span>private</span></div>
-    <div class="stat"><b>50+</b><span>load-bearing organs mapped</span></div>
+    <div class="stat"><b id="statTotal">1,548</b><span>repositories</span></div>
+    <div class="stat"><b id="statPublic">1,503</b><span>public</span></div>
+    <div class="stat"><b id="statPrivate">45</b><span>private</span></div>
+    <div class="stat"><b id="statLive">101</b><span>live builds, link-verified</span></div>
   </div>
   <div class="eco-grid" id="eco"></div>
   <div class="eco-grid" style="margin-top:16px">
@@ -344,14 +344,14 @@
   <span class="eyebrow">FAQ</span>
   <h2>Frequently asked questions</h2>
   <div style="margin-top:22px">
-    <details open><summary>What is fall-os, in one paragraph?</summary><div class="body"><p>A sovereign edge-AI operating system. You direct a conductor in plain language; it runs on your own models through a local-first cascade (escalating to a frontier API only if you allow it), builds and verifies software, and operates trained organs across an estate of 1,548 repositories. Every agent has a signed identity and a hard budget; every build must pass a mutation gate. It runs offline on hardware you already own.</p></div></details>
+    <details open><summary>What is fall-os, in one paragraph?</summary><div class="body"><p>A sovereign operating system for an AI-run estate. You direct a conductor in plain language; it runs on your own models through a local-first cascade (escalating to a frontier API only if you allow it), builds and verifies software, and operates trained organs across an estate of 1,548 repositories. Every agent has a signed identity and a hard budget; every build must pass a mutation gate. It runs offline on hardware you already own.</p></div></details>
     <details><summary>How is this different from using a cloud AI assistant?</summary><div class="body"><p>Three structural differences. <strong>Location:</strong> inference defaults to your machine, and external calls are opt-in under your own key — there is no intermediary service. <strong>Memory:</strong> your estate is the context, indexed and owned locally, rather than a vendor-held history. <strong>Verification:</strong> generated code passes a deterministic mutation gate before it counts as working, instead of being trusted because it looks plausible.</p></div></details>
     <details><summary>Do I need a GPU or a datacenter?</summary><div class="body"><p>No. The design thesis is that compression and orchestration beat raw scale: the lowest tiers are deterministic logic and a small in-browser model, which need no dedicated hardware at all. A mid-size local model (for example Qwen 14B via Ollama) raises quality substantially on ordinary hardware, and frontier capability remains available on demand without ever becoming a dependency.</p></div></details>
     <details><summary>What is the model cascade, exactly?</summary><div class="body"><p>Six tiers, cheapest-capable first: built-in deterministic logic; an in-browser model; your local Ollama host; larger local weights where hardware allows; optional free-tier APIs; and optional frontier models. Keys are yours and hit your provider directly. Routing between local and frontier by task, quality and cost is a live component of the estate rather than a plan.</p></div></details>
     <details><summary>Can it really run a business?</summary><div class="body"><p>It already runs parts of several. Deployed organs handle multi-channel reservations with a double-booking guard, offline housekeeping across a multi-unit site, encrypted bookkeeping, cited legal drafting, and unified inbox with reply drafting. The intended operating split is roughly 90 % machine execution to 10 % human judgement — with consequential actions authored by a person and each organ's autonomy granted explicitly, not assumed.</p></div></details>
     <details><summary>What stops an agent going rogue or running up a bill?</summary><div class="body"><p>Structure, not policy. An agent's Ed25519 identity <em>is</em> its capability grant and its budget ceiling — it cannot spend beyond what its signed grant contains, and every transfer is signed onto a hash-chained, conserved ledger. Separately, the conductor never commits implicitly: it prepares and proposes, and an author commits.</p></div></details>
     <details><summary>Are my repositories used as training data?</summary><div class="body"><p>They are used as <em>your</em> context, not as anyone's training corpus. The estate is indexed locally — content-signed, graph-organised, retrievable at reasoning time — so the conductor reasons over your own work. Nothing is uploaded to train a third-party model, and the memory layer consolidates what has been learned without retraining any weights.</p></div></details>
-    <details><summary>What does the acceptance threshold (κ) mean?</summary><div class="body"><p>Scores are normalised to [0, 1]; a candidate is accepted at or above κ ≈ 0.618 and rejected below it. Using a single shared threshold across every organ is the point — it makes acceptance behaviour consistent system-wide and improvable in one place. The specific value is a project convention.</p></div></details>
+    <details><summary>What is the acceptance threshold?</summary><div class="body"><p>Scores are normalised to [0, 1]; a candidate is accepted at or above a fixed hold threshold and rejected below it. Using one shared threshold across every organ is the point — acceptance behaves consistently system-wide, and raising the bar is a single change in a single place rather than an audit of every tool.</p></div></details>
     <details><summary>Why the golden-angle offset?</summary><div class="body"><p>Candidates are generated at successive multiples of ≈137.5°, which yields near-uniform, low-overlap coverage of the option space. Practically: successive proposals spread out instead of clustering around the first obvious answer, which is what you want when you are asking for genuinely different approaches.</p></div></details>
     <details><summary>How is correctness actually enforced?</summary><div class="body"><p>Each module has a deterministic assertion suite plus a mutation gate that alters one operator at a time and requires the suite to detect it. Both run in CI on every push for all five runtime modules. Surviving mutants are either killed with a new test or recorded in a baseline as reviewed equivalents with a written rationale — so “clean” is a measured state, not a claim.</p></div></details>
     <details><summary>What are the dependencies?</summary><div class="body"><p>None at runtime. Pure ES modules, no build step, no packages. The page you are reading imports the same source the tests verify, and works offline as a PWA. Node is used for the test suites and CI.</p></div></details>
@@ -363,7 +363,7 @@
   <div class="cols">
     <div>
       <div class="brand" style="margin-bottom:8px"><span class="dot"></span>fall-os</div>
-      <div style="max-width:36ch">The sovereign edge-AI operating system. Your models, your machine, your estate.</div>
+      <div style="max-width:36ch">The sovereign operating system for an AI-run estate. Your models, your machine, your estate.</div>
     </div>
     <div>
       <div style="font-weight:650;color:var(--ink);margin-bottom:8px">Project</div>
@@ -378,7 +378,8 @@
     </div>
   </div>
   <div style="margin-top:30px;padding-top:18px;border-top:1px solid var(--line);font-size:.82rem;color:var(--faint)">
-    Pure ES modules · zero runtime dependencies · mutation-tested in CI · the published demo imports the same source the tests verify.
+    <div style="color:var(--muted);font-weight:600;letter-spacing:.02em;margin-bottom:6px">Powered by Konomi architecture</div>
+    Pure ES modules · zero runtime dependencies · mutation-tested in CI · the published demo imports the same source the tests verify · the estate map on this page is generated from the canonical index, not hand-listed.
   </div>
 </div></footer>
 
@@ -401,7 +402,7 @@ function run(){
   field=organ({n:m.n,generate:m.generate,score:m.score,author:null}).run(current+':'+(++runN));
   authored=false; castShadow(sIdx,field,current+'#'+runN);
   draw();list();shadowPanel();
-  $('moveline').innerHTML=`expand(<span style="color:var(--ink)">${m.n}</span>, 137.5°) → score(κ≈0.618) → commit(authored) · ${field.holds.length} accepted / ${field.roads.length} not taken`;
+  $('moveline').innerHTML=`expand(<span style="color:var(--ink)">${m.n}</span>, 137.5°) → score(hold threshold) → commit(authored) · ${field.holds.length} accepted / ${field.roads.length} not taken`;
   $('verdict').className='verdict open';
   $('verdict').textContent='Field open — no candidate is committed until you author one.';
 }
@@ -410,7 +411,7 @@ function draw(){
   const cx=150,cy=150,R=120;
   svg.appendChild(el('circle',{cx,cy,r:R*KAPPA,fill:'none',style:'stroke:var(--warn)','stroke-width':1.1,'stroke-dasharray':'3 4'}));
   svg.appendChild(el('circle',{cx,cy,r:R,fill:'none',style:'stroke:var(--line)','stroke-width':1}));
-  const kl=el('text',{x:cx+3,y:cy-R*KAPPA-3,style:'fill:var(--warn)','font-size':9,'font-family':'var(--mono)'});kl.textContent='κ';svg.appendChild(kl);
+  const kl=el('text',{x:cx+3,y:cy-R*KAPPA-3,style:'fill:var(--warn)','font-size':9,'font-family':'var(--mono)'});kl.textContent='hold';svg.appendChild(kl);
   for(const b of [...field.holds,...field.roads]){
     const ang=(b.theta-90)*Math.PI/180,rad=R*Math.min(1,b.score);
     const x=cx+Math.cos(ang)*rad,y=cy+Math.sin(ang)*rad,isC=authored&&field.chosen===b;
@@ -455,7 +456,7 @@ $('theme').onclick=()=>{const r=document.documentElement,cur=r.getAttribute('dat
   s+=line(450,60,450,84);
   s+=box(320,84,260,52,'Conductor (a Didy)','one control loop',1);
   s+=line(450,136,450,160);
-  s+=box(250,160,400,56,'Shared core','expand · score(κ) · commit · cache',1);
+  s+=box(250,160,400,56,'Shared core','expand · score · commit · cache',1);
   s+=line(450,216,450,250);
   for(let i=0;i<5;i++){const w=158,gap=14,total=5*w+4*gap,x0=(900-total)/2,x=x0+i*(w+gap);s+=line(x+w/2,250,x+w/2,286);s+=box(x,286,w,58,org[i],'organ');}
   s+=line(120,188,250,188);s+=box(10,160,110,56,'Model cascade','T0→T4 local-first',1);
@@ -463,88 +464,29 @@ $('theme').onclick=()=>{const r=document.documentElement,cur=r.getAttribute('dat
   $('arch').innerHTML=s;
 })();
 
-// ecosystem map — the real estate organs, grouped by faculty. [name, description, slug, live]
-const EST=[
- ['Runtime, conductor & routing',[
-   ['fall-os','Shared core, conductor and organs — this runtime.','fall-os',1],
-   ['fallrouter','Sovereign model orchestrator — routes between local Ollama and frontier providers.','fallrouter',1],
-   ['si-didy','The reference conductor: a sovereign digital twin with a multi-agent reasoning core (private).','',0],
-   ['the wisp','The estate as one substrate — ~1,000 repositories treated as a single retrievable field.','the-wisp',1],
-   ['fall-remember','Persistent memory: content-addressed, typed-edge store.','fall-remember',0],
- ]],
- ['The mind — three tenses',[
-   ['the-oracle','Forward search: holds divergent futures open, never auto-commits.','the-oracle',1],
-   ['recollapse','Reinterpretation: re-reads a fixed past without altering the record.','recollapse',1],
-   ['generative-estate','Synthesis: specifications collapse to verified code on demand.','generative-estate',1],
- ]],
- ['Memory, state & consolidation',[
-   ['estate-nest','The estate nested into an addressable memory graph.','estate-nest',1],
-   ['offramp-v2','Dead vendor exports converted into live, retrievable memory.','offramp-v2',1],
-   ['fallrecall','Take your AI memory back — import, analyse and reuse frontier-lab exports.','fallrecall',0],
-   ['seedmind','A single-file knowledge organism that derives its own links.','seedmind',1],
-   ['the-dreamer','Overnight consolidation — sharper each morning, weights unchanged.','the-dreamer',1],
-   ['missig','Records the folds that did not take; the estate learns from failure.','missig',1],
- ]],
- ['Business operations (deployed)',[
-   ['fallhub','Sovereign direct booking, unified inbox and AI reply drafting.','fallhub',1],
-   ['fallforge','The concierge that installs a business OS — a five-phase pipeline.','fallforge',0],
-   ['fallaccount','Sovereign accounting for UK sole traders — any LLM, your data.','fallaccount',1],
-   ['wishwood','Multi-channel reservations with a double-booking guard (live deployment).','wishwood',1],
-   ['wishwood-keeper','Offline housekeeping board across a multi-unit site.','wishwood-keeper',1],
-   ['glampos','Site-automation pack for small stays.','glampos',1],
-   ['konomium-vault','Encrypted, sovereign accounting foundation.','konomium-vault',0],
- ]],
- ['Agents, identity & economy',[
-   ['the-wallet','Ed25519 identity as a capability with a budget it cannot cross.','the-wallet',1],
-   ['agora','A signed, conserved, hash-chained personal economy.','agora',1],
-   ['fallcolony','Agent-native settlement — agents work, trade and upgrade.','fallcolony',1],
-   ['fallmarket','Sovereign registry of AI tools, agents, SDKs and MCP servers.','fallmarket',0],
-   ['fallsignature','Ed25519 content signing and verification, entirely local.','fallsignature',0],
-   ['earned','Proof-of-play as reputation — demonstrate, never merely claim.','earned',1],
-   ['fallkard','Every tool as a real card — a portable, signed build format.','fallkard',0],
- ]],
- ['The trust rail',[
-   ['witness','Deterministic mutation + fuzz gate; a GitHub Action any repo can adopt.','witness',1],
-   ['acg-assessor','Deterministic code-quality rubric.','acg-assessor',1],
-   ['fallhardened','The estate’s shared hardened primitives — one correct implementation each.','fallhardened',0],
-   ['foldsig','Fold-signature format and validator — a thing as a generative recipe.','foldsig',0],
- ]],
- ['Geometric & neuromorphic compute',[
-   ['geometric-computer','Primorial-fold codec and entropic torus harmonics.','geometric-computer',1],
-   ['golden-placer','Collision-free golden-angle placement, provably non-clustering.','golden-placer',1],
-   ['the-rotor','Geometric algebra Cl(3,0): rotation without gimbal lock.','the-rotor',1],
-   ['the-cam','Golden-angle content-addressable memory.','the-cam',1],
-   ['the-spike','Spiking neural network (LIF + STDP): temporal coincidence detection.','the-spike',1],
-   ['bonded-pair','Two coupled models versus a monolith — a measured negative result.','bonded-pair',1],
- ]],
- ['Mesh, transport & sensing',[
-   ['niceassos','The OS shell merged onto the signed mesh as one system.','niceassos',1],
-   ['one-ladder','Sound, radio and light as one fold-rate ladder.','one-ladder',1],
-   ['airgap','Air-gapped mesh compute — shares work over sound, zero network stack.','airgap',1],
-   ['the-throat','Fold-rate signalling: announce, recognise, reproduce.','the-throat',1],
-   ['fallsync','CRDT multi-device sync — LWW map plus Lamport clocks, no cloud.','fallsync',0],
-   ['the-ear','Debug a running system by ear — dissonance as the health signal.','the-ear',1],
-   ['soundcheck','Structural diagnosis by impact-acoustic signature.','soundcheck',1],
-   ['hum','A filesystem addressed by pitch — retrieve by humming.','hum',1],
- ]],
- ['Legal & consumer',[
-   ['divorcerbot','UK divorce self-help with verified law and maintenance calculation.','divorcerbot',1],
-   ['falljustice','Consumer letter-before-action and data-access engine.','falljustice',0],
-   ['redress-engine','Accuracy-gated legal-process navigator with cited actions.','redress-engine',0],
- ]],
- ['Agents & the open web',[
-   ['sovereign-browser','A governed browser agent operating any site alongside you.','sovereign-browser',0],
-   ['the-toll','Proof-of-work edge wall — forces execution over storage.','the-toll',1],
-   ['roost','Stays-as-commons marketplace — cooperative, zero booking fees.','roost',0],
-   ['fallnote','Sovereign block-based notes in a single HTML file.','fallnote',0],
-   ['the-kg','Typed knowledge graph with cycle-safe traversal.','the-kg',1],
- ]],
-];
-(function(){
-  const href=(slug,live)=> slug ? (live?`https://sjgant80-hub.github.io/${slug}/`:`https://github.com/sjgant80-hub/${slug}`) : 'https://github.com/sjgant80-hub';
-  $('eco').innerHTML=EST.map(([cat,items])=>`<div class="eco-cat"><h3>${cat}</h3><div class="chips">`+
-    items.map(([n,d,slug,live])=>`<a class="chip" href="${href(slug,live)}" target="_blank" rel="noopener"><span class="${live?'lv':'rp'}" title="${live?'live':'source'}"></span><span><span class="nm">${n}</span> — <span class="dsc">${d}</span></span></a>`).join('')+
-    `</div></div>`).join('');
+// ecosystem — READ from estate.json, which is generated from the canonical estate index by
+// scripts/build-estate.mjs. ONE-KERNEL: every surface reads the one source. A hand-typed list of
+// builds here would already be a bug — it is exactly how live builds silently go missing.
+(async function () {
+  const esc = s => String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;');
+  try {
+    const est = await (await fetch('./estate.json')).json();
+    const t = est.totals;
+    const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v.toLocaleString(); };
+    set('statTotal', t.repositories); set('statPublic', t.public);
+    set('statPrivate', t.private); set('statLive', t.live_verified);
+    $('eco').innerHTML = est.faculties.map(f => {
+      const rows = f.items.map(i => {
+        const d = i.desc ? ' — <span class="dsc">' + esc(i.desc) + '</span>' : '';
+        return '<a class="chip" href="' + i.url + '" target="_blank" rel="noopener">' +
+               '<span class="lv" title="live"></span><span><span class="nm">' + esc(i.name) + '</span>' + d + '</span></a>';
+      }).join('');
+      return '<div class="eco-cat"><h3>' + esc(f.faculty) + ' · ' + f.items.length + '</h3><div class="chips">' + rows + '</div></div>';
+    }).join('');
+  } catch (e) {
+    $('eco').innerHTML = '<div class="eco-cat"><h3>Estate</h3><p style="color:var(--muted);font-size:.9rem;margin:0">' +
+      'The estate index could not be loaded here. See <a href="https://github.com/sjgant80-hub" target="_blank" rel="noopener">github.com/sjgant80-hub</a>.</p></div>';
+  }
 })();
 
 run();
