@@ -1,5 +1,14 @@
 # fall-os
 
+**▶ [Live — open fall-os](https://sjgant80-hub.github.io/fall-os/)**
+
+**📄 [Download the pitch deck (PDF)](https://www.ai-nativesolutions.com/fall-os-deck.pdf)**  ·  **📄 [Download the prospectus (PDF)](https://www.ai-nativesolutions.com/fall-os-prospectus.pdf)**  ·  [Deck online](https://www.ai-nativesolutions.com/deck.html) · [Prospectus online](https://www.ai-nativesolutions.com/prospectus.html)
+
+*The sovereign operating system for an AI-run estate — 1,548 repositories, 371 live builds, one shared core.*
+
+---
+
+
 **The sovereign edge-AI operating system. Your models, your machine, your estate.**
 
 **▶ Live site, full explainer & interactive demo → https://sjgant80-hub.github.io/fall-os/**
