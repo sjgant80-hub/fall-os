@@ -56,9 +56,34 @@ outputs the organs already discard). Query it: *what did I nearly build here* (`
 shadow into a live spec* (`resurrect`). `witness mutate shadow.mjs --cap 200` → **10/10 killed,
 clean** (no baseline needed).
 
+## fall-os — one core, one conductor, many organs
+
+An OS isn't 20 tools stuck together: it's **one core** (the bloodstream — `core.mjs`) + **one
+conductor** (a **Didy**) with every build registered as an **organ** that routes through them. The
+merge is three moves — build the core (done), run the conductor, and *wrap* existing tools to call
+the core instead of rebuilding them.
+
+- **`wire.mjs`** — the first real wrap: runs the **actual** Oracle / re-collapse / generative-estate
+  kernels (vendored verbatim in `organs/`) and casts their real roads-not-taken into the shared
+  shadow-index. Proven (§4): a real Oracle stance forked-toward across 3 decisions surfaces at count 3.
+- **`didy.mjs`** — the conductor. It runs the single loop **EXPLORE → RESOLVE → VERIFY → BUILD →
+  REMEMBER**, and *every* phase calls the shared core (golden fork · κ-gate · authored collapse ·
+  content cache). Organs are **called by** the loop, never run standalone. **Grounded**: it builds
+  only what an author collapses (never reflexive); the roads-not-taken are remembered into the
+  shadow-index. So an upgrade to the core improves every organ at once — a pile becomes an organism.
+
+  A **Didy** is the *generic, trainable* conductor that ships with every fork: blank, unsigned. You
+  **train** it by registering organs and **sign** it with your prefix — a trained instance is a
+  `<prefix>-didy`, a new signed branch of the fold-tree. `makeDidy()` → a blank `didy`; `makeDidy('kel')`
+  → `kel-didy`.
+
+`witness mutate wire.mjs` → 16/16 killed, clean. `witness mutate didy.mjs` → 17/17 killed, clean.
+
 ## Files
-- `core.mjs` — the kernel (fork / hold / collapse / cache / move / organ). Generators + scorers injected; pure, deterministic, gated.
+- `core.mjs` — the shared core / bloodstream (fork / hold / collapse / cache / move / organ). Injected generators + scorers; pure, deterministic, gated.
 - `shadow.mjs` — the shadow-index (cast / castShadow / recurring / query / resurrect). Imports only the core's `h16`.
-- `test.mjs` · `shadow.test.mjs` — proof-of-play (26/26 + 22/22, incl. the three-tenses reduction and the recurrence detector).
+- `wire.mjs` · `organs/` — the three **real** organs (vendored) wrapped to cast their roads-not-taken into the shared index.
+- `didy.mjs` — the fall-os **conductor** (the single loop; organs register + route through the core).
+- `test.mjs` · `shadow.test.mjs` · `wire.test.mjs` · `didy.test.mjs` — proof-of-play (26 + 22 + 15 + 22), all witness-gated in CI.
 - `index.html` — the live demo (the field + golden-offset fork + authored collapse + the shadow-index recurrence panel).
 - `sw.js` · `manifest.webmanifest` — offline PWA.

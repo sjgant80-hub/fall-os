@@ -12,6 +12,7 @@ jobs:
           node test.mjs
           node shadow.test.mjs
           node wire.test.mjs
+          node didy.test.mjs
       - name: witness — core.mjs
         run: |
           git clone --depth 1 https://github.com/sjgant80-hub/witness.git .witness
@@ -20,3 +21,5 @@ jobs:
         run: node .witness/witness.mjs mutate shadow.mjs --cap 200 --test node shadow.test.mjs
       - name: witness — wire.mjs (the real organs wired to the core)
         run: node .witness/witness.mjs mutate wire.mjs --cap 200 --test node wire.test.mjs
+      - name: witness — didy.mjs (the fall-os conductor)
+        run: node .witness/witness.mjs mutate didy.mjs --cap 200 --test node didy.test.mjs
