@@ -65,11 +65,17 @@ const total = repos.length;
 const publicCount = repos.filter(r => !r.private).length;
 const privateCount = repos.filter(r => r.private).length;
 
-// candidates = anything the index marks live, plus the post-snapshot names. Deduped.
+// candidates = EVERY public repo in the index, plus the post-snapshot names. Deduped.
+// (Earlier this checked only repos the index already flagged live — which silently excluded every
+// repo that went live after the snapshot. Checking them all is the only version that cannot miss one.)
 const byName = new Map(repos.map(r => [r.name, r]));
-const candidates = [...new Set([...repos.filter(r => r.live && !r.private).map(r => r.name), ...RECENT])];
+const candidates = [...new Set([...repos.filter(r => !r.private).map(r => r.name), ...RECENT])];
 
-const checked = await Promise.all(candidates.map(async n => ({ name: n, ok: await resolves(n) })));
+const checked = [];
+for (let i = 0; i < candidates.length; i += 40) {
+  const batch = candidates.slice(i, i + 40);
+  checked.push(...await Promise.all(batch.map(async n => ({ name: n, ok: await resolves(n) }))));
+}
 const liveNames = checked.filter(c => c.ok).map(c => c.name);
 const dropped = checked.filter(c => !c.ok).map(c => c.name);
 

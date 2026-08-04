@@ -14,6 +14,7 @@ jobs:
           node wire.test.mjs
           node didy.test.mjs
           node depth.test.mjs
+          node estate.test.mjs
       - name: mutation gate (witness)
         run: |
           git clone --depth 1 https://github.com/sjgant80-hub/witness.git .witness
