@@ -120,6 +120,21 @@
   footer a{color:var(--muted)}footer a:hover{color:var(--ink)}
   .theme{background:none;border:1px solid var(--line);color:var(--muted);border-radius:8px;padding:5px 10px;cursor:pointer;font-size:.82rem}
   .anchor{scroll-margin-top:72px}
+  /* ecosystem */
+  .stats{display:flex;gap:26px;flex-wrap:wrap;margin:24px 0 8px}
+  .stat b{display:block;font-size:1.9rem;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+  .stat span{color:var(--muted);font-size:.82rem}
+  .eco-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:26px}
+  @media (max-width:820px){.eco-grid{grid-template-columns:1fr}}
+  .eco-cat{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:18px}
+  .eco-cat h3{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin:0 0 12px;font-weight:600}
+  .chips{display:flex;flex-direction:column;gap:2px}
+  .chip{display:flex;align-items:baseline;gap:8px;padding:7px 8px;border-radius:8px;text-decoration:none;color:var(--ink)}
+  .chip:hover{background:var(--panel2);text-decoration:none}
+  .chip .nm{font-weight:600;font-size:.9rem;white-space:nowrap}
+  .chip .dsc{color:var(--muted);font-size:.82rem;line-height:1.35}
+  .chip .lv{width:6px;height:6px;border-radius:50%;background:var(--hold);flex:none;align-self:center;box-shadow:0 0 0 3px color-mix(in srgb,var(--hold) 20%,transparent)}
+  .chip .rp{width:6px;height:6px;border-radius:50%;background:var(--faint);flex:none;align-self:center}
 </style>
 
 <nav>
@@ -128,6 +143,7 @@
     <div class="links">
       <a href="#what">Overview</a>
       <a href="#how">Architecture</a>
+      <a href="#ecosystem">Ecosystem</a>
       <a href="#demo">Demo</a>
       <a href="#engineering">Engineering</a>
       <a href="#lineage">Lineage</a>
@@ -141,18 +157,17 @@
 <header class="hero"><div class="wrap">
   <span class="eyebrow">Decision-orchestration runtime</span>
   <h1>fall-os</h1>
-  <p class="sub">One shared core, one conductor, composable organs.</p>
-  <p class="lead">fall-os is a deterministic runtime for orchestrating decisions and builds. Every tool becomes an <em>organ</em> that routes through a single shared core and a single control loop — so improving the core improves every organ at once. Mutation-tested, zero-dependency, and offline-capable.</p>
+  <p class="sub">One shared core, one conductor, an estate of organs.</p>
+  <p class="lead">fall-os is the deterministic runtime beneath a self-hosted estate of sovereign builds. Each build is an <em>organ</em> that routes through a single shared core and a single control loop — so improving the core improves every organ at once. Every module is mutation-tested, zero-dependency, and runs offline.</p>
   <div class="cta">
-    <a class="btn primary" href="#demo">Run the interactive demo</a>
-    <a class="btn" href="#how">See the architecture</a>
+    <a class="btn primary" href="#ecosystem">Explore the ecosystem</a>
+    <a class="btn" href="#demo">Run the interactive demo</a>
   </div>
   <div class="badges">
-    <span class="badge"><b>5</b> modules, mutation-tested</span>
-    <span class="badge">zero runtime dependencies</span>
-    <span class="badge">deterministic</span>
+    <span class="badge"><b>1,548</b> repositories in the estate</span>
+    <span class="badge"><b>5</b> runtime modules, mutation-tested</span>
+    <span class="badge">deterministic · zero-dependency</span>
     <span class="badge">offline (PWA)</span>
-    <span class="badge">MIT-style open source</span>
   </div>
 </div></header>
 
@@ -195,6 +210,20 @@
     </tbody>
   </table></div>
   <p class="lead" style="margin-top:16px;font-size:.94rem">The conductor is generic and trainable: a fresh instance ships blank (<code class="mono">didy</code>) and is specialised by registering organs and signing it with an owner prefix, yielding a <code class="mono">&lt;prefix&gt;-didy</code>.</p>
+</div></section>
+
+<section id="ecosystem" class="anchor"><div class="wrap">
+  <span class="eyebrow">The ecosystem</span>
+  <h2>One runtime, an estate of organs</h2>
+  <p class="lead">fall-os is not a single application. It is the runtime beneath a large, self-hosted estate of sovereign builds — each an <em>organ</em> that owns its own logic, runs offline, and carries its own verification. The estate is governed by a trained conductor (<span class="mono">si-didy</span>) and moved by an attention frontier (the wisp). The load-bearing organs, grouped by faculty:</p>
+  <div class="stats">
+    <div class="stat"><b>1,548</b><span>repositories</span></div>
+    <div class="stat"><b>1,503</b><span>public</span></div>
+    <div class="stat"><b>45</b><span>private</span></div>
+    <div class="stat"><b>5</b><span>runtime modules, mutation-tested</span></div>
+  </div>
+  <div class="eco-grid" id="eco"></div>
+  <p class="lead" style="margin-top:20px;font-size:.9rem">The organs above are the load-bearing ones, not the full set — the estate spans 1,548 repositories in total. A green marker denotes a live, hosted build; a grey marker, a source repository.</p>
 </div></section>
 
 <section id="demo" class="anchor"><div class="wrap">
@@ -365,6 +394,76 @@ $('theme').onclick=()=>{const r=document.documentElement,cur=r.getAttribute('dat
   for(let i=0;i<5;i++){const w=158,gap=14,total=5*w+4*gap,x0=(900-total)/2,x=x0+i*(w+gap);svg+=line(x+w/2,154,x+w/2,196);svg+=box(x,196,w,60,org[i],'organ');}
   svg+=`</svg>`;
   $('arch').innerHTML=svg;
+})();
+
+// ecosystem map — the real estate organs, grouped by faculty. [name, description, slug, live]
+const EST=[
+ ['Runtime & conductor',[
+   ['fall-os','Shared core, conductor and organs — this runtime.','fall-os',1],
+   ['si-didy','The reference conductor: a trained Didy governing the estate.','',0],
+   ['fall-remember','Persistent memory: content-addressed, typed-edge store.','fall-remember',0],
+   ['the wisp','The moving frontier — the conductor’s attention over memory.','',0],
+ ]],
+ ['The mind — three tenses',[
+   ['the-oracle','Forward search: holds divergent futures open.','the-oracle',1],
+   ['recollapse','Reinterpretation: re-reads a fixed past.','recollapse',1],
+   ['generative-estate','Synthesis: specifications collapse to verified code on demand.','generative-estate',1],
+ ]],
+ ['Persistent memory & state',[
+   ['estate-nest','The estate nested into an addressable memory graph.','estate-nest',1],
+   ['offramp-v2','Session history converted to live, retrievable memory.','offramp-v2',1],
+   ['seedmind','A single-file knowledge organism that derives its own links.','seedmind',1],
+   ['the-dreamer','Overnight consolidation — sharper each morning, no retraining.','the-dreamer',1],
+   ['missig','Records the folds that did not take; learns from failure.','missig',1],
+ ]],
+ ['Neuromorphic',[
+   ['the-spike','Spiking neural network (LIF + STDP): temporal coincidence detection.','the-spike',1],
+   ['bonded-pair','Two coupled models versus a monolith — a measured negative result.','bonded-pair',1],
+ ]],
+ ['Geometric compute',[
+   ['geometric-computer','Primorial-fold codec and entropic torus harmonics.','geometric-computer',1],
+   ['golden-placer','Collision-free golden-angle placement, provably non-clustering.','golden-placer',1],
+   ['the-rotor','Geometric algebra Cl(3,0): rotation without gimbal lock.','the-rotor',1],
+   ['the-cam','Golden-angle content-addressable memory.','the-cam',1],
+ ]],
+ ['Mesh & transport',[
+   ['niceassos','The OS shell on a signed mesh, unified as one system.','niceassos',1],
+   ['one-ladder','Sound, radio and light as one fold-rate ladder.','one-ladder',1],
+   ['airgap','Air-gapped mesh compute — shares work over sound, no network stack.','airgap',1],
+   ['the-throat','Fold-rate signalling: announce, recognise, reproduce.','the-throat',1],
+ ]],
+ ['Sensing & diagnosis',[
+   ['the-ear','Debug a running system by ear — dissonance as a health signal.','the-ear',1],
+   ['soundcheck','Structural diagnosis by impact-acoustic signature.','soundcheck',1],
+   ['hum','A filesystem addressed by pitch — retrieve by humming.','hum',1],
+ ]],
+ ['Identity, economy & lineage',[
+   ['the-wallet','Ed25519 identity as a capability with a hard, uncrossable budget.','the-wallet',1],
+   ['agora','A signed, conserved, hash-chained personal economy.','agora',1],
+   ['earned','Proof-of-play as a reputation protocol — demonstrate, don’t claim.','earned',1],
+   ['the-kg','Typed knowledge graph with cycle-safe traversal.','the-kg',1],
+ ]],
+ ['The trust rail',[
+   ['witness','Deterministic mutation-testing gate, packaged as a GitHub Action.','witness',1],
+   ['acg-assessor','Deterministic code-quality rubric.','acg-assessor',1],
+ ]],
+ ['Sovereign applications',[
+   ['wishwood','Multi-channel reservations engine with a double-booking guard.','wishwood',1],
+   ['wishwood-keeper','Offline housekeeping board for a multi-unit site.','wishwood-keeper',1],
+   ['glampos','Site-automation pack for small stays.','glampos',1],
+   ['divorcerbot','UK divorce self-help with cited law and maintenance calculation.','divorcerbot',1],
+   ['falljustice','Consumer letter-before-action and data-access engine.','falljustice',0],
+   ['redress-engine','Accuracy-gated legal-process navigator.','redress-engine',0],
+   ['konomium-vault','Encrypted, sovereign accounting foundation.','konomium-vault',0],
+   ['sovereign-browser','A governed browser agent (bring-your-own-key).','sovereign-browser',0],
+   ['the-toll','Proof-of-work edge wall — forces execution over storage.','the-toll',1],
+ ]],
+];
+(function(){
+  const href=(slug,live)=> slug ? (live?`https://sjgant80-hub.github.io/${slug}/`:`https://github.com/sjgant80-hub/${slug}`) : 'https://github.com/sjgant80-hub';
+  $('eco').innerHTML=EST.map(([cat,items])=>`<div class="eco-cat"><h3>${cat}</h3><div class="chips">`+
+    items.map(([n,d,slug,live])=>`<a class="chip" href="${href(slug,live)}" target="_blank" rel="noopener"><span class="${live?'lv':'rp'}" title="${live?'live':'source'}"></span><span><span class="nm">${n}</span> — <span class="dsc">${d}</span></span></a>`).join('')+
+    `</div></div>`).join('');
 })();
 
 run();
