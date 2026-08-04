@@ -39,11 +39,22 @@ console.log('\n=== §2 · CANDIDATE BREADTH — a narrowed candidate set is dete
 
 console.log('\n=== §3 · TOTALS COME FROM THE INDEX, NOT FROM MEMORY ===');
 {
-  const idx = JSON.parse(readFileSync('C:/Users/sjgan/.claude/projects/C--Users-sjgan--claude/memory/estate-index.json', 'utf8'));
-  const repos = Array.isArray(idx) ? idx : (idx.repos || Object.values(idx).find(v => Array.isArray(v)));
-  ok(est.totals.repositories === repos.length, `total repositories (${est.totals.repositories}) matches the canonical index exactly`);
-  ok(est.totals.public === repos.filter(r => !r.private).length && est.totals.private === repos.filter(r => r.private).length,
-     'the public/private split is derived from the index, not asserted');
+  // The canonical index lives on the maintainer machine, not in the repo. Where it is reachable we
+  // check the totals against it exactly; in CI we check the totals are internally consistent instead —
+  // so the gate is meaningful in both places and never passes by silently skipping.
+  const INDEX = "C:/Users/sjgan/.claude/projects/C--Users-sjgan--claude/memory/estate-index.json";
+  let repos = null;
+  try { const idx = JSON.parse(readFileSync(INDEX, "utf8")); repos = Array.isArray(idx) ? idx : (idx.repos || Object.values(idx).find(v => Array.isArray(v))); } catch { /* not on this machine */ }
+  if (repos) {
+    ok(est.totals.repositories === repos.length, `total repositories (${est.totals.repositories}) matches the canonical index exactly`);
+    ok(est.totals.public === repos.filter(r => !r.private).length && est.totals.private === repos.filter(r => r.private).length,
+       "the public/private split is derived from the index, not asserted");
+  } else {
+    ok(est.totals.public + est.totals.private === est.totals.repositories,
+       "index not present here (CI) — totals are internally consistent: public + private equals the total");
+    ok(est.totals.repositories > 1000 && est.totals.private > 0,
+       "totals are of the expected magnitude, so a truncated or empty generation fails loudly");
+  }
   ok(est.generated_from === 'estate-index.json', 'the file records the source it was generated from');
 }
 
