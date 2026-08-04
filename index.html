@@ -1,186 +1,372 @@
 <meta charset="utf-8">
-<title>LIVEWARE · the one move</title>
+<title>fall-os — a deterministic decision-orchestration OS</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#0e1116">
+<meta name="description" content="fall-os is a deterministic decision-orchestration runtime: one shared core, one conductor loop, and composable organs. Mutation-tested, zero-dependency, offline-capable.">
+<meta name="theme-color" content="#0b0e14">
 <link rel="manifest" href="./manifest.webmanifest">
 <style>
   :root{
-    --bg:#f6f7f9; --panel:#ffffff; --ink:#12151a; --muted:#5b6472; --line:#e3e7ec;
-    --hold:#1f9d63; --clash:#b1290a; --kappa:#c98a00; --accent:#3a5bd9; --shadow:#8a91a0;
-    --r:14px; --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
-    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,system-ui,sans-serif;
+    --bg:#f7f8fa; --panel:#ffffff; --panel2:#f2f4f7; --ink:#0f1720; --muted:#5a6675; --faint:#8a94a3;
+    --line:#e4e8ee; --accent:#3b5bdb; --accent-ink:#ffffff; --hold:#0c9463; --clash:#c0392b; --thr:#d9880a;
+    --code-bg:#f4f6f9;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,system-ui,sans-serif;
+    --mono:ui-monospace,"SF Mono","Cascadia Mono",Menlo,Consolas,monospace;
+    --maxw:1080px; --r:12px;
   }
   @media (prefers-color-scheme:dark){:root{
-    --bg:#0d1014; --panel:#151a21; --ink:#e8ecf1; --muted:#8b94a3; --line:#252c36;
-    --hold:#37c481; --clash:#ff6a45; --kappa:#e7b64b; --accent:#7f9cff; --shadow:#5a6373;
+    --bg:#0b0e14; --panel:#12161f; --panel2:#161b26; --ink:#e6edf3; --muted:#8b96a5; --faint:#5c6673;
+    --line:#202632; --accent:#5c7cfa; --accent-ink:#0b0e14; --hold:#2fbd85; --clash:#f0664f; --thr:#e6a23c;
+    --code-bg:#0e131c;
   }}
-  :root[data-theme=light]{--bg:#f6f7f9;--panel:#fff;--ink:#12151a;--muted:#5b6472;--line:#e3e7ec;--hold:#1f9d63;--clash:#b1290a;--kappa:#c98a00;--accent:#3a5bd9;--shadow:#8a91a0}
-  :root[data-theme=dark]{--bg:#0d1014;--panel:#151a21;--ink:#e8ecf1;--muted:#8b94a3;--line:#252c36;--hold:#37c481;--clash:#ff6a45;--kappa:#e7b64b;--accent:#7f9cff;--shadow:#5a6373}
+  :root[data-theme=light]{--bg:#f7f8fa;--panel:#fff;--panel2:#f2f4f7;--ink:#0f1720;--muted:#5a6675;--faint:#8a94a3;--line:#e4e8ee;--accent:#3b5bdb;--accent-ink:#fff;--hold:#0c9463;--clash:#c0392b;--thr:#d9880a;--code-bg:#f4f6f9}
+  :root[data-theme=dark]{--bg:#0b0e14;--panel:#12161f;--panel2:#161b26;--ink:#e6edf3;--muted:#8b96a5;--faint:#5c6673;--line:#202632;--accent:#5c7cfa;--accent-ink:#0b0e14;--hold:#2fbd85;--clash:#f0664f;--thr:#e6a23c;--code-bg:#0e131c}
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5;-webkit-text-size-adjust:100%}
-  .wrap{max-width:860px;margin:0 auto;padding:22px 16px 60px}
-  header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:4px}
-  h1{font-size:1.5rem;margin:0;letter-spacing:-.02em}
-  .k{font-family:var(--mono);color:var(--kappa);font-size:.82rem}
-  .lede{color:var(--muted);font-size:.95rem;margin:.35rem 0 1.1rem;max-width:60ch}
-  .organs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
-  .organs button{flex:1 1 150px;min-width:0;padding:10px 12px;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:var(--r);cursor:pointer;text-align:left;transition:border-color .15s,transform .05s}
-  .organs button:hover{border-color:var(--accent)}
-  .organs button:active{transform:translateY(1px)}
-  .organs button[aria-pressed=true]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
-  .organs b{display:block;font-size:.92rem}
-  .organs small{color:var(--muted);font-size:.76rem}
-  .stage{display:grid;grid-template-columns:minmax(0,300px) 1fr;gap:18px;align-items:start}
-  @media (max-width:640px){.stage{grid-template-columns:1fr}}
-  .dial{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:10px}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+  code,kbd{font-family:var(--mono);font-size:.88em;background:var(--code-bg);border:1px solid var(--line);border-radius:6px;padding:.08em .38em}
+  .mono{font-family:var(--mono)}
+  h1,h2,h3{letter-spacing:-.02em;line-height:1.2;text-wrap:balance}
+  .eyebrow{font-family:var(--mono);font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:600}
+
+  /* nav */
+  nav{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;align-items:center;gap:20px;height:58px}
+  .brand{font-weight:700;font-size:1.05rem;letter-spacing:-.02em;display:flex;align-items:center;gap:9px}
+  .brand .dot{width:11px;height:11px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 22%,transparent)}
+  nav .links{margin-left:auto;display:flex;gap:20px;align-items:center;font-size:.9rem}
+  nav .links a{color:var(--muted)} nav .links a:hover{color:var(--ink);text-decoration:none}
+  .btn{display:inline-block;padding:.5rem .9rem;border-radius:9px;border:1px solid var(--line);background:var(--panel);color:var(--ink);font-size:.88rem;font-weight:500;cursor:pointer;font-family:var(--sans)}
+  .btn:hover{border-color:var(--accent);text-decoration:none}
+  .btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+  .btn.primary:hover{filter:brightness(1.06)}
+  @media (max-width:720px){nav .links a:not(.btn){display:none}}
+
+  section{padding:74px 0;border-bottom:1px solid var(--line)}
+  section h2{font-size:1.7rem;margin:.4rem 0 .6rem}
+  .lead{color:var(--muted);font-size:1.06rem;max-width:64ch}
+
+  /* hero */
+  .hero{padding:86px 0 70px;text-align:left}
+  .hero h1{font-size:clamp(2.3rem,6vw,3.7rem);margin:.5rem 0 .1rem;font-weight:800}
+  .hero .sub{font-size:clamp(1.05rem,2.4vw,1.32rem);color:var(--ink);font-weight:500;margin:.2rem 0 .4rem}
+  .hero p.lead{font-size:1.1rem;margin:1rem 0 1.7rem}
+  .hero .cta{display:flex;gap:12px;flex-wrap:wrap}
+  .badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:26px}
+  .badge{font-family:var(--mono);font-size:.72rem;color:var(--muted);border:1px solid var(--line);border-radius:20px;padding:.28rem .7rem;background:var(--panel)}
+  .badge b{color:var(--hold);font-weight:600}
+
+  .grid{display:grid;gap:18px}
+  .cols-3{grid-template-columns:repeat(3,1fr)}
+  .cols-2{grid-template-columns:repeat(2,1fr)}
+  @media (max-width:820px){.cols-3,.cols-2{grid-template-columns:1fr}}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:20px}
+  .card h3{font-size:1.02rem;margin:0 0 .35rem}
+  .card p{margin:0;color:var(--muted);font-size:.94rem}
+  .card .ic{font-family:var(--mono);font-size:.7rem;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;font-weight:600}
+
+  /* loop */
+  .loop{display:flex;gap:10px;flex-wrap:wrap;margin:22px 0 0}
+  .loop .step{flex:1 1 150px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;position:relative}
+  .loop .step .n{font-family:var(--mono);font-size:.72rem;color:var(--accent);font-weight:600}
+  .loop .step b{display:block;margin:.15rem 0 .2rem;font-size:.98rem}
+  .loop .step span{color:var(--muted);font-size:.84rem}
+
+  /* modules table */
+  .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);margin-top:8px}
+  table{width:100%;border-collapse:collapse;font-size:.92rem;min-width:640px}
+  th,td{text-align:left;padding:12px 15px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--faint);font-weight:600;background:var(--panel2)}
+  tr:last-child td{border-bottom:none}
+  td .mono{font-size:.86rem;color:var(--accent)}
+  td.g{color:var(--hold);font-family:var(--mono);font-size:.84rem;white-space:nowrap}
+
+  /* diagram */
+  .diagram{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:8px}
+  .diagram svg{width:100%;height:auto;display:block}
+
+  /* demo */
+  .demo{display:grid;grid-template-columns:minmax(0,320px) 1fr;gap:22px;align-items:start;margin-top:22px}
+  @media (max-width:720px){.demo{grid-template-columns:1fr}}
+  .dial{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:12px}
   .dial svg{width:100%;height:auto;display:block}
-  .side{min-width:0}
-  .move-line{font-family:var(--mono);font-size:.74rem;color:var(--muted);margin:0 0 10px;word-break:break-word}
-  .move-line span{color:var(--ink)}
-  .row{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
-  .btn{padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--ink);cursor:pointer;font-size:.85rem}
-  .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
-  .btn:active{transform:translateY(1px)}
-  .verdict{font-size:.9rem;margin:2px 0 12px;min-height:1.4em}
-  .verdict.decided{color:var(--hold)} .verdict.open{color:var(--muted)}
-  h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:16px 0 6px}
-  ul{list-style:none;margin:0;padding:0}
-  li{display:flex;justify-content:space-between;gap:10px;padding:6px 10px;border:1px solid var(--line);border-radius:10px;margin-bottom:5px;font-size:.85rem;background:var(--panel)}
-  li .s{font-family:var(--mono);font-size:.78rem}
-  li.hold{border-left:3px solid var(--hold)} li.hold .s{color:var(--hold)}
-  li.road{border-left:3px solid var(--shadow);opacity:.72} li.road .s{color:var(--shadow)}
-  li.chosen{box-shadow:0 0 0 1px var(--hold)}
-  footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:.8rem}
-  footer code{font-family:var(--mono);color:var(--ink)}
-  a{color:var(--accent)}
-  .theme{margin-left:auto;font-size:.8rem;background:none;border:1px solid var(--line);color:var(--muted);border-radius:8px;padding:4px 9px;cursor:pointer}
+  .modes{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+  .modes button{flex:1 1 130px;padding:9px 11px;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:10px;cursor:pointer;text-align:left;font-family:var(--sans)}
+  .modes button[aria-pressed=true]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+  .modes b{display:block;font-size:.9rem}.modes small{color:var(--muted);font-size:.75rem}
+  .demo .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+  .demo .moveline{font-family:var(--mono);font-size:.74rem;color:var(--muted);margin:0 0 10px;word-break:break-word}
+  .verdict{font-size:.9rem;margin:2px 0 12px;min-height:1.4em}.verdict.decided{color:var(--hold)}.verdict.open{color:var(--muted)}
+  h4.sub{font-family:var(--mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--faint);margin:16px 0 6px}
+  ul.list{list-style:none;margin:0;padding:0}
+  ul.list li{display:flex;justify-content:space-between;gap:10px;padding:7px 11px;border:1px solid var(--line);border-radius:9px;margin-bottom:5px;font-size:.86rem;background:var(--panel)}
+  ul.list li .s{font-family:var(--mono);font-size:.78rem}
+  li.hold{border-left:3px solid var(--hold)}li.hold .s{color:var(--hold)}
+  li.road{border-left:3px solid var(--faint);opacity:.75}li.road .s{color:var(--faint)}
+
+  /* faq */
+  details{border:1px solid var(--line);border-radius:var(--r);margin-bottom:10px;background:var(--panel);overflow:hidden}
+  details summary{cursor:pointer;padding:16px 18px;font-weight:600;font-size:1rem;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px}
+  details summary::-webkit-details-marker{display:none}
+  details summary::after{content:"+";color:var(--accent);font-family:var(--mono);font-size:1.2rem;flex:none}
+  details[open] summary::after{content:"–"}
+  details .body{padding:0 18px 17px;color:var(--muted);font-size:.95rem}
+  details .body p{margin:.2rem 0 .6rem}
+
+  footer{padding:44px 0;color:var(--muted);font-size:.9rem}
+  footer .cols{display:flex;gap:40px;flex-wrap:wrap;justify-content:space-between}
+  footer a{color:var(--muted)}footer a:hover{color:var(--ink)}
+  .theme{background:none;border:1px solid var(--line);color:var(--muted);border-radius:8px;padding:5px 10px;cursor:pointer;font-size:.82rem}
+  .anchor{scroll-margin-top:72px}
 </style>
 
-<div class="wrap">
-  <header>
-    <h1>LIVEWARE</h1>
-    <span class="k">κ = 1/φ ≈ 0.618 · offset 137.5°</span>
-    <button class="theme" id="theme">theme</button>
-  </header>
-  <p class="lede">One move, aimed at a different target. <b>Hold</b> possibility open → <b>fork</b> on the golden
-    offset (so branches diverge, not cluster) → <b>resolve</b> at the κ-gate (≥κ holds, &lt;κ clashes) →
-    <b>collapse deliberately</b> (never auto) → <b>cache</b> by content. The Oracle, re-collapse and the
-    generative estate are this same move — organs of one body. Pick one:</p>
-
-  <div class="organs" id="organs"></div>
-
-  <div class="stage">
-    <div class="dial"><svg id="svg" viewBox="0 0 300 300" aria-label="the held field"></svg></div>
-    <div class="side">
-      <p class="move-line" id="moveLine"></p>
-      <div class="row">
-        <button class="btn" id="refork">re-fork</button>
-        <button class="btn primary" id="author">author the collapse ▸</button>
-        <button class="btn" id="reopen">re-open</button>
-      </div>
-      <p class="verdict open" id="verdict">held open — nothing collapses until you author it.</p>
-      <h3 id="holdsH">holds (≥κ)</h3>
-      <ul id="holds"></ul>
-      <h3>roads not taken (the shadow · &lt;κ, kept)</h3>
-      <ul id="roads"></ul>
-      <h3>the shadow-index · what you keep circling <span id="shN" style="color:var(--muted);text-transform:none;letter-spacing:0"></span></h3>
-      <ul id="shadow"></ul>
+<nav>
+  <div class="wrap">
+    <span class="brand"><span class="dot"></span>fall-os</span>
+    <div class="links">
+      <a href="#what">Overview</a>
+      <a href="#how">Architecture</a>
+      <a href="#demo">Demo</a>
+      <a href="#engineering">Engineering</a>
+      <a href="#lineage">Lineage</a>
+      <a href="#faq">FAQ</a>
+      <button class="theme" id="theme">Theme</button>
+      <a class="btn" href="https://github.com/sjgant80-hub/fall-os" target="_blank" rel="noopener">GitHub</a>
     </div>
   </div>
+</nav>
 
-  <footer>
-    Kernel-backed: this page imports <code>core.mjs</code> — the gated logic IS the live logic
-    (<code>node test.mjs</code> → 26/26; <code>witness</code> → 10/12 killed, 2 clamp-equivalents baselined,
-    clean). The three organs above run the <em>same</em> <code>move()</code> with a different
-    (generate, score, author) injected. The collapse is always <b>authored</b> — nothing is decided for you.
-    <br><br>Honest: the veil/shadow language is a way to think, not a claim — the buildable shape is the
-    roads-not-taken you see kept above. Part of the estate.
-  </footer>
-</div>
+<header class="hero"><div class="wrap">
+  <span class="eyebrow">Decision-orchestration runtime</span>
+  <h1>fall-os</h1>
+  <p class="sub">One shared core, one conductor, composable organs.</p>
+  <p class="lead">fall-os is a deterministic runtime for orchestrating decisions and builds. Every tool becomes an <em>organ</em> that routes through a single shared core and a single control loop — so improving the core improves every organ at once. Mutation-tested, zero-dependency, and offline-capable.</p>
+  <div class="cta">
+    <a class="btn primary" href="#demo">Run the interactive demo</a>
+    <a class="btn" href="#how">See the architecture</a>
+  </div>
+  <div class="badges">
+    <span class="badge"><b>5</b> modules, mutation-tested</span>
+    <span class="badge">zero runtime dependencies</span>
+    <span class="badge">deterministic</span>
+    <span class="badge">offline (PWA)</span>
+    <span class="badge">MIT-style open source</span>
+  </div>
+</div></header>
+
+<section id="what" class="anchor"><div class="wrap">
+  <span class="eyebrow">What it is</span>
+  <h2>An operating system for decisions, not a bag of tools</h2>
+  <p class="lead">A conventional toolkit is a pile: each tool has its own logic for generating options, scoring them, committing to one, and caching the result — so every improvement has to be made in every tool. fall-os factors that shared machinery into one place. The result is a single system with one bloodstream and one control loop, into which any number of tools plug as organs.</p>
+  <div class="grid cols-3" style="margin-top:26px">
+    <div class="card"><div class="ic">Core</div><h3>One shared engine</h3><p>A single routine every organ calls: expand candidates, score them against a fixed threshold, commit deliberately, cache by content. Improve it once, everywhere improves.</p></div>
+    <div class="card"><div class="ic">Conductor</div><h3>One control loop</h3><p>A single loop — explore, resolve, verify, build, remember — that invokes organs in order. Organs are called by the loop; they never run standalone.</p></div>
+    <div class="card"><div class="ic">Organs</div><h3>Composable capabilities</h3><p>Forward search, reinterpretation, synthesis, memory, and a not-taken index all register against the same core. Adding one is registration, not integration.</p></div>
+  </div>
+</div></section>
+
+<section id="how" class="anchor"><div class="wrap">
+  <span class="eyebrow">How it works</span>
+  <h2>Architecture</h2>
+  <p class="lead">A conductor runs one control loop; every phase of that loop calls the shared core; organs register against phases. Because all expansion, scoring, commitment, and caching live in the core, a change there propagates to every organ.</p>
+
+  <div class="diagram" style="margin-top:22px" id="arch"></div>
+
+  <h3 style="margin:34px 0 4px;font-size:1.15rem">The control loop</h3>
+  <div class="loop">
+    <div class="step"><span class="n">01</span><b>Explore</b><span>Expand candidate branches with a golden-angle offset for near-uniform, low-overlap coverage.</span></div>
+    <div class="step"><span class="n">02</span><b>Resolve</b><span>Score each candidate; a candidate holds at or above the threshold κ = 1/φ, otherwise it clashes.</span></div>
+    <div class="step"><span class="n">03</span><b>Verify</b><span>An author (an automated check or a person) commits one candidate. Nothing is selected implicitly.</span></div>
+    <div class="step"><span class="n">04</span><b>Build</b><span>The committed candidate is produced and cached by content, so identical inputs build once.</span></div>
+    <div class="step"><span class="n">05</span><b>Remember</b><span>The selection is recorded; every not-taken branch is written to the index for later retrieval.</span></div>
+  </div>
+
+  <h3 style="margin:38px 0 8px;font-size:1.15rem">Modules</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Module</th><th>Responsibility</th><th>Verification</th></tr></thead>
+    <tbody>
+      <tr><td><span class="mono">core.mjs</span></td><td>The shared engine: golden-offset expansion, the κ-gate, deliberate commitment, content-addressed cache.</td><td class="g">10/12, clean</td></tr>
+      <tr><td><span class="mono">didy.mjs</span></td><td>The conductor: the explore→resolve→verify→build→remember loop; organ registry; grounded commitment.</td><td class="g">17/17, clean</td></tr>
+      <tr><td><span class="mono">shadow.mjs</span></td><td>The not-taken index: content-addresses discarded branches, deduplicates across decisions, and ranks by recurrence.</td><td class="g">10/10, clean</td></tr>
+      <tr><td><span class="mono">wire.mjs</span></td><td>Adapters that register three existing engines as organs and route their discarded branches into the shared index.</td><td class="g">16/16, clean</td></tr>
+      <tr><td><span class="mono">depth.mjs</span></td><td>Search-depth control: bounds how far the conductor expands before it resolves (breadth vs. depth trade-off).</td><td class="g">8/8, clean</td></tr>
+    </tbody>
+  </table></div>
+  <p class="lead" style="margin-top:16px;font-size:.94rem">The conductor is generic and trainable: a fresh instance ships blank (<code class="mono">didy</code>) and is specialised by registering organs and signing it with an owner prefix, yielding a <code class="mono">&lt;prefix&gt;-didy</code>.</p>
+</div></section>
+
+<section id="demo" class="anchor"><div class="wrap">
+  <span class="eyebrow">See it run</span>
+  <h2>Interactive demo</h2>
+  <p class="lead">The engine, live in your browser — the same module the tests verify. Pick a search mode; the core expands candidates on the golden offset, scores them at the κ-gate (dashed ring), and holds the field open. Nothing commits until you author it. Re-run and watch the not-taken index surface the branches you keep passing over.</p>
+  <div class="modes" id="modes"></div>
+  <div class="demo">
+    <div class="dial"><svg id="svg" viewBox="0 0 300 300" aria-label="candidate field"></svg></div>
+    <div>
+      <p class="moveline" id="moveline"></p>
+      <div class="row">
+        <button class="btn" id="rerun">Re-run</button>
+        <button class="btn primary" id="author">Commit best candidate</button>
+        <button class="btn" id="reopen">Reset</button>
+      </div>
+      <p class="verdict open" id="verdict"></p>
+      <h4 class="sub" id="holdsH">Above threshold</h4>
+      <ul class="list" id="holds"></ul>
+      <h4 class="sub">Not taken · recorded to the index</h4>
+      <ul class="list" id="roads"></ul>
+      <h4 class="sub">Recurrence index <span id="shN" style="text-transform:none;letter-spacing:0;color:var(--faint)"></span></h4>
+      <ul class="list" id="shadow"></ul>
+    </div>
+  </div>
+</div></section>
+
+<section id="engineering" class="anchor"><div class="wrap">
+  <span class="eyebrow">Engineering</span>
+  <h2>Correctness is enforced, not asserted</h2>
+  <p class="lead">Every module is checked by a mutation-testing gate on each push: the gate systematically alters one operator at a time and requires the test suite to catch it. A passing assertion suite is necessary but not sufficient — the gate proves the tests actually constrain behaviour. Surviving mutants are either killed by a new test or recorded as reviewed equivalents with a written rationale.</p>
+  <div class="grid cols-3" style="margin-top:26px">
+    <div class="card"><div class="ic">Determinism</div><h3>Reproducible by construction</h3><p>No wall-clock, no randomness in the kernels. Identical inputs yield byte-identical results; content-addressed caching makes repeated work free.</p></div>
+    <div class="card"><div class="ic">Zero dependencies</div><h3>Auditable surface</h3><p>Pure ES modules, no build step, no runtime packages. The browser demo imports the same source the tests and CI verify.</p></div>
+    <div class="card"><div class="ic">Continuous verification</div><h3>Green on every push</h3><p>Assertion suites plus the mutation gate run in CI for all five modules. The published page and the gated logic are the same code.</p></div>
+  </div>
+  <div class="grid cols-2" style="margin-top:18px">
+    <div class="card"><div class="ic">Grounded commitment</div><h3>Nothing selected implicitly</h3><p>The conductor only builds a candidate an author commits, and only one at or above the threshold. Below threshold, the field stays open.</p></div>
+    <div class="card"><div class="ic">Total recall of alternatives</div><h3>The road not taken is kept</h3><p>Discarded candidates are content-addressed and indexed. A branch reconsidered across separate decisions accrues a recurrence count you can query.</p></div>
+  </div>
+</div></section>
+
+<section id="faq" class="anchor"><div class="wrap">
+  <span class="eyebrow">FAQ</span>
+  <h2>Frequently asked questions</h2>
+  <div style="margin-top:22px">
+    <details open><summary>What problem does fall-os solve?</summary><div class="body"><p>Tools that generate options, score them, commit to one, and cache the result each reimplement that machinery. Improvements then have to be repeated per tool, and behaviour drifts between them. fall-os centralises the machinery in one core and one control loop, so a single improvement applies everywhere and behaviour is consistent by construction.</p></div></details>
+    <details><summary>What is the “core,” and why does everything route through it?</summary><div class="body"><p>The core is one routine: expand candidates with a golden-angle offset, score them against the fixed threshold κ = 1/φ, commit one deliberately, and cache by content. Every organ and every phase of the control loop calls it. Centralising expansion, scoring, commitment, and caching is what makes an OS out of a toolkit — improve the core, and every organ improves at once.</p></div></details>
+    <details><summary>Why κ = 1/φ, and what does “holds vs. clashes” mean?</summary><div class="body"><p>Scores are normalised to [0, 1]. A candidate <em>holds</em> when its score is at least κ ≈ 0.618 and <em>clashes</em> otherwise. κ = 1/φ (the reciprocal of the golden ratio) is used as a single, consistent acceptance threshold across the system; the value is a project convention, and the mechanism — one shared threshold — is what matters.</p></div></details>
+    <details><summary>What is the golden-angle offset for?</summary><div class="body"><p>Candidate branches are generated at successive multiples of the golden angle (≈ 137.5°). This produces near-uniform, low-overlap coverage of the option space — successive candidates spread out rather than clustering near the obvious first choice, which matters when you want genuinely divergent alternatives.</p></div></details>
+    <details><summary>What is the “not-taken index”?</summary><div class="body"><p>Every candidate that is generated but not committed is content-addressed and stored. Because it is content-addressed, the same branch reconsidered across different decisions deduplicates and accrues a recurrence count. You can query what you nearly built, retrieve the alternatives of a given decision, or rank by recurrence to surface a direction you keep revisiting but never commit to.</p></div></details>
+    <details><summary>What does “search depth” control?</summary><div class="body"><p>Depth bounds how far the conductor expands before it resolves. Depth 1 is a single expansion; higher depth re-expands from the not-taken branches of each level, evaluating a larger, less-redundant region of the option space before a single commitment. A deeper search is a superset of a shallower one, so it never returns a worse result.</p></div></details>
+    <details><summary>Does it ever decide on its own?</summary><div class="body"><p>No. Commitment is always authored — by an automated verification step or by a person. The conductor expands and scores candidates and keeps the field open; it selects one only when an author commits, and only a candidate at or above the threshold.</p></div></details>
+    <details><summary>How is correctness verified?</summary><div class="body"><p>Each module has a deterministic assertion suite and is checked by a mutation-testing gate that alters one operator at a time and requires the suite to detect the change. Both run in continuous integration on every push. Surviving mutants are either killed with a new test or recorded as reviewed equivalents with a written rationale.</p></div></details>
+    <details><summary>What are the dependencies and runtime requirements?</summary><div class="body"><p>None at runtime. The modules are pure ES modules with no build step and no packages. The demo runs entirely in the browser and works offline as a PWA; the tests and CI run on Node.</p></div></details>
+    <details><summary>Can I extend it?</summary><div class="body"><p>Yes. Register a new organ against the core — supply how it expands candidates, how it scores them, and optionally how it commits — and the conductor calls it in the loop. Existing engines are adapted, not rewritten: an adapter routes their generated-and-discarded branches into the shared index. See <code class="mono">wire.mjs</code> for three worked examples.</p></div></details>
+  </div>
+</div></section>
+
+<section id="lineage" class="anchor"><div class="wrap">
+  <span class="eyebrow">Lineage</span>
+  <h2>Origins &amp; acknowledgements</h2>
+  <p class="lead">fall-os is one node in a longer line of work. Its architecture — a single shared engine, an authored control loop, and a content-addressed record of the alternatives — consolidates ideas developed across that lineage rather than inventing them wholesale.</p>
+  <div class="grid cols-3" style="margin-top:24px">
+    <div class="card"><div class="ic">Design line</div><h3>The assos line</h3><p>fall-os shares the governing principle of the <em>assos</em> line of sovereign systems: a system owns its own logic, runs self-contained and offline, and carries its own verification — no external service is required to trust it.</p></div>
+    <div class="card"><div class="ic">Foundational work</div><h3><a href="https://github.com/teslasolar" target="_blank" rel="noopener">Thomas Frumkin</a></h3><p>Co-originator of foundational work this line descends from — the <em>assos</em> systems, the Regulus engine, and a broad body of sovereign human–AI tooling (<span class="mono">github.com/teslasolar</span>).</p></div>
+    <div class="card"><div class="ic">Author &amp; maintainer</div><h3>The estate</h3><p>Designed, implemented, and maintained under <a href="https://github.com/sjgant80-hub" target="_blank" rel="noopener">sjgant80-hub</a>, with continuous mutation-tested verification on every change.</p></div>
+  </div>
+  <p class="lead" style="margin-top:16px;font-size:.92rem">The conductor itself encodes this lineage: a fresh instance ships unsigned as <code class="mono">didy</code>, and is specialised and signed by its owner into a <code class="mono">&lt;prefix&gt;-didy</code> — a named descendant on the line.</p>
+</div></section>
+
+<footer><div class="wrap">
+  <div class="cols">
+    <div>
+      <div class="brand" style="margin-bottom:8px"><span class="dot"></span>fall-os</div>
+      <div style="max-width:34ch">A deterministic decision-orchestration runtime. One core, one conductor, composable organs.</div>
+    </div>
+    <div>
+      <div style="font-weight:600;color:var(--ink);margin-bottom:8px">Project</div>
+      <div><a href="https://github.com/sjgant80-hub/fall-os" target="_blank" rel="noopener">Source (GitHub)</a></div>
+      <div><a href="#how">Architecture</a></div>
+      <div><a href="#engineering">Engineering</a></div>
+    </div>
+    <div>
+      <div style="font-weight:600;color:var(--ink);margin-bottom:8px">Modules</div>
+      <div class="mono" style="font-size:.84rem">core · didy · shadow<br>wire · depth</div>
+    </div>
+  </div>
+  <div style="margin-top:30px;padding-top:18px;border-top:1px solid var(--line);font-size:.82rem;color:var(--faint)">
+    Pure ES modules · zero runtime dependencies · mutation-tested in CI · the published demo imports the same source the tests verify.
+  </div>
+</div></footer>
 
 <script type="module">
 import { KAPPA, GOLDEN_DEG, organ } from './core.mjs?v=1';
 import { makeIndex, castShadow, recurring } from './shadow.mjs?v=1';
-const sIdx = makeIndex(); let runN = 0;   // the shadow-index catches every road-not-taken across your runs
 
-// three organs = the one move, differently injected (past / present / future / build-space)
-const ORGANS = {
-  future: {
-    label: 'The Oracle', sub: 'future · fork futures, never auto-collapse',
-    n: 9, generate: (i, t) => ({ label: 'future ' + (i + 1), t }), score: v => (v.t % 360) / 360, author: null,
-  },
-  past: {
-    label: 'Re-collapse', sub: 'past · re-read a fixed event, author one',
-    n: 7, generate: (i, t) => ({ label: 'reading ' + (i + 1), t }), score: v => ((v.t * 1.7) % 360) / 360, author: h => h[0] || null,
-  },
-  build: {
-    label: 'Generative estate', sub: 'build-space · collapse what verifies',
-    n: 8, generate: (i, t) => ({ label: 'impl ' + (i + 1), t }), score: v => (i => (i * 97 % 100) / 100)(Math.round(v.t)), author: h => h[0] || null,
-  },
+const MODES = {
+  forward:  { label:'Forward search',   sub:'divergent futures; commit none automatically', n:9, generate:(i,t)=>({label:'candidate '+(i+1),t}), score:v=>(v.t%360)/360 },
+  reinterp: { label:'Reinterpretation', sub:'re-readings of a fixed event',                 n:7, generate:(i,t)=>({label:'reading '+(i+1),t}), score:v=>((v.t*1.7)%360)/360 },
+  synth:    { label:'Synthesis',        sub:'candidate builds; commit what verifies',        n:8, generate:(i,t)=>({label:'implementation '+(i+1),t}), score:v=>(x=>(x*97%100)/100)(Math.round(v.t)) },
 };
-let current = 'future', field = null, authored = false;
+let current='forward', field=null, authored=false;
+const sIdx=makeIndex(); let runN=0;
+const $=id=>document.getElementById(id), NS='http://www.w3.org/2000/svg';
+const el=(t,a)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e;};
 
-const svg = document.getElementById('svg'), NS = 'http://www.w3.org/2000/svg';
-const el = (t, a) => { const e = document.createElementNS(NS, t); for (const k in a) e.setAttribute(k, a[k]); return e; };
-const $ = id => document.getElementById(id);
-
-function run() {
-  const o = ORGANS[current];
-  field = organ({ n: o.n, generate: o.generate, score: o.score, author: null }).run(current + ':' + (++runN));
-  authored = false;
-  castShadow(sIdx, field, current + '#' + runN);   // catch this run's roads-not-taken (each run = a distinct decision)
+function run(){
+  const m=MODES[current];
+  field=organ({n:m.n,generate:m.generate,score:m.score,author:null}).run(current+':'+(++runN));
+  authored=false;
+  castShadow(sIdx,field,current+'#'+runN);
   draw(); list(); shadowPanel();
-  $('moveLine').innerHTML = `move: fork(<span>${o.n}</span>, 137.5°) → hold(≥κ) → collapse(<span>authored</span>) · ${field.holds.length} hold / ${field.roads.length} shadow`;
-  $('verdict').className = 'verdict open';
-  $('verdict').textContent = o.author ? 'held open — press “author” to collapse the top-holding branch.' : 'held open — the Oracle never auto-collapses; author it yourself, or leave it open.';
+  $('moveline').innerHTML=`expand(<span style="color:var(--ink)">${m.n}</span>, 137.5°) → score(κ=0.618) → commit(authored) · ${field.holds.length} hold / ${field.roads.length} not-taken`;
+  $('verdict').className='verdict open';
+  $('verdict').textContent='Field open — no candidate is committed until you author one.';
 }
-function draw() {
-  svg.innerHTML = '';
-  const cx = 150, cy = 150, R = 120;
-  // κ ring
-  svg.appendChild(el('circle', { cx, cy, r: R * KAPPA, fill: 'none', stroke: 'var(--kappa)', 'stroke-width': 1.2, 'stroke-dasharray': '3 4' }));
-  svg.appendChild(el('circle', { cx, cy, r: R, fill: 'none', stroke: 'var(--line)', 'stroke-width': 1 }));
-  const kl = el('text', { x: cx + 3, y: cy - R * KAPPA - 3, fill: 'var(--kappa)', 'font-size': 9, 'font-family': 'var(--mono)' }); kl.textContent = 'κ'; svg.appendChild(kl);
-  const all = [...field.holds, ...field.roads];
-  for (const b of all) {
-    const ang = (b.theta - 90) * Math.PI / 180, rad = R * Math.min(1, b.score);
-    const x = cx + Math.cos(ang) * rad, y = cy + Math.sin(ang) * rad;
-    svg.appendChild(el('line', { x1: cx, y1: cy, x2: x, y2: y, stroke: b.holds ? 'var(--hold)' : 'var(--shadow)', 'stroke-width': b.holds ? 1.4 : .8, opacity: b.holds ? .8 : .4 }));
-    svg.appendChild(el('circle', { cx: x, cy: y, r: b.holds ? 6 : 4, fill: b.holds ? 'var(--hold)' : 'var(--panel)', stroke: b.holds ? 'var(--hold)' : 'var(--shadow)', 'stroke-width': 1.4, class: authored && field.chosen === b ? 'chosen' : '' }));
-    if (authored && field.chosen === b) svg.appendChild(el('circle', { cx: x, cy: y, r: 10, fill: 'none', stroke: 'var(--hold)', 'stroke-width': 1.6 }));
+function draw(){
+  const svg=$('svg'); svg.innerHTML='';
+  const cx=150,cy=150,R=120,cs=getComputedStyle(document.documentElement);
+  const c=n=>cs.getPropertyValue(n).trim();
+  svg.appendChild(el('circle',{cx,cy,r:R*KAPPA,fill:'none',stroke:c('--thr'),'stroke-width':1.1,'stroke-dasharray':'3 4'}));
+  svg.appendChild(el('circle',{cx,cy,r:R,fill:'none',stroke:c('--line'),'stroke-width':1}));
+  const kl=el('text',{x:cx+3,y:cy-R*KAPPA-3,fill:c('--thr'),'font-size':9,'font-family':'var(--mono)'});kl.textContent='κ';svg.appendChild(kl);
+  for(const b of [...field.holds,...field.roads]){
+    const ang=(b.theta-90)*Math.PI/180, rad=R*Math.min(1,b.score);
+    const x=cx+Math.cos(ang)*rad, y=cy+Math.sin(ang)*rad, isChosen=authored&&field.chosen===b;
+    svg.appendChild(el('line',{x1:cx,y1:cy,x2:x,y2:y,stroke:b.holds?c('--hold'):c('--faint'),'stroke-width':b.holds?1.4:.8,opacity:b.holds?.85:.4}));
+    svg.appendChild(el('circle',{cx:x,cy:y,r:b.holds?6:4,fill:b.holds?c('--hold'):c('--panel'),stroke:b.holds?c('--hold'):c('--faint'),'stroke-width':1.4}));
+    if(isChosen) svg.appendChild(el('circle',{cx:x,cy:y,r:10,fill:'none',stroke:c('--hold'),'stroke-width':1.6}));
   }
-  svg.appendChild(el('circle', { cx, cy, r: 3, fill: 'var(--muted)' }));
+  svg.appendChild(el('circle',{cx,cy,r:3,fill:c('--muted')}));
 }
-function list() {
-  const li = (b, cls) => `<li class="${cls}${authored && field.chosen === b ? ' chosen' : ''}"><span>${b.value.label}</span><span class="s">${b.score.toFixed(3)}${authored && field.chosen === b ? ' ◂ chosen' : ''}</span></li>`;
-  $('holds').innerHTML = field.holds.map(b => li(b, 'hold')).join('') || '<li class="road"><span>nothing holds</span><span class="s">field stays open</span></li>';
-  $('roads').innerHTML = field.roads.map(b => li(b, 'road')).join('') || '<li class="hold"><span>no roads not taken</span><span class="s">all held</span></li>';
-  $('holdsH').textContent = `holds (≥κ) · ${field.holds.length}`;
+function li(b,cls){return `<li class="${cls}"><span>${b.value.label}</span><span class="s">${b.score.toFixed(3)}${authored&&field.chosen===b?' · committed':''}</span></li>`;}
+function list(){
+  $('holds').innerHTML=field.holds.map(b=>li(b,'hold')).join('')||'<li class="road"><span>no candidate above threshold</span><span class="s">field stays open</span></li>';
+  $('roads').innerHTML=field.roads.map(b=>li(b,'road')).join('')||'<li class="hold"><span>none</span><span class="s"></span></li>';
+  $('holdsH').textContent=`Above threshold · ${field.holds.length}`;
 }
-function shadowPanel() {
-  const rec = recurring(sIdx, 2);
-  $('shN').textContent = `(${sIdx.shadows.size} roads caught over ${runN} runs)`;
-  $('shadow').innerHTML = rec.length
-    ? rec.slice(0, 5).map(e => `<li class="road"><span>${e.branch}</span><span class="s">circled ×${e.times_shadowed}</span></li>`).join('')
-    : `<li class="hold"><span>re-fork a few times — the roads you keep passing over will surface here as the next-build signal</span><span class="s"></span></li>`;
+function shadowPanel(){
+  const rec=recurring(sIdx,2);
+  $('shN').textContent=`(${sIdx.shadows.size} recorded over ${runN} runs)`;
+  $('shadow').innerHTML=rec.length?rec.slice(0,5).map(e=>`<li class="road"><span>${e.branch}</span><span class="s">×${e.times_shadowed}</span></li>`).join('')
+    :'<li class="hold"><span>re-run a few times — recurring not-taken candidates surface here</span><span class="s"></span></li>';
 }
-function author() {
-  if (!field.holds.length) { $('verdict').className = 'verdict open'; $('verdict').textContent = 'nothing holds — nothing to collapse. The field stays open (a bad collapse is never faked).'; return; }
-  field = { ...field, chosen: field.holds[0], decided: true }; authored = true;
-  draw(); list();
-  $('verdict').className = 'verdict decided';
-  $('verdict').textContent = `collapsed — you authored “${field.chosen.value.label}” (score ${field.chosen.score.toFixed(3)}). The roads not taken are kept.`;
+function author(){
+  if(!field.holds.length){$('verdict').className='verdict open';$('verdict').textContent='No candidate is above threshold — nothing is committed. The field stays open.';return;}
+  field={...field,chosen:field.holds[0],decided:true}; authored=true; draw(); list();
+  $('verdict').className='verdict decided';
+  $('verdict').textContent=`Committed “${field.chosen.value.label}” (score ${field.chosen.score.toFixed(3)}). Not-taken candidates are retained.`;
 }
+$('modes').innerHTML=Object.entries(MODES).map(([k,m])=>`<button data-k="${k}" aria-pressed="${k===current}"><b>${m.label}</b><small>${m.sub}</small></button>`).join('');
+$('modes').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;current=b.dataset.k;[...$('modes').children].forEach(x=>x.setAttribute('aria-pressed',x.dataset.k===current));run();});
+$('rerun').onclick=run; $('author').onclick=author; $('reopen').onclick=run;
+$('theme').onclick=()=>{const r=document.documentElement,cur=r.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');r.setAttribute('data-theme',cur==='dark'?'light':'dark');draw();};
 
-// organ buttons
-$('organs').innerHTML = Object.entries(ORGANS).map(([k, o]) =>
-  `<button data-k="${k}" aria-pressed="${k === current}"><b>${o.label}</b><small>${o.sub}</small></button>`).join('');
-$('organs').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; current = b.dataset.k; [...$('organs').children].forEach(c => c.setAttribute('aria-pressed', c.dataset.k === current)); run(); });
-$('refork').onclick = run; $('author').onclick = author; $('reopen').onclick = run;
-
-// theme toggle
-$('theme').onclick = () => { const r = document.documentElement, cur = r.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light'); r.setAttribute('data-theme', cur === 'dark' ? 'light' : 'dark'); };
+// architecture diagram (CSS variables so it re-themes automatically)
+(function(){
+  const box=(x,y,w,h,label,sub,strong)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="9" style="fill:var(${strong?'--panel':'--panel2'});stroke:var(--line)"/>`+
+    `<text x="${x+w/2}" y="${y+(sub?h/2-3:h/2+4)}" text-anchor="middle" font-size="13" font-weight="600" style="fill:var(--ink)" font-family="var(--sans)">${label}</text>`+
+    (sub?`<text x="${x+w/2}" y="${y+h/2+13}" text-anchor="middle" font-size="10" style="fill:var(--muted)" font-family="var(--mono)">${sub}</text>`:'');
+  const line=(x1,y1,x2,y2)=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" style="stroke:var(--line)" stroke-width="1.5"/>`;
+  const org=['forward','reinterpretation','synthesis','memory','not-taken index'];
+  let svg=`<svg viewBox="0 0 900 300" xmlns="http://www.w3.org/2000/svg" font-family="var(--sans)">`;
+  svg+=box(340,16,220,50,'Conductor','one control loop',1);
+  svg+=line(450,66,450,96);
+  svg+=box(250,96,400,58,'Shared core','expand · score(κ) · commit · cache',1);
+  for(let i=0;i<5;i++){const w=158,gap=14,total=5*w+4*gap,x0=(900-total)/2,x=x0+i*(w+gap);svg+=line(x+w/2,154,x+w/2,196);svg+=box(x,196,w,60,org[i],'organ');}
+  svg+=`</svg>`;
+  $('arch').innerHTML=svg;
+})();
 
 run();
-if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(() => {});
+if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
 </script>
