@@ -8,11 +8,6 @@
 
 ---
 
-
-**The sovereign edge-AI operating system. Your models, your machine, your estate.**
-
-**▶ Live site, full explainer & interactive demo → https://sjgant80-hub.github.io/fall-os/**
-
 You chat with a conductor. It runs on **your own models** — a local-first cascade that escalates to
 a frontier API only if you allow it — builds what you ask, wires it into the estate, and runs
 operations once you have trained it. Every agent carries a signed identity and a budget it cannot
@@ -65,8 +60,8 @@ Every request runs the same five phases, each implemented by the shared core:
 
 `explore → resolve → verify → build → remember`
 
-1. **Explore** — expand candidates at golden-angle offsets (≈137.5°) so options diverge rather than cluster.
-2. **Resolve** — score against one shared acceptance threshold (κ = 1/φ ≈ 0.618).
+1. **Explore** — expand candidates at golden-angle offsets so options diverge rather than cluster.
+2. **Resolve** — score against one shared acceptance threshold — the same bar in every organ.
 3. **Verify** — run proof. Nothing is selected implicitly; commitment is authored.
 4. **Build** — produce the committed result and cache by content (`run(S) == S`).
 5. **Remember** — record the decision and index every alternative not taken, with a recurrence count.
@@ -108,8 +103,7 @@ node test.mjs && node shadow.test.mjs && node wire.test.mjs && node didy.test.mj
 
 ## The ecosystem
 
-fall-os is the runtime beneath **1,548 repositories** (1,503 public, 45 private) — 50+ load-bearing
-organs across runtime & routing, the three tenses, memory & consolidation, deployed business
+fall-os is the runtime beneath **1,548 repositories** (1,503 public, 45 private) — 371 live builds and the load-bearing organs across runtime & routing, the three tenses, memory & consolidation, deployed business
 operations, agents/identity/economy, the trust rail, geometric & neuromorphic compute, mesh &
 transport & sensing, legal & consumer, and open-web agents. The live site maps them with links.
 
