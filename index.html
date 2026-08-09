@@ -1,7 +1,7 @@
 <meta charset="utf-8">
 <title>fall-os — the sovereign operating system for an AI-run estate</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="fall-os is a sovereign operating system for an AI-operated estate: one shared core, one conductor you direct in plain language, and 1,548 repositories of organs that route through them. Runs on your own models. Every agent bounded by a signed budget; every build proven by a mutation gate.">
+<meta name="description" content="fall-os is a sovereign operating system for an AI-operated estate: one shared core, one conductor you direct in plain language, and 1,621 repositories of organs that route through them. Runs on your own models. Every agent bounded by a signed budget; every build proven by a mutation gate.">
 <meta name="theme-color" content="#0b0e14">
 <link rel="manifest" href="./manifest.webmanifest">
 <style>
@@ -200,17 +200,17 @@
 <header class="hero"><div class="wrap">
   <span class="eyebrow">The sovereign operating system for an AI-run estate</span>
   <h1>fall-os</h1>
-  <p class="sub">One core. One conductor. An estate of 1,548 repositories that runs on hardware you own.</p>
-  <p class="lead">Every serious AI system today is rented: someone else's weights, someone else's datacenter, someone else's memory of your work. fall-os is the opposite bet, built to completion — a runtime where you direct a conductor in plain language, it runs on <strong>your own models</strong>, reasons over <strong>your own corpus</strong>, builds what you ask and proves it before it ships. Every agent carries a signed identity and a budget it cannot cross. Nothing leaves the machine unless you send it. This is not a prototype of that idea — it is an estate of 1,548 repositories already standing on it.</p>
+  <p class="sub">One core. One conductor. An estate of <span class="repoCount">1,548</span> repositories that runs on hardware you own.</p>
+  <p class="lead">Every serious AI system today is rented: someone else's weights, someone else's datacenter, someone else's memory of your work. fall-os is the opposite bet, built to completion — a runtime where you direct a conductor in plain language, it runs on <strong>your own models</strong>, reasons over <strong>your own corpus</strong>, builds what you ask and proves it before it ships. Every agent carries a signed identity and a budget it cannot cross. Nothing leaves the machine unless you send it. This is not a prototype of that idea — it is an estate of <span class="repoCount">1,548</span> repositories already standing on it.</p>
   <div class="cta">
-    <a class="btn primary" href="#how">How it works</a>
+    <a class="btn primary" href="#door">Use it now →</a>
     <a class="btn" href="#ecosystem">Explore the estate</a>
-    <a class="btn" href="#demo">Run the engine</a>
+    <a class="btn" href="#how">How it works</a>
     <a class="btn" href="https://www.ai-nativesolutions.com/fall-os-deck.pdf" download>↓ Deck (PDF)</a>
     <a class="btn" href="https://www.ai-nativesolutions.com/fall-os-prospectus.pdf" download>↓ Prospectus (PDF)</a>
   </div>
   <div class="badges">
-    <span class="badge"><b>1,548</b> repositories in the estate</span>
+    <span class="badge"><b><span class="repoCount">1,548</span></b> repositories in the estate</span>
     <span class="badge"><b>6</b>-tier local-first model cascade</span>
     <span class="badge"><b>90/10</b> machine / human operating split</span>
     <span class="badge"><b>5</b> runtime modules, mutation-tested</span>
@@ -218,6 +218,187 @@
     <span class="badge">offline · zero-dependency</span>
   </div>
 </div></header>
+<style>
+  /* THE DOOR — the working part of the page. Uses the existing tokens so it reads as one site. */
+  #door{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:linear-gradient(180deg,var(--panel),var(--bg))}
+  #door .wrap{padding:34px 22px 40px}
+  .door-top{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;margin-bottom:22px}
+  .door-top h2{margin:0;font-size:1.42rem;letter-spacing:-.02em}
+  .door-top p{margin:4px 0 0;color:var(--muted);max-width:62ch}
+  .sov{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .pill{font:600 .74rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;padding:7px 10px;border-radius:999px;border:1px solid var(--line);background:var(--panel);color:var(--muted)}
+  .pill.off{border-color:var(--hot);color:var(--hot)}
+  #netCount{font-weight:700;color:var(--ok)}
+  #netCount.hot{color:var(--hot)}
+  .btn-cut{font:600 .8rem/1 inherit;padding:9px 13px;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--ink);cursor:pointer}
+  .btn-cut:hover{border-color:var(--accent)}
+  #netBanner{margin:0 0 20px;padding:11px 14px;border-radius:10px;border:1px solid var(--ok);background:color-mix(in srgb,var(--ok) 9%,transparent);color:var(--ink);font-size:.9rem}
+  .door-grid{display:grid;grid-template-columns:1.35fr .85fr;gap:22px;align-items:start}
+  @media(max-width:900px){.door-grid{grid-template-columns:1fr}}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:20px}
+  .card h3{margin:0 0 4px;font-size:1.05rem}
+  .card .hint{margin:0 0 14px;color:var(--muted);font-size:.88rem}
+  #ask{width:100%;box-sizing:border-box;min-height:82px;resize:vertical;padding:12px 13px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:.95rem;line-height:1.5}
+  #ask:focus{outline:2px solid var(--accent);outline-offset:1px}
+  .ask-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:11px}
+  .btn-run{font:700 .92rem/1 inherit;padding:12px 20px;border-radius:10px;border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);cursor:pointer}
+  .btn-run:hover{filter:brightness(1.08)}
+  .ask-row label{color:var(--muted);font-size:.84rem}
+  #branches{padding:8px 9px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:.84rem}
+  .examples{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}
+  .examples button{font:500 .78rem/1.3 inherit;text-align:left;padding:7px 10px;border-radius:8px;border:1px dashed var(--line);background:transparent;color:var(--muted);cursor:pointer}
+  .examples button:hover{border-color:var(--accent);color:var(--ink)}
+  .phases{display:flex;gap:6px;flex-wrap:wrap;margin:18px 0 12px}
+  .phase{font:700 .66rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.09em;padding:8px 10px;border-radius:7px;border:1px solid var(--line);color:var(--faint);background:var(--bg);transition:all .22s}
+  .phase.on{color:var(--accent);border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,transparent)}
+  .chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+  .chip{font-size:.76rem;padding:5px 9px;border-radius:999px;border:1px solid var(--line);background:var(--bg);color:var(--muted)}
+  .chip b{color:var(--ink);font-weight:600}
+  .chip i{font-style:normal;color:var(--faint);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.72rem}
+  .chip.none{border-style:dashed}
+  #verdict{margin:0 0 16px;padding:11px 13px;border-radius:9px;background:var(--code-bg);color:var(--muted);font-size:.88rem;line-height:1.55}
+  .fan-wrap{display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin-bottom:18px}
+  #fan{flex:0 0 260px}
+  .fan-ring{fill:none;stroke:var(--line);stroke-width:1}
+  .fan-gate{fill:none;stroke:var(--accent);stroke-width:1;stroke-dasharray:3 4;opacity:.75}
+  .fan-line{stroke:var(--line);stroke-width:1.4}
+  .fan-line.holds{stroke:var(--accent);opacity:.55}
+  .fan-dot{fill:var(--faint)}
+  .fan-dot.holds{fill:var(--accent)}
+  .fan-dot.chosen{fill:var(--ok);stroke:var(--panel);stroke-width:2}
+  #goldenNote{color:var(--faint);font:500 .74rem/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;flex:1;min-width:150px}
+  .lists h4{margin:20px 0 9px;font-size:.82rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+  .stance{border:1px solid var(--line);border-radius:10px;padding:13px 14px;margin-bottom:9px;background:var(--bg)}
+  .stance.road{opacity:.72;border-style:dashed}
+  .stance.committed{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 7%,transparent)}
+  .stance-head{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+  .stance-name{font-weight:650;font-size:.95rem}
+  .stance-score{font:700 .8rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--muted)}
+  .stance-move{margin:5px 0 10px;color:var(--muted);font-size:.87rem;line-height:1.5}
+  .bar{position:relative;height:6px;border-radius:3px;background:var(--line);overflow:visible}
+  .bar-fill{height:100%;border-radius:3px;background:var(--faint)}
+  .bar-fill.holds{background:var(--accent)}
+  .bar-gate{position:absolute;top:-3px;width:2px;height:12px;background:var(--hot);opacity:.8}
+  .why{display:flex;gap:12px;flex-wrap:wrap;margin-top:9px;font-size:.75rem}
+  .why .up{color:var(--ok)}.why .down{color:var(--hot)}.why .flat{color:var(--faint)}
+  .commit{margin-top:11px;font:600 .8rem/1 inherit;padding:9px 14px;border-radius:8px;border:1px solid var(--accent);background:transparent;color:var(--accent);cursor:pointer}
+  .commit:hover{background:var(--accent);color:var(--accent-ink)}
+  .committed-tag{margin-top:10px;font-size:.78rem;color:var(--ok);font-weight:600}
+  .side h3{margin:0 0 4px;font-size:1.05rem}
+  .btn-tool{display:block;width:100%;box-sizing:border-box;text-align:left;font:700 1rem/1.35 inherit;padding:16px 18px;border-radius:12px;border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);cursor:pointer;margin-bottom:8px}
+  .btn-tool:hover{filter:brightness(1.08)}
+  .btn-tool small{display:block;font-weight:400;font-size:.8rem;opacity:.88;margin-top:4px}
+  #toolReady{font:500 .76rem/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--faint)}
+  .mem ul{margin:0;padding-left:17px;font-size:.85rem;line-height:1.65}
+  .mem li b{font-weight:600}
+  .muted-li{color:var(--faint)}
+  #tags{width:100%;box-sizing:border-box;min-height:132px;padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:.85rem/1.6 ui-monospace,SFMono-Regular,Menlo,monospace}
+  .tool-head{font-size:1rem;margin-bottom:6px}
+  .tool-split{margin:0 0 14px;font-size:.83rem;color:var(--muted)}
+  .tool-gaps h5,.tool-by h5{margin:14px 0 7px;font-size:.83rem;color:var(--ink)}
+  .tool-gaps ul,.tool-by ul{margin:0;padding-left:17px;font-size:.85rem;line-height:1.7}
+  .tool-gaps code,.tool-by code{background:var(--code-bg);padding:1px 5px;border-radius:4px;font-size:.82rem}
+  .tool-clean{color:var(--ok);font-size:.88rem}
+  .honest{margin:16px 0 0;padding:12px 14px;border-left:3px solid var(--warn);background:var(--code-bg);color:var(--muted);font-size:.83rem;line-height:1.6}
+  .honest b{color:var(--ink)}
+</style>
+
+<section id="door"><div class="wrap">
+
+  <div class="door-top">
+    <div>
+      <h2>Use it right now — nothing to install, nothing to sign up for</h2>
+      <p>Everything below runs inside this tab, on your own input. No account, no key, no upload. Cut the network and it keeps working.</p>
+    </div>
+    <div class="sov">
+      <span class="pill" id="netPill">Network: on</span>
+      <span class="pill">calls to any other server: <span id="netCount">0</span></span><span class="pill">this page&rsquo;s own files: <span id="assetCount">0</span></span>
+      <button class="btn-cut" id="netToggle" type="button">Cut the network</button>
+    </div>
+  </div>
+
+  <p id="netBanner" hidden>✓ <b>You are offline.</b> The conductor and the tool below are still running — every request from here on is blocked and counted. Nothing broke, because there was never anything to call.</p>
+
+  <div class="door-grid">
+
+    <div class="card">
+      <h3>Talk to the conductor</h3>
+      <p class="hint">Type a real decision you are facing. The conductor runs its five phases over the shared core and hands you a scored field — <b>it commits nothing until you author it.</b></p>
+
+      <textarea id="ask" placeholder="e.g. Should we migrate the whole booking system to a new provider before the season starts?"></textarea>
+      <div class="ask-row">
+        <button class="btn-run" id="runAsk" type="button">Run the conductor →</button>
+        <label for="branches">branches</label>
+        <select id="branches">
+          <option>4</option><option selected>6</option><option>8</option><option>10</option>
+        </select>
+      </div>
+      <div class="examples">
+        <button type="button" data-example="Should we migrate the whole production database to a new provider this Friday? It affects every customer and there is legal risk if it fails.">an irreversible migration, under deadline</button>
+        <button type="button" data-example="Thinking of trying a quick prototype of the new pricing page — easy to undo if it flops.">a cheap reversible experiment</button>
+        <button type="button" data-example="Not sure whether to rebuild our legacy scheduling tool or buy something. The team is small and the budget is tight.">build or buy, genuinely unsure</button>
+      </div>
+
+      <div class="phases">
+        <span class="phase" id="ph-EXPLORE">EXPLORE</span>
+        <span class="phase" id="ph-RESOLVE">RESOLVE</span>
+        <span class="phase" id="ph-VERIFY">VERIFY</span>
+        <span class="phase" id="ph-BUILD">BUILD</span>
+        <span class="phase" id="ph-REMEMBER">REMEMBER</span>
+      </div>
+
+      <div id="result" hidden>
+        <div class="chips" id="evidence"></div>
+        <p id="verdict"></p>
+        <div class="fan-wrap">
+          <svg id="fan" viewBox="0 0 260 260" width="260" height="260" aria-label="candidate branches fanned at the golden angle; distance from the centre is the score"></svg>
+          <span id="goldenNote"></span>
+        </div>
+        <div class="lists">
+          <h4>Cleared the gate — <span id="holdsCount">0</span></h4>
+          <p id="buildNote" class="hint" hidden>Nothing is built until you choose. Commit one and BUILD + REMEMBER will run.</p>
+          <p id="emptyNote" class="hint" hidden>Nothing cleared the gate on this one. That is a real answer, not a failure — the roads below were all kept.</p>
+          <div id="holdsList"></div>
+          <h4>Roads not taken — <span id="roadsCount">0</span> (kept, not discarded)</h4>
+          <div id="roadsList"></div>
+        </div>
+      </div>
+
+      <p class="honest"><b>What this is, honestly.</b> With no model loaded, the conductor does not read your sentence — it finds signals it can name, and scores a fixed taxonomy of stances against them. Every score shows the cue word that produced it, and when it finds nothing it says so. That is tier 0 of the cascade: no key, no download, no network. Point it at your own model host or key and the higher tiers phrase these stances against your specific decision — <b>the field, the gate and the shadow are this same code either way.</b></p>
+    </div>
+
+    <div class="side">
+      <div class="card">
+        <h3>Open a real tool</h3>
+        <p class="hint">Not a demo of a tool — the tool, running on your own data.</p>
+        <button class="btn-tool" id="openTool" type="button">Open the tag scanner →<small>Paste industrial tag names, get back which map to ISA-95/88, OPC-UA, Sparkplug — and exactly which do not.</small></button>
+        <p id="toolReady">loading standards…</p>
+      </div>
+
+      <div class="card mem" style="margin-top:18px">
+        <h3>What it remembered</h3>
+        <p class="hint">Authored builds, and the roads you did not take.</p>
+        <h4 style="margin:12px 0 7px;font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)">Built</h4>
+        <ul id="memList"></ul>
+        <h4 style="margin:16px 0 7px;font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)">Shadow index — <span id="shadowCount">0</span> held open</h4>
+        <ul id="recurList"></ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" id="toolPanel" hidden style="margin-top:22px">
+    <h3>Tag conformance scanner</h3>
+    <p class="hint">Paste tag names, one per line. Everything happens in this tab — nothing is uploaded, and it works with the network cut. <b>Unmapped tags are named, never just counted</b> — the list of what does not map is the part worth having.</p>
+    <textarea id="tags" placeholder="Line3_ProcessCell_Temp&#10;Unit_Filler_State&#10;OEE&#10;PLC_SCRATCH_7"></textarea>
+    <div class="ask-row">
+      <button class="btn-run" id="scanTags" type="button">Scan the tags →</button>
+      <button class="btn-cut" id="sampleTags" type="button">Use a sample plant list</button>
+    </div>
+    <div id="toolOut" style="margin-top:18px"></div>
+  </div>
+
+</div></section>
+
 
 <section id="what" class="anchor"><div class="wrap">
   <span class="eyebrow">What it is</span>
@@ -226,7 +407,7 @@
   <div class="grid c3" style="margin-top:28px">
     <div class="card"><span class="ic">The interface</span><h3>A conductor you chat with</h3><p>One conversational surface over the whole estate. It plans, expands options, calls organs, writes code, and reports back. Frontier-model quality is an option you can switch on — not a dependency you are locked into.</p></div>
     <div class="card"><span class="ic">The substrate</span><h3>Your models, cascaded</h3><p>Six tiers, local first: built-in heuristics, in-browser models, your own Ollama host (e.g. Qwen 14B), then optional free and frontier APIs under your own key. Each request lands on the cheapest tier that can answer it.</p></div>
-    <div class="card"><span class="ic">The estate</span><h3>1,548 repositories, one field</h3><p>Everything built is addressable as a single retrieval corpus — the estate is both the product and the context the conductor reasons over. Nothing about your work is uploaded to train someone else's model.</p></div>
+    <div class="card"><span class="ic">The estate</span><h3><span class="repoCount">1,548</span> repositories, one field</h3><p>Everything built is addressable as a single retrieval corpus — the estate is both the product and the context the conductor reasons over. Nothing about your work is uploaded to train someone else's model.</p></div>
   </div>
   <blockquote class="quote">Compression beats scale. You do not need their datacenter — you need the right compression and hardware you already own.
     <span>The design thesis: an operating system that owns its own intelligence, rather than a client for someone else's cloud.</span></blockquote>
@@ -351,7 +532,7 @@
       </div>
     </div>
   </div>
-  <p class="lead" style="margin-top:20px;font-size:.9rem">The organs above are the load-bearing ones, not the full set — the estate spans 1,548 repositories. A green marker denotes a live hosted build; a grey marker, a source repository.</p>
+  <p class="lead" style="margin-top:20px;font-size:.9rem">The organs above are the load-bearing ones, not the full set — the estate spans <span class="repoCount">1,548</span> repositories. A green marker denotes a live hosted build; a grey marker, a source repository.</p>
 </div></section>
 
 <section id="demo" class="anchor"><div class="wrap">
@@ -394,7 +575,7 @@
   <span class="eyebrow">FAQ</span>
   <h2>Frequently asked questions</h2>
   <div style="margin-top:22px">
-    <details open><summary>What is fall-os, in one paragraph?</summary><div class="body"><p>A sovereign operating system for an AI-run estate. You direct a conductor in plain language; it runs on your own models through a local-first cascade (escalating to a frontier API only if you allow it), builds and verifies software, and operates trained organs across an estate of 1,548 repositories. Every agent has a signed identity and a hard budget; every build must pass a mutation gate. It runs offline on hardware you already own.</p></div></details>
+    <details open><summary>What is fall-os, in one paragraph?</summary><div class="body"><p>A sovereign operating system for an AI-run estate. You direct a conductor in plain language; it runs on your own models through a local-first cascade (escalating to a frontier API only if you allow it), builds and verifies software, and operates trained organs across an estate of <span class="repoCount">1,548</span> repositories. Every agent has a signed identity and a hard budget; every build must pass a mutation gate. It runs offline on hardware you already own.</p></div></details>
     <details><summary>How is this different from using a cloud AI assistant?</summary><div class="body"><p>Three structural differences. <strong>Location:</strong> inference defaults to your machine, and external calls are opt-in under your own key — there is no intermediary service. <strong>Memory:</strong> your estate is the context, indexed and owned locally, rather than a vendor-held history. <strong>Verification:</strong> generated code passes a deterministic mutation gate before it counts as working, instead of being trusted because it looks plausible.</p></div></details>
     <details><summary>Do I need a GPU or a datacenter?</summary><div class="body"><p>No. The design thesis is that compression and orchestration beat raw scale: the lowest tiers are deterministic logic and a small in-browser model, which need no dedicated hardware at all. A mid-size local model (for example Qwen 14B via Ollama) raises quality substantially on ordinary hardware, and frontier capability remains available on demand without ever becoming a dependency.</p></div></details>
     <details><summary>What is the model cascade, exactly?</summary><div class="body"><p>Six tiers, cheapest-capable first: built-in deterministic logic; an in-browser model; your local Ollama host; larger local weights where hardware allows; optional free-tier APIs; and optional frontier models. Keys are yours and hit your provider directly. Routing between local and frontier by task, quality and cost is a live component of the estate rather than a plan.</p></div></details>
@@ -434,8 +615,8 @@
 </div></footer>
 
 <script type="module">
-import { KAPPA, GOLDEN_DEG, organ } from './core.mjs?v=1';
-import { makeIndex, castShadow, recurring } from './shadow.mjs?v=1';
+import { KAPPA, GOLDEN_DEG, organ } from './core.mjs';
+import { makeIndex, castShadow, recurring } from './shadow.mjs';
 
 const MODES={
   forward:{label:'Forward search',sub:'divergent options; commit none automatically',n:9,generate:(i,t)=>({label:'candidate '+(i+1),t}),score:v=>(v.t%360)/360},
@@ -542,3 +723,5 @@ $('theme').onclick=()=>{const r=document.documentElement,cur=r.getAttribute('dat
 run();
 if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
 </script>
+
+<script type="module" src="./door.mjs?v=5"></script>

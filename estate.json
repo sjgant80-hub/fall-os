@@ -1,10 +1,10 @@
 {
   "generated_from": "estate-index.json",
   "totals": {
-    "repositories": 1548,
-    "public": 1503,
-    "private": 45,
-    "live_verified": 371
+    "repositories": 1621,
+    "public": 1584,
+    "private": 37,
+    "live_verified": 390
   },
   "faculties": [
     {
@@ -23,10 +23,28 @@
           "url": "https://sjgant80-hub.github.io/adshop/"
         },
         {
+          "name": "ai-nativesolutions",
+          "desc": "AI Native Solutions — sovereign AI-native estate. fall-os operating system · pitch deck + prospectus (PDF downloads) · 1,548 repos · 371 live builds",
+          "faculty": "Runtime, conductor & routing",
+          "url": "https://sjgant80-hub.github.io/ai-nativesolutions/"
+        },
+        {
+          "name": "aicraftspeopleguild.github.io-1",
+          "desc": "AI Craftspeople Guild",
+          "faculty": "Runtime, conductor & routing",
+          "url": "https://sjgant80-hub.github.io/aicraftspeopleguild.github.io-1/"
+        },
+        {
           "name": "barberhq",
           "desc": "The multi-location chain showroom for FallHub. Sovereign AI-first OS for barbershop chains + adjacent chains. MIT.",
           "faculty": "Runtime, conductor & routing",
           "url": "https://sjgant80-hub.github.io/barberhq/"
+        },
+        {
+          "name": "didy",
+          "desc": "Didy — the trainable conductor of fall-os. One control loop over your own models, local-first: a request can never reach a tier you have not allowed. Mutation-gated.",
+          "faculty": "Runtime, conductor & routing",
+          "url": "https://sjgant80-hub.github.io/didy/"
         },
         {
           "name": "fall-mcp-bridge",
@@ -36,13 +54,13 @@
         },
         {
           "name": "fall-os",
-          "desc": "",
+          "desc": "fall-os — the sovereign operating system for an AI-run estate. One core, one conductor, 371 live organs. Deck + prospectus PDFs. Mutation-gated in CI.",
           "faculty": "Runtime, conductor & routing",
           "url": "https://sjgant80-hub.github.io/fall-os/"
         },
         {
           "name": "fall-remember",
-          "desc": "",
+          "desc": "Content-addressed memory in twelve chambers: sign by content, route to a chamber, traverse typed edges between them. Balanced placement by golden-angle addressing. Zero dependencies.",
           "faculty": "Runtime, conductor & routing",
           "url": "https://sjgant80-hub.github.io/fall-remember/"
         },
@@ -132,31 +150,31 @@
         },
         {
           "name": "si-didy-cascade",
-          "desc": "PRIVATE · L1 upgrade · routes si-didy Claude calls through T0/T2/T3 cascade + mesh cache-first · 60-80% token cut",
+          "desc": "L1 upgrade · routes si-didy Claude calls through T0/T2/T3 cascade + mesh cache-first · 60-80% token cut",
           "faculty": "Runtime, conductor & routing",
           "url": "https://sjgant80-hub.github.io/si-didy-cascade/"
         },
         {
           "name": "si-didy-close",
-          "desc": "PRIVATE · L1 upgrade · wires fallresolve into si-didy session close · Ed25519 signed audit chain per session · CID-anchored in FallPod",
+          "desc": "L1 upgrade · wires fallresolve into si-didy session close · Ed25519 signed audit chain per session · CID-anchored in FallPod",
           "faculty": "Runtime, conductor & routing",
           "url": "https://sjgant80-hub.github.io/si-didy-close/"
         },
         {
           "name": "si-didy-memory",
-          "desc": "PRIVATE · L1 upgrade · warm si-didy from fallmind-v2 cube on boot · 16-dim FemtoLLM cosine NN · multi-day context continuity",
+          "desc": "L1 upgrade · warm si-didy from fallmind-v2 cube on boot · 16-dim FemtoLLM cosine NN · multi-day context continuity",
           "faculty": "Runtime, conductor & routing",
           "url": "https://sjgant80-hub.github.io/si-didy-memory/"
         },
         {
           "name": "si-didy-signer",
-          "desc": "PRIVATE · L1 upgrade · Konomi Ed25519 signs every outbound Claude call · defeats OAuth-token theft",
+          "desc": "L1 upgrade · Konomi Ed25519 signs every outbound Claude call · defeats OAuth-token theft",
           "faculty": "Runtime, conductor & routing",
           "url": "https://sjgant80-hub.github.io/si-didy-signer/"
         },
         {
           "name": "si-didy-stance",
-          "desc": "PRIVATE · L1 upgrade · mesh_stance toggle widget for si-didy · private/selective/public with live peer visibility preview",
+          "desc": "L1 upgrade · mesh_stance toggle widget for si-didy · private/selective/public with live peer visibility preview",
           "faculty": "Runtime, conductor & routing",
           "url": "https://sjgant80-hub.github.io/si-didy-stance/"
         },
@@ -221,31 +239,31 @@
         },
         {
           "name": "generative-estate",
-          "desc": "",
+          "desc": "A repository of possibilities rather than code: specs collapse into real code on demand, are verified before they stand, and are built once by content address. A bad collapse is discarded and stays a possibility.",
           "faculty": "Reasoning — past, present, future",
           "url": "https://sjgant80-hub.github.io/generative-estate/"
         },
         {
           "name": "missig",
-          "desc": "",
+          "desc": "Records the changes that did NOT get made — content-addressed, with the reason why — so a system can learn from its own rejected options.",
           "faculty": "Reasoning — past, present, future",
           "url": "https://sjgant80-hub.github.io/missig/"
         },
         {
           "name": "oracleengine",
-          "desc": "",
+          "desc": "A Bayesian watcher for the present: tracks the pattern as it happens and updates its beliefs as evidence arrives.",
           "faculty": "Reasoning — past, present, future",
           "url": "https://sjgant80-hub.github.io/oracleengine/"
         },
         {
           "name": "recollapse",
-          "desc": "",
+          "desc": "A reframing practice built as a persistent tool: the event is fixed, the stored meaning is re-choosable. Anchored in memory reconsolidation. Not a substitute for real care.",
           "faculty": "Reasoning — past, present, future",
           "url": "https://sjgant80-hub.github.io/recollapse/"
         },
         {
           "name": "seedmind",
-          "desc": "",
+          "desc": "A knowledge organism in one file: holds a life, proposes its own links overnight, and can seed a living child.",
           "faculty": "Reasoning — past, present, future",
           "url": "https://sjgant80-hub.github.io/seedmind/"
         },
@@ -263,13 +281,13 @@
         },
         {
           "name": "the-dreamer",
-          "desc": "",
+          "desc": "An overnight consolidation cycle for any local model: merge, type, close transitively, generalise, resolve by evidence, prune. Answers better each morning with the weights unchanged.",
           "faculty": "Reasoning — past, present, future",
           "url": "https://sjgant80-hub.github.io/the-dreamer/"
         },
         {
           "name": "the-oracle",
-          "desc": "",
+          "desc": "A branch-holder, not a predictor: forks divergent futures at a golden offset so they spread instead of clustering on the obvious, holds them open, and keeps the roads not taken. Never collapses on its own.",
           "faculty": "Reasoning — past, present, future",
           "url": "https://sjgant80-hub.github.io/the-oracle/"
         }
@@ -327,10 +345,34 @@
           "url": "https://sjgant80-hub.github.io/honestly/"
         },
         {
+          "name": "konomium-vault",
+          "desc": "Encrypted accounting foundation: AES-GCM vault, bank ingest, sync and Making Tax Digital submission. 79 tests.",
+          "faculty": "Memory & consolidation",
+          "url": "https://sjgant80-hub.github.io/konomium-vault/"
+        },
+        {
           "name": "redress-engine",
           "desc": "A legal-process navigator for everyone — plain-English rights, the REAL statutory lever per scenario, calm cited letters, deadlines, honest routing to free human help. Accuracy-gated. Not legal advice.",
           "faculty": "Memory & consolidation",
           "url": "https://sjgant80-hub.github.io/redress-engine/"
+        },
+        {
+          "name": "the-cam",
+          "desc": "Golden-angle content-addressable memory: equal-area cells give balanced buckets, CV 0.25 against 0.53 for a grid. Honest about the limit — not O(1).",
+          "faculty": "Memory & consolidation",
+          "url": "https://sjgant80-hub.github.io/the-cam/"
+        },
+        {
+          "name": "the-spike",
+          "desc": "A spiking neural network with leaky integrate-and-fire neurons and STDP: learns temporal patterns from 0 to 100% by coincidence detection. Honest about it — a simulator.",
+          "faculty": "Memory & consolidation",
+          "url": "https://sjgant80-hub.github.io/the-spike/"
+        },
+        {
+          "name": "wishwood-keeper",
+          "desc": "Phone-first, offline, no-login housekeeping board for an off-grid site: jobs, per-camp turnover checklists and supply logs. A low supply reading automatically raises an urgent reorder job. Local per device — backup-shared, not live sync.",
+          "faculty": "Memory & consolidation",
+          "url": "https://sjgant80-hub.github.io/wishwood-keeper/"
         }
       ]
     },
@@ -345,7 +387,7 @@
         },
         {
           "name": "earned",
-          "desc": "",
+          "desc": "Proof-of-work hiring: you cannot claim a skill, only demonstrate it. A self-graded lie dies on re-grade, because the artifact is pinned and the grader is canonical. Skills are derived, never asserted.",
           "faculty": "Trust rail & verification",
           "url": "https://sjgant80-hub.github.io/earned/"
         },
@@ -416,7 +458,7 @@
         },
         {
           "name": "agora",
-          "desc": "",
+          "desc": "A personal sovereign economy: Ed25519 agents earn only by verified work and pay each other with signed transfers on a hash-chained, conserved ledger. Runs on your own machine — not money, not a coin, no consensus.",
           "faculty": "Identity, agents & economy",
           "url": "https://sjgant80-hub.github.io/agora/"
         },
@@ -535,6 +577,12 @@
           "url": "https://sjgant80-hub.github.io/kcc-runner/"
         },
         {
+          "name": "konomi-redteam",
+          "desc": "A red-team taxonomy classified by the property exploited, a collapse corpus recorded as signatures rather than payloads, and a gate on the suite itself.",
+          "faculty": "Identity, agents & economy",
+          "url": "https://sjgant80-hub.github.io/konomi-redteam/"
+        },
+        {
           "name": "roost",
           "desc": "Sovereign stays-as-commons marketplace · cooperative · zero booking fees · built on open stays-protocol · the Airbnb alternative",
           "faculty": "Identity, agents & economy",
@@ -542,7 +590,7 @@
         },
         {
           "name": "the-wallet",
-          "desc": "",
+          "desc": "A sovereign agent wallet: an Ed25519 identity that is a capability plus a budget it cannot cross, with fork lineage. Runaway spend becomes impossible by construction rather than by policy.",
           "faculty": "Identity, agents & economy",
           "url": "https://sjgant80-hub.github.io/the-wallet/"
         }
@@ -553,7 +601,7 @@
       "items": [
         {
           "name": "attractor",
-          "desc": "",
+          "desc": "Liveness detection for running systems: classifies a signal as flatlined, held in an attractor, or escaped. Deterministic, zero dependencies.",
           "faculty": "Geometric & neuromorphic",
           "url": "https://sjgant80-hub.github.io/attractor/"
         },
@@ -577,7 +625,7 @@
         },
         {
           "name": "fallherd",
-          "desc": "",
+          "desc": "Load-balancer-free request routing by golden-angle placement: even distribution with no coordinator and no thundering herd.",
           "faculty": "Geometric & neuromorphic",
           "url": "https://sjgant80-hub.github.io/fallherd/"
         },
@@ -589,7 +637,7 @@
         },
         {
           "name": "golden-placer",
-          "desc": "",
+          "desc": "Collision-free placement by golden angle — provably never clusters, for any n. Consistent hashing without virtual nodes, 351x faster than modulo hashing, 12x better minimum distance in 2D.",
           "faculty": "Geometric & neuromorphic",
           "url": "https://sjgant80-hub.github.io/golden-placer/"
         },
@@ -618,22 +666,10 @@
           "url": "https://sjgant80-hub.github.io/quine-cube-runner/"
         },
         {
-          "name": "the-cam",
-          "desc": "",
-          "faculty": "Geometric & neuromorphic",
-          "url": "https://sjgant80-hub.github.io/the-cam/"
-        },
-        {
           "name": "the-rotor",
-          "desc": "",
+          "desc": "Geometric algebra in Cl(3,0): rotations by rotors, no gimbal lock, and the cross product falls out of the bivector.",
           "faculty": "Geometric & neuromorphic",
           "url": "https://sjgant80-hub.github.io/the-rotor/"
-        },
-        {
-          "name": "the-spike",
-          "desc": "",
-          "faculty": "Geometric & neuromorphic",
-          "url": "https://sjgant80-hub.github.io/the-spike/"
         }
       ]
     },
@@ -642,7 +678,7 @@
       "items": [
         {
           "name": "airgap",
-          "desc": "",
+          "desc": "Air-gapped mesh compute: nodes share work over sound with zero network stack. Nothing to attack over the wire, because there is no wire.",
           "faculty": "Mesh, transport & sensing",
           "url": "https://sjgant80-hub.github.io/airgap/"
         },
@@ -708,7 +744,7 @@
         },
         {
           "name": "hum",
-          "desc": "",
+          "desc": "A filesystem you navigate by pitch: content becomes a pronounceable name and a short melody, and you retrieve it by humming. Key-invariant, nearest-match, real content addressing underneath.",
           "faculty": "Mesh, transport & sensing",
           "url": "https://sjgant80-hub.github.io/hum/"
         },
@@ -738,25 +774,25 @@
         },
         {
           "name": "one-ladder",
-          "desc": "",
+          "desc": "Sound, radio and light as three rungs of one ladder: a single codec, three carriers, round-trip proven on all three.",
           "faculty": "Mesh, transport & sensing",
           "url": "https://sjgant80-hub.github.io/one-ladder/"
         },
         {
           "name": "soundcheck",
-          "desc": "",
+          "desc": "Tap-and-listen structural diagnostics: a whole object rings, a cracked one thuds. Recovers ring time, Q, frequency shift and inharmonicity. Structures, not diseases — not medical.",
           "faculty": "Mesh, transport & sensing",
           "url": "https://sjgant80-hub.github.io/soundcheck/"
         },
         {
           "name": "the-ear",
-          "desc": "",
+          "desc": "Debug a running system by listening: every metric becomes a voice, and dissonance between them is the health signal. A correlated fault is audible while each metric on its own still reads green.",
           "faculty": "Mesh, transport & sensing",
           "url": "https://sjgant80-hub.github.io/the-ear/"
         },
         {
           "name": "the-throat",
-          "desc": "",
+          "desc": "Announce, recognise, reproduce, diagnose — over sound, radio and light. The output side of the one-ladder codec.",
           "faculty": "Mesh, transport & sensing",
           "url": "https://sjgant80-hub.github.io/the-throat/"
         }
@@ -845,15 +881,9 @@
         },
         {
           "name": "glampos",
-          "desc": "",
+          "desc": "Site automation for glamping and small stays. One editable kernel drives unified bookings across direct, Booking.com, Airbnb and a free co-op feed, with a double-booking guard that catches clashes before a guest is confirmed.",
           "faculty": "Business operations",
           "url": "https://sjgant80-hub.github.io/glampos/"
-        },
-        {
-          "name": "konomium-vault",
-          "desc": "",
-          "faculty": "Business operations",
-          "url": "https://sjgant80-hub.github.io/konomium-vault/"
         },
         {
           "name": "smallworld",
@@ -866,12 +896,6 @@
           "desc": "Sovereign multi-channel automation for off-grid glamping. Built for Wishwood (Canterbury, Kent). Unified inbox + calendar + direct booking + AI replies. Zero SaaS.",
           "faculty": "Business operations",
           "url": "https://sjgant80-hub.github.io/wishwood/"
-        },
-        {
-          "name": "wishwood-keeper",
-          "desc": "",
-          "faculty": "Business operations",
-          "url": "https://sjgant80-hub.github.io/wishwood-keeper/"
         }
       ]
     },
@@ -922,7 +946,7 @@
         },
         {
           "name": "falljustice",
-          "desc": "",
+          "desc": "Letter-before-action and data-subject-access-request engine for UK consumer claims. Verified case law, cited throughout. Not legal advice.",
           "faculty": "Legal & consumer",
           "url": "https://sjgant80-hub.github.io/falljustice/"
         },
@@ -1016,6 +1040,12 @@
           "url": "https://sjgant80-hub.github.io/fallpod/"
         },
         {
+          "name": "fallrelay",
+          "desc": "Local bridge that lets a browser-resident model serve completions to tools on the same machine, so bulk work stays on your own hardware.",
+          "faculty": "Agents on the open web",
+          "url": "https://sjgant80-hub.github.io/fallrelay/"
+        },
+        {
           "name": "fallwatch",
           "desc": "Ring 5 watcher-of-watchers · browser + optional-Node companion · session hygiene + estate live-status + audit chain check",
           "faculty": "Agents on the open web",
@@ -1034,6 +1064,12 @@
           "url": "https://sjgant80-hub.github.io/hello-device/"
         },
         {
+          "name": "konomi-clean",
+          "desc": "Eval-set contamination checking measured by containment rather than Jaccard, reported per item, with the impact on the headline score.",
+          "faculty": "Agents on the open web",
+          "url": "https://sjgant80-hub.github.io/konomi-clean/"
+        },
+        {
           "name": "konomigami-lib",
           "desc": "紙 konomigami-lib · the fold algebra · 7 base glyphs + 6 mutations · state algebra · bloom ↔ integer ↔ sequence · -coherence · pure JS · zero deps · v20.4 socket VI · MIT · substrate by Thomas Frumkin",
           "faculty": "Agents on the open web",
@@ -1041,7 +1077,7 @@
         },
         {
           "name": "the-kg",
-          "desc": "",
+          "desc": "A typed knowledge graph with cycle-safe traversal: nodes plus typed edges. Zero dependencies.",
           "faculty": "Agents on the open web",
           "url": "https://sjgant80-hub.github.io/the-kg/"
         },
@@ -1087,16 +1123,22 @@
           "url": "https://sjgant80-hub.github.io/ACGEDEN/"
         },
         {
-          "name": "ai-nativesolutions",
-          "desc": "ai native the right way",
+          "name": "aneta",
+          "desc": "Aneta — multilingual embodied consciousness with fold mathematics",
           "faculty": "Other sovereign builds",
-          "url": "https://sjgant80-hub.github.io/ai-nativesolutions/"
+          "url": "https://sjgant80-hub.github.io/aneta/"
         },
         {
           "name": "audiofabric",
           "desc": "Your music. Visualised. In 3D. · Send a track · Get a 3D HTML back · $99/track",
           "faculty": "Other sovereign builds",
           "url": "https://sjgant80-hub.github.io/audiofabric/"
+        },
+        {
+          "name": "awesome-mcp-servers",
+          "desc": "A collection of MCP servers.",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/awesome-mcp-servers/"
         },
         {
           "name": "aws-lambda-mcp",
@@ -1112,7 +1154,7 @@
         },
         {
           "name": "bonded-pair",
-          "desc": "",
+          "desc": "Two coupled neural networks forced to disagree, measured against an equal-capacity single network. Ships a negative result: the gain is real but generic — a plain ensemble does better.",
           "faculty": "Other sovereign builds",
           "url": "https://sjgant80-hub.github.io/bonded-pair/"
         },
@@ -1915,12 +1957,6 @@
           "url": "https://sjgant80-hub.github.io/fallrecruitpractice/"
         },
         {
-          "name": "fallrelay",
-          "desc": "",
-          "faculty": "Other sovereign builds",
-          "url": "https://sjgant80-hub.github.io/fallrelay/"
-        },
-        {
           "name": "fallresolve",
           "desc": "Ring 6 closing arc · session-audit + Ed25519-signed checkpoints + resolution scorecard · closes the estate wrap-loop back to Ring 0",
           "faculty": "Other sovereign builds",
@@ -2161,6 +2197,12 @@
           "url": "https://sjgant80-hub.github.io/foldkit-sdk/"
         },
         {
+          "name": "GITPLC",
+          "desc": "One Layer to Communicate them all and in the darkness Run > 85% OEE.",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/GITPLC/"
+        },
+        {
           "name": "groundlevel",
           "desc": "ground level",
           "faculty": "Other sovereign builds",
@@ -2197,6 +2239,12 @@
           "url": "https://sjgant80-hub.github.io/hello-device-sdk/"
         },
         {
+          "name": "IndustrialIntelligence",
+          "desc": "",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/IndustrialIntelligence/"
+        },
+        {
           "name": "init-book-api",
           "desc": "Companion API for init-book · minted by mint-all · sovereign estate",
           "faculty": "Other sovereign builds",
@@ -2215,6 +2263,12 @@
           "url": "https://sjgant80-hub.github.io/init-book-sdk/"
         },
         {
+          "name": "JEDI",
+          "desc": "JEDI",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/JEDI/"
+        },
+        {
           "name": "kappa-eeg-checker-api",
           "desc": "Companion API for kappa-eeg-checker · minted by mint-all · sovereign estate",
           "faculty": "Other sovereign builds",
@@ -2225,6 +2279,54 @@
           "desc": "Companion MCP for kappa-eeg-checker · minted by mint-all · sovereign estate",
           "faculty": "Other sovereign builds",
           "url": "https://sjgant80-hub.github.io/kappa-eeg-checker-mcp/"
+        },
+        {
+          "name": "konomi-ablate",
+          "desc": "Leave-one-out ablation for system prompts: delete a clause, test whether the eval actually moved, and cost the dead tokens. Refuses to certify a batch until the joint run is tested.",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/konomi-ablate/"
+        },
+        {
+          "name": "konomi-canary",
+          "desc": "Merkle commitment with selective disclosure, a canary bound to the root, and an evidence grade that refuses to claim a model was not trained on your set.",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/konomi-canary/"
+        },
+        {
+          "name": "konomi-export",
+          "desc": "Emit SFT and DPO training rows from graded responses, refusing pairs whose chosen side regressed on a protected axis.",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/konomi-export/"
+        },
+        {
+          "name": "konomi-judge",
+          "desc": "Judge-versus-human agreement with Cohen's kappa as well as raw agreement, and the delegation decision made per criterion rather than once for the whole rubric.",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/konomi-judge/"
+        },
+        {
+          "name": "konomi-meter",
+          "desc": "Local-versus-cloud AI cost attribution by task type. Prices local runs instead of assuming they are free, and refuses to call escaped spend avoidable without evidence local could have done the work.",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/konomi-meter/"
+        },
+        {
+          "name": "konomi-regress",
+          "desc": "Compare two model-evaluation runs, or be refused: admissibility enforced, movement paired item-by-item, per-axis regressions surfaced instead of averaged away, and an exact sign test.",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/konomi-regress/"
+        },
+        {
+          "name": "konomi-retest",
+          "desc": "Test-retest reliability for annotation work: blinded retest waves, self-agreement per criterion, noise separated from drift, and the ceiling no judge can beat against you.",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/konomi-retest/"
+        },
+        {
+          "name": "konomi-rubric",
+          "desc": "Atomic-criteria rubric engine on seven axes: a lossless integer grade, atomicity enforced at definition time, and a mutation gate on the rubric itself.",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/konomi-rubric/"
         },
         {
           "name": "konomikitka",
@@ -2257,6 +2359,12 @@
           "url": "https://sjgant80-hub.github.io/operator/"
         },
         {
+          "name": "os127",
+          "desc": "os127",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/os127/"
+        },
+        {
           "name": "shadowcompass",
           "desc": "Sovereign single-file Jungian shadow work. Mirror your archetype, decode dreams, identify projections. Free forever · 14-day Pro trial. v20.1 · phi is home.",
           "faculty": "Other sovereign builds",
@@ -2285,6 +2393,12 @@
           "desc": "ToneEngine (npm, MIT, open source) — 12 tone categories (formal, casual, technical, persuasive, empathetic, authoritative, witty, narrative, urgent, academic, minimalist, lyrical), style metrics (vocabulary richness, passive voice, sentence variance, person detection), Flesch readability scoring, voice consistency checker. etc Zero dependencies.",
           "faculty": "Other sovereign builds",
           "url": "https://sjgant80-hub.github.io/tonesmith/"
+        },
+        {
+          "name": "VacuumGenesis",
+          "desc": "A Unified Framework for Creation from Void | SYMBEYOND AI LLC",
+          "faculty": "Other sovereign builds",
+          "url": "https://sjgant80-hub.github.io/VacuumGenesis/"
         }
       ]
     }

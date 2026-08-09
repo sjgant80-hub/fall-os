@@ -1,0 +1,245 @@
+{
+  "source": "teslasolar/JEDI · docs/konomi + MANIFEST.json",
+  "signature": 510510,
+  "standards": [
+    {
+      "id": "ISA-95",
+      "name": "Enterprise-Control Integration",
+      "color": "#BB88FF",
+      "levels": "L0-L4",
+      "udts": [
+        "PhysicalAsset",
+        "Equipment",
+        "Material",
+        "Personnel",
+        "ProcessSegment",
+        "ProductionSchedule",
+        "ProductionPerformance"
+      ],
+      "desc": "Hierarchical model mapping enterprise (ERP) to control (PLC). Defines data flows between levels."
+    },
+    {
+      "id": "ISA-88",
+      "name": "Batch Process Control",
+      "color": "#22CC66",
+      "levels": "ProcessCell→Unit→EM→CM",
+      "udts": [
+        "ProcessCell",
+        "Unit",
+        "EquipmentModule",
+        "ControlModule",
+        "Recipe",
+        "Procedure",
+        "Phase",
+        "Batch"
+      ],
+      "desc": "Batch recipe management and equipment state machines. PackML state model for unit control."
+    },
+    {
+      "id": "ISA-101",
+      "name": "HMI Design",
+      "color": "#FFCC00",
+      "levels": "L1-L5 Display Layers",
+      "udts": [
+        "HMI_Layer",
+        "ColorMeaning",
+        "GraphicElement",
+        "Faceplate",
+        "Trend"
+      ],
+      "desc": "Situational awareness over aesthetics. Gray backgrounds, color = meaning. 5 display layers."
+    },
+    {
+      "id": "ISA-18.2",
+      "name": "Alarm Management",
+      "color": "#DD2244",
+      "levels": "P1-P4 Priority",
+      "udts": [
+        "AlarmPriority",
+        "AlarmState",
+        "Alarm",
+        "AlarmClass"
+      ],
+      "desc": "Alarm lifecycle: NORMAL→UNACK→ACKED→NORMAL. Target <6 alarms/hr. Every alarm must be actionable."
+    },
+    {
+      "id": "OPC-UA",
+      "name": "Industrial Communication",
+      "color": "#2299DD",
+      "levels": "Nodes + Subscriptions",
+      "udts": [
+        "OPC_Node",
+        "OPC_Variable",
+        "OPC_Method",
+        "OPC_Subscription",
+        "OPC_MonitoredItem"
+      ],
+      "desc": "Address space with Object/Variable/Method nodes. Companion specs for ISA-95, PackML, etc."
+    },
+    {
+      "id": "MQTT-Sparkplug",
+      "name": "Pub/Sub Messaging",
+      "color": "#FF6622",
+      "levels": "NBIRTH/NDATA/NCMD",
+      "udts": [
+        "MQTT_Topic",
+        "Sparkplug_Topic",
+        "Sparkplug_Payload",
+        "Sparkplug_DataType"
+      ],
+      "desc": "Lightweight pub/sub with Sparkplug B payload format. Report-by-exception with store-and-forward."
+    },
+    {
+      "id": "Modbus",
+      "name": "Field Protocol",
+      "color": "#DD2244",
+      "levels": "Coils + Registers",
+      "udts": [
+        "Modbus_Register",
+        "Modbus_DataType",
+        "Modbus_Map"
+      ],
+      "desc": "Simple register-based protocol. FC01-FC16 function codes. 4 register types: Coil, DI, HR, IR."
+    },
+    {
+      "id": "KPI",
+      "name": "Performance Metrics",
+      "color": "#22CC66",
+      "levels": "OEE Tree",
+      "udts": [
+        "OEE",
+        "MTBF",
+        "MTTR",
+        "Downtime",
+        "FirstPassYield",
+        "CycleTime",
+        "Throughput",
+        "EnergyKPI"
+      ],
+      "desc": "OEE = Availability × Performance × Quality. Target: >85% OEE, >90% availability, >99% quality."
+    }
+  ],
+  "crosswalks": [
+    {
+      "from": "ISA-95",
+      "to": "ISA-88",
+      "maps": [
+        "WorkCenter=ProcessCell",
+        "WorkUnit=Unit",
+        "ProcessSegment=Operation",
+        "ProductionSchedule→Batch"
+      ]
+    },
+    {
+      "from": "ISA-95",
+      "to": "OPC-UA",
+      "maps": [
+        "Equipment→Object(ns=isa95)",
+        "Property→Variable",
+        "Capability→Method"
+      ]
+    },
+    {
+      "from": "ISA-88",
+      "to": "PackML",
+      "maps": [
+        "Phase.RUNNING=EXECUTE",
+        "Phase.HELD=HELD",
+        "Phase.ABORTED=ABORTED"
+      ]
+    },
+    {
+      "from": "ISA-101",
+      "to": "ISA-18.2",
+      "maps": [
+        "AlarmIndicator→AlarmState",
+        "ColorMeaning→Priority",
+        "L1-L5→AlarmList(filtered)"
+      ]
+    },
+    {
+      "from": "OPC-UA",
+      "to": "Sparkplug",
+      "maps": [
+        "Variable→Metric",
+        "Subscription→NDATA/DDATA",
+        "Method→NCMD/DCMD",
+        "AddressSpace↔NBIRTH"
+      ]
+    }
+  ],
+  "rings": [
+    {
+      "id": "R0",
+      "name": "SURVIVAL",
+      "prime": 2,
+      "hz": 55,
+      "ring": "R0",
+      "level": "L0 - Process",
+      "focus": "Modbus, Sensors, Actuators"
+    },
+    {
+      "id": "R1",
+      "name": "SENSE",
+      "prime": 3,
+      "hz": 110,
+      "ring": "R1",
+      "level": "L1 - Sensing",
+      "focus": "PLC/DCS, RTU, Direct Control"
+    },
+    {
+      "id": "R2",
+      "name": "GATE",
+      "prime": 5,
+      "hz": 165,
+      "ring": "R2",
+      "level": "L2 - Control",
+      "focus": "SCADA, HMI (ISA-101), Alarms (ISA-18.2)"
+    },
+    {
+      "id": "R3",
+      "name": "HEART",
+      "prime": 7,
+      "hz": 275,
+      "ring": "R3",
+      "level": "L2-L3",
+      "focus": "ISA-88 Batch, PackML State Machines"
+    },
+    {
+      "id": "R4",
+      "name": "VOICE",
+      "prime": 11,
+      "hz": 385,
+      "ring": "R4",
+      "level": "L3 - MOM",
+      "focus": "MES, LIMS, WMS, OPC-UA"
+    },
+    {
+      "id": "R5",
+      "name": "SIGHT",
+      "prime": 13,
+      "hz": 605,
+      "ring": "R5",
+      "level": "L3-L4",
+      "focus": "Sparkplug/MQTT, KPIs"
+    },
+    {
+      "id": "R6",
+      "name": "OBSERVER",
+      "prime": 17,
+      "hz": 935,
+      "ring": "R6",
+      "level": "L4 - Business",
+      "focus": "ERP, BI, OEE Analytics"
+    },
+    {
+      "id": "R7",
+      "name": "NETWORK",
+      "prime": 19,
+      "hz": null,
+      "ring": "R7",
+      "level": "Network",
+      "focus": "Inter-system communication (OPC-UA + Sparkplug)"
+    }
+  ]
+}
