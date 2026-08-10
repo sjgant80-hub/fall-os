@@ -17,6 +17,7 @@ import { makeDidy, register, conduct } from './didy.mjs';
 import { t0Organ, summarise } from './organs/t0.mjs';
 import { recurring, ranked } from './shadow.mjs';
 import { load as loadStandards, conform } from './organs/isa.mjs';
+import { SYSTEM as T1_SYSTEM, phrase, unmoved } from './organs/t1.mjs';
 
 const $ = (id) => document.getElementById(id);
 const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
@@ -24,9 +25,22 @@ const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls)
 // ── 3 · THE SOVEREIGNTY PROOF ────────────────────────────────────────────────────────────────────
 //
 // The claim on this page is "nothing leaves your machine". A claim like that is worth nothing while
-// it is only written down, so this counts every network call the page makes and lets the visitor cut
-// the network entirely. Both fetch and XMLHttpRequest are wrapped: leaving one unwrapped would let a
-// request through and quietly make the counter a lie.
+// it is only written down, so the page counts what it does on the network and lets the visitor cut
+// it entirely.
+//
+// ⚑ THE COUNTER READS THE BROWSER'S OWN RESOURCE TIMELINE, NOT OUR WRAPPER — and that correction
+// came from catching it lying. The first version counted inside a patched `window.fetch`, which
+// looked thorough and was not: loading a model pulled **twelve** off-origin requests (huggingface.co
+// ×10, esm.run, raw.githubusercontent.com) while the counter sat contentedly at 0, because WebLLM
+// stores shards through the **Cache API**, which never touches `fetch`. A sovereignty counter that
+// under-reports is worse than no counter — it manufactures exactly the confidence it should be
+// earning. PerformanceObserver sees what actually hit the network whatever API asked for it.
+//
+// The wrappers stay, but only for what they are genuinely good at: BLOCKING, and counting the calls
+// they blocked (a blocked call never reaches the network, so the observer would never see it).
+//
+// Stated limit, because the honest version of this has one: this observes the requests of THIS
+// document. It is not a browser firewall and cannot see inside a third-party worker's own scope.
 //
 // Counted in TWO buckets, because a single number here would be dishonest in one direction or the
 // other. This page loads its own static files — the standards list the tag scanner needs is one of
@@ -39,18 +53,55 @@ const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls)
 let offCalls = 0, assetCalls = 0, offline = false;
 const offLog = [];
 
+const offHosts = new Map();
+
 function recordCall(url) {
-  let sameOrigin = true;
-  try { sameOrigin = new URL(String(url), location.href).origin === location.origin; }
-  catch { sameOrigin = false; }
+  let sameOrigin = true, host = '';
+  try {
+    const u = new URL(String(url), location.href);
+    sameOrigin = u.origin === location.origin;
+    host = u.host;
+  } catch { sameOrigin = false; }
 
   if (sameOrigin) assetCalls++;
-  else { offCalls++; offLog.push(String(url).slice(0, 120)); }
+  else {
+    offCalls++;
+    offLog.push(String(url).slice(0, 120));
+    offHosts.set(host, (offHosts.get(host) || 0) + 1);
+  }
 
   const c = $('netCount');
   if (c) { c.textContent = String(offCalls); c.classList.toggle('hot', offCalls > 0); }
   const a = $('assetCount');
   if (a) a.textContent = String(assetCalls);
+  renderHosts();
+}
+
+// Everything the document actually put on the wire, whichever API asked for it — fetch, XHR, a
+// dynamic import, a stylesheet, or the Cache API that made the first version of this counter wrong.
+// `buffered: true` replays the entries from before this ran, so the page's own boot loads are
+// included rather than being invisible by luck of timing.
+(function observeRealTraffic() {
+  if (typeof PerformanceObserver === 'undefined') return;
+  try {
+    new PerformanceObserver((list) => {
+      for (const e of list.getEntries()) recordCall(e.name);
+    }).observe({ type: 'resource', buffered: true });
+  } catch { /* an older browser just gets the wrapper's numbers */ }
+})();
+
+// Naming every host the page reached is what makes the counter worth believing. A number on its own
+// asks for trust; a number that says "214 — all of them to huggingface.co, because you clicked load
+// a model" can be checked. It stays hidden while the count is zero, which is its resting state.
+function renderHosts() {
+  const box = $('netHosts');
+  if (!box) return;
+  if (!offHosts.size) { box.hidden = true; return; }
+  box.hidden = false;
+  box.textContent = '↳ ' + [...offHosts.entries()]
+    .sort((a, b) => b[1] - a[1])
+    .map(([h, n]) => `${h || 'unknown'} ×${n}`)
+    .join(' · ') + ' — all of it the model you asked for; nothing was sent';
 }
 
 (function armNetworkProof() {
@@ -58,8 +109,9 @@ function recordCall(url) {
   if (realFetch) {
     window.fetch = (input, init) => {
       const url = typeof input === 'string' ? input : (input && input.url) || '';
-      recordCall(url);
-      if (offline) return Promise.reject(new TypeError('fall-os: network is switched off by the visitor'));
+      // Counted here ONLY when blocked: a blocked call never reaches the network, so the resource
+      // observer will never see it, and a refused attempt is exactly what the visitor wants counted.
+      if (offline) { recordCall(url); return Promise.reject(new TypeError('fall-os: network is switched off by the visitor')); }
       return realFetch(input, init);
     };
   }
@@ -67,8 +119,7 @@ function recordCall(url) {
   if (RealXHR) {
     const open = RealXHR.prototype.open;
     RealXHR.prototype.open = function (method, url, ...rest) {
-      recordCall(url);
-      if (offline) throw new DOMException('fall-os: network is switched off by the visitor', 'NetworkError');
+      if (offline) { recordCall(url); throw new DOMException('fall-os: network is switched off by the visitor', 'NetworkError'); }
       return open.call(this, method, url, ...rest);
     };
   }
@@ -83,11 +134,89 @@ function setOffline(next) {
   if (banner) banner.hidden = !offline;
 }
 
+// ── TIER 1 · a real model, downloaded once, then living in this tab ──────────────────────────────
+//
+// Strictly opt-in and never touched on page load. It is the one thing here that costs the visitor
+// something — a model file over the network — so it happens only when they click, after being told
+// the size, and the page says plainly that this is bytes coming IN and never data going OUT.
+//
+// It is loaded from a CDN by dynamic import, which is why it cannot be part of the default promise:
+// a page that claims to need nothing must not quietly fetch a gigabyte to prove it.
+const MODELS = [
+  { id: 'Llama-3.2-1B-Instruct-q4f32_1-MLC', label: 'Llama 3.2 · 1B', size: '~1.1 GB' },
+  { id: 'Qwen2.5-1.5B-Instruct-q4f32_1-MLC', label: 'Qwen 2.5 · 1.5B', size: '~1.6 GB' },
+  // Kept because it is the fastest way to see the tier work at all, and labelled for what it does:
+  // measured on this page, it hands the built-in wording straight back rather than rewriting it.
+  { id: 'SmolLM2-360M-Instruct-q4f32_1-MLC', label: 'SmolLM2 · 360M (fast, often just echoes)', size: '~0.4 GB' },
+];
+
+let engine = null, engineModel = null, loading = false;
+
+const tierName = () => (engine ? 'Tier 1 · ' + (MODELS.find(m => m.id === engineModel) || {}).label : 'Tier 0 · built in');
+
+function setTier(msg, busy) {
+  const t = $('tierNow');
+  if (t) t.textContent = msg || tierName();
+  const b = $('loadModel');
+  if (b) b.disabled = !!busy;
+}
+
+async function loadModel() {
+  if (loading || engine) return;
+  const id = $('modelPick').value;
+  const meta = MODELS.find(m => m.id === id) || MODELS[0];
+
+  if (!navigator.gpu) {
+    setTier('Tier 0 only — this browser has no WebGPU, so a model cannot run here.');
+    return;
+  }
+  if (offline) {
+    setTier('Tier 0 only — the network is switched off, and the model has to be downloaded first.');
+    return;
+  }
+
+  loading = true;
+  setTier(`fetching ${meta.label} (${meta.size}) — first time only…`, true);
+  try {
+    // Imported at click time, not at page load: the default experience must stay dependency-free.
+    const webllm = await import('https://esm.run/@mlc-ai/web-llm');
+    engine = await webllm.CreateMLCEngine(id, {
+      initProgressCallback: (p) => setTier(`${meta.label}: ${p.text || ''}`.slice(0, 110), true),
+    });
+    engineModel = id;
+    setTier(tierName() + ' — running in this tab. Cut the network; it keeps working.');
+    $('modelRow').classList.add('loaded');
+  } catch (e) {
+    engine = null;
+    // Named, not swallowed. "It didn't work" on a gigabyte download is the most annoying possible
+    // outcome, and the reason is usually specific and actionable (no f16, out of memory, blocked).
+    setTier('the model failed to load: ' + ((e && e.message) ? e.message : String(e)).slice(0, 140));
+  } finally {
+    loading = false;
+    const b = $('loadModel');
+    if (b) b.disabled = !!engine;
+  }
+}
+
+// The injected generator the t1 kernel calls. Everything about how the model is reached lives here;
+// nothing about it lives in the kernel, which is why the kernel is testable without a gigabyte.
+const generate = async (prompt) => {
+  const r = await engine.chat.completions.create({
+    messages: [{ role: 'system', content: T1_SYSTEM }, { role: 'user', content: prompt }],
+    temperature: 0.4,
+    max_tokens: 420,
+  });
+  return (r && r.choices && r.choices[0] && r.choices[0].message.content) || '';
+};
+
 // ── 1 · THE LIVE CONDUCTOR ───────────────────────────────────────────────────────────────────────
 
 const PHASES = ['EXPLORE', 'RESOLVE', 'VERIFY', 'BUILD', 'REMEMBER'];
 const didy = makeDidy('fall');          // one conductor for the session, so its memory and shadow accumulate
 let lastRun = null;
+// branch index → the model's sentence for it. Keyed by the branch's OWN index, never by position,
+// so a re-render cannot slide one stance's phrasing onto another.
+let phrasings = new Map();
 
 function lightPhases(upto) {
   PHASES.forEach((p, i) => {
@@ -175,6 +304,17 @@ function stanceRow(b, { committed = false, canCommit = true } = {}) {
   if (!why.childNodes.length) why.appendChild(el('span', 'flat', 'no signal either way — this is its stated default'));
   row.appendChild(why);
 
+  // The model's sentence, when there is one — attributed, and always BELOW the built-in move rather
+  // than replacing it. The visitor should be able to see exactly which words came from a model and
+  // which came from code that was mutation-tested.
+  const said = phrasings.get(b.i);
+  if (said) {
+    const p = el('div', 'phrased');
+    p.appendChild(el('span', 'phrased-tag', 'in your words'));
+    p.appendChild(el('span', 'phrased-text', said));
+    row.appendChild(p);
+  }
+
   if (b.holds && canCommit && !committed) {
     const btn = el('button', 'commit', 'Commit this →');
     btn.addEventListener('click', () => commit(b));
@@ -205,6 +345,7 @@ function run() {
   const r = conduct(didy, text, { n });        // the real loop — no author, so nothing is decided
 
   lastRun = { text, n, organ, field: r.field };
+  phrasings = new Map();                       // last run's wording must never leak onto this one
   evidenceChips(organ.evidence);
   lightPhases(2);                              // EXPLORE, RESOLVE, VERIFY have run; BUILD waits on the visitor
   renderField(r.field, organ.evidence, null);
@@ -213,6 +354,30 @@ function run() {
   renderMemory();
   $('result').hidden = false;
   $('result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+  // The deterministic field is already on screen. If a model is loaded it now says the same stances
+  // in the terms of this decision — an addition that arrives late, never a gate on the answer.
+  if (engine) runPhrasing(r.field, organ, text);
+}
+
+async function runPhrasing(field, organ, text) {
+  const note = $('t1note');
+  if (note) { note.hidden = false; note.textContent = 'the model is putting these in your words…'; }
+  const res = await phrase(text, field.holds, organ.evidence, generate);
+
+  // Assert the promise the page makes, at run time, on the real result. If the rows ever stopped
+  // matching the tier-0 field, showing them anyway would make the page a liar — so it says so and
+  // shows nothing from the model instead.
+  if (!unmoved(field.holds, res.rows)) {
+    if (note) note.textContent = 'the model’s output did not line up with the field, so it was discarded — the built-in wording stands.';
+    return;
+  }
+  phrasings = new Map(res.rows.filter(r => r.phrased).map(r => [r.i, r.phrased]));
+  if (note) {
+    note.textContent = res.note + ' — scores, order and the gate are unchanged, and were never sent anywhere.';
+  }
+  // Re-render with the wording attached. Same field object, so nothing was recomputed.
+  renderField(field, organ.evidence, null);
 }
 
 // BUILD + REMEMBER. The visitor is the author: the same deterministic loop is re-run with an author
@@ -362,6 +527,20 @@ function boot() {
     b.addEventListener('click', () => { $('ask').value = b.getAttribute('data-example'); run(); }));
 
   $('netToggle').addEventListener('click', () => setOffline(!offline));
+
+  const pick = $('modelPick');
+  for (const m of MODELS) {
+    const o = document.createElement('option');
+    o.value = m.id; o.textContent = `${m.label} · ${m.size}`;
+    pick.appendChild(o);
+  }
+  $('loadModel').addEventListener('click', loadModel);
+  if (!navigator.gpu) {
+    $('loadModel').disabled = true;
+    setTier('Tier 0 · built in — this browser has no WebGPU, so tier 1 cannot run here.');
+  } else {
+    setTier();
+  }
   $('openTool').addEventListener('click', () => {
     const p = $('toolPanel');
     p.hidden = false;

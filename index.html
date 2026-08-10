@@ -299,6 +299,20 @@
   .tool-gaps ul,.tool-by ul{margin:0;padding-left:17px;font-size:.85rem;line-height:1.7}
   .tool-gaps code,.tool-by code{background:var(--code-bg);padding:1px 5px;border-radius:4px;font-size:.82rem}
   .tool-clean{color:var(--ok);font-size:.88rem}
+  .nethosts{margin:-8px 0 18px;font:500 .74rem/1.6 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--warn);word-break:break-word}
+  .modelrow{margin-top:14px;padding:13px 14px;border:1px dashed var(--line);border-radius:11px;background:var(--bg)}
+  .modelrow.loaded{border-style:solid;border-color:var(--ok)}
+  .modelrow-head{display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+  #tierNow{flex:1;min-width:190px;font:600 .78rem/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--muted)}
+  .modelrow.loaded #tierNow{color:var(--ok)}
+  #modelPick{padding:8px 9px;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:var(--ink);font:inherit;font-size:.8rem;max-width:100%}
+  #loadModel:disabled{opacity:.5;cursor:default}
+  .modelrow-note{margin:10px 0 0;font-size:.79rem;line-height:1.6;color:var(--muted)}
+  .modelrow-note b{color:var(--ink)}
+  .t1note{margin:0 0 14px;padding:9px 12px;border-left:3px solid var(--accent);background:var(--code-bg);color:var(--muted);font-size:.8rem;line-height:1.55}
+  .phrased{margin-top:10px;padding:9px 11px;border-radius:8px;background:var(--code-bg);border:1px solid var(--line)}
+  .phrased-tag{display:block;font:700 .62rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:5px}
+  .phrased-text{font-size:.87rem;line-height:1.55;color:var(--ink)}
   .honest{margin:16px 0 0;padding:12px 14px;border-left:3px solid var(--warn);background:var(--code-bg);color:var(--muted);font-size:.83rem;line-height:1.6}
   .honest b{color:var(--ink)}
 </style>
@@ -317,6 +331,8 @@
     </div>
   </div>
 
+  <p id="netHosts" class="nethosts" hidden></p>
+
   <p id="netBanner" hidden>✓ <b>You are offline.</b> The conductor and the tool below are still running — every request from here on is blocked and counted. Nothing broke, because there was never anything to call.</p>
 
   <div class="door-grid">
@@ -332,6 +348,17 @@
         <select id="branches">
           <option>4</option><option selected>6</option><option>8</option><option>10</option>
         </select>
+      </div>
+      <div class="modelrow" id="modelRow">
+        <div class="modelrow-head">
+          <span id="tierNow">Tier 0 · built in</span>
+          <select id="modelPick" aria-label="which model to load"></select>
+          <button class="btn-cut" id="loadModel" type="button">Load a model into this tab →</button>
+        </div>
+        <p class="modelrow-note">Optional. Tier 0 above already works with nothing installed. Loading a model downloads it
+        once from a public CDN — <b>the only time bytes come in</b>, and you will watch the counter move for it. After that it
+        runs on your GPU in this tab, offline, and it only rewrites the stances in the words of your decision:
+        <b>it never changes the scores, the order or the gate.</b> Nothing you type is ever uploaded.</p>
       </div>
       <div class="examples">
         <button type="button" data-example="Should we migrate the whole production database to a new provider this Friday? It affects every customer and there is legal risk if it fails.">an irreversible migration, under deadline</button>
@@ -354,6 +381,7 @@
           <svg id="fan" viewBox="0 0 260 260" width="260" height="260" aria-label="candidate branches fanned at the golden angle; distance from the centre is the score"></svg>
           <span id="goldenNote"></span>
         </div>
+        <p id="t1note" class="t1note" hidden></p>
         <div class="lists">
           <h4>Cleared the gate — <span id="holdsCount">0</span></h4>
           <p id="buildNote" class="hint" hidden>Nothing is built until you choose. Commit one and BUILD + REMEMBER will run.</p>
@@ -724,4 +752,4 @@ run();
 if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
 </script>
 
-<script type="module" src="./door.mjs?v=5"></script>
+<script type="module" src="./door.mjs?v=8"></script>
