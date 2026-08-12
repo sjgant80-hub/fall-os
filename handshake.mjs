@@ -32,8 +32,10 @@ import { h16 } from './core.mjs';
  * object — there is no "private" field to leak, because privates are never placed in the manifest.
  */
 export function manifest(name, shares = {}, offers = {}) {
+  // Built in sorted key order, so two nodes declaring the same names produce byte-identical objects.
+  // Insertion order would make an identical manifest look different depending on how it was written.
   const clean = {};
-  for (const [k, v] of Object.entries(shares)) if (typeof k === 'string' && k) clean[k] = v;
+  for (const k of Object.keys(shares).sort()) if (typeof k === 'string' && k) clean[k] = shares[k];
   const fns = {};
   for (const [k, f] of Object.entries(offers)) if (typeof f === 'function') fns[k] = f;
   const names = Object.keys(clean).sort();
