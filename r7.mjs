@@ -87,7 +87,13 @@ export function loopback() {
 export function join(node, channel) {
   const off = channel.on((msg) => {
     if (!msg || msg.kind !== 'announce' || !msg.face) return;
-    if (msg.face.id && node.face.id && msg.face.id === node.face.id) return;   // do not discover yourself
+    // ⚑ Do not discover yourself — and identify "yourself" by the SAME key the table is filed under.
+    // The first version compared ids only, so an UNSIGNED face (id null) slipped past the guard and a
+    // node added itself as its own peer. Two rules for one identity is how that happens; there is now
+    // one.
+    const mineKey = node.face.id || node.face.prefix;
+    const theirKey = msg.face.id || msg.face.prefix;
+    if (mineKey && theirKey && mineKey === theirKey) return;
     // ⚑ KEYED BY id, FALLING BACK TO prefix — never by a bare `undefined`. Found by testing two
     // anonymous peers: both landed under the key `undefined` and the second silently EVICTED the
     // first. That is a table-poisoning move a hostile peer fully controls, since the announcement is

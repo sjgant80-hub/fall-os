@@ -21,6 +21,7 @@ jobs:
           node kitka.test.mjs
           node r7.test.mjs
           node pub.test.mjs
+          node verify-wire.test.mjs
       - name: mutation gate (witness)
         # Pinned to a TAG, not the default branch. An unpinned clone means the gate that proves this
         # repo can change underneath it without a commit here — the result would stop being a fact
@@ -38,3 +39,4 @@ jobs:
           node .witness/witness.mjs mutate walk.mjs        --cap 400 --test node kitka.test.mjs
           node .witness/witness.mjs mutate r7.mjs          --cap 400 --test node r7.test.mjs
           node .witness/witness.mjs mutate pub.mjs         --cap 400 --test node pub.test.mjs
+          node .witness/witness.mjs mutate verify-wire.mjs --cap 400 --test node verify-wire.test.mjs
