@@ -96,13 +96,20 @@ export function join(node, channel) {
     // exchange; but it must not be able to unseat anybody either.
     const key = msg.face.id || msg.face.prefix;
     if (!key) return;                                                          // nothing to file it under
-    const seen = node.peers.get(key) || {};
+    const seen = node.peers.get(key);
+    const isNew = !seen;
     node.peers.set(key, {
       face: msg.face,
-      lastSeen: (seen.lastSeen || 0) + 1,           // a counter, not a clock — deterministic to test
-      trust: seen.trust || 'unverified',
-      findings: seen.findings || null,
+      lastSeen: ((seen && seen.lastSeen) || 0) + 1,  // a counter, not a clock — deterministic to test
+      trust: (seen && seen.trust) || 'unverified',
+      findings: (seen && seen.findings) || null,
     });
+    // ⚑ GREET BACK, BUT ONLY THE FIRST TIME. Announce-once discovery is arrival-order dependent: the
+    // Didy that speaks first is heard by nobody, because nobody is listening yet. Three arrivals gave
+    // 2 / 1 / 0 peers instead of 2 / 2 / 2. Replying to a NEW peer makes the room converge whoever
+    // walks in when — and replying only when it is new is what stops two Didys greeting each other
+    // forever.
+    if (isNew) channel.send({ kind: 'announce', face: node.face });
   });
   return { announce: () => channel.send({ kind: 'announce', face: node.face }), leave: off };
 }

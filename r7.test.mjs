@@ -56,9 +56,24 @@ console.log('\n=== §3 · DISCOVERY — announce, listen, and trust NOTHING yet 
   ok(A.peers.get(fb.id).face.prefix === 'k-didy', 'and it is the right one');
   ok(!A.peers.has(fa.id), 'a Didy does not discover itself');
   ok(A.peers.get(fb.id).trust === 'unverified', '⚑ a discovered peer starts UNVERIFIED — a manifest is a claim, and discovery has checked nothing');
+  const wasSeen = B.peers.get(fa.id).lastSeen;
   la.announce();
   ok(A.peers.size === 1, 'announcing twice does not duplicate the peer');
-  ok(B.peers.get(fa.id).lastSeen === 2, 'but it is noted as seen again');
+  ok(B.peers.get(fa.id).lastSeen > wasSeen, 'but it is noted as seen again');
+
+  // ⚑ ORDER DOES NOT MATTER. A Didy that speaks before anyone is listening would otherwise be heard
+  // by nobody: three arrivals gave 2 / 1 / 0 peers instead of 2 / 2 / 2. A new peer is greeted back,
+  // so the room converges whoever walks in when.
+  const chan2 = loopback();
+  const three = [];
+  for (const p of ['first', 'second', 'third']) {
+    const { face: f, sk } = await signFace(face(p, { shares: { reach: 1 }, offers: { total: sum } }), crypto);
+    const n = makeNode(f, sk);
+    join(n, chan2).announce();
+    three.push(n);
+  }
+  ok(three.every(n => n.peers.size === 2), 'all three know both others, including the one that announced first');
+  ok(three[0].peers.size === three[2].peers.size, 'the earliest arrival is no worse off than the latest');
 }
 
 console.log('\n=== §4 · HANDSHAKE over the link — and privates never crossed it ===');
