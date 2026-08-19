@@ -62,13 +62,13 @@ export function evidence(text) {
 //
 // A fixed taxonomy of ways to come at a decision. `wants` raise a stance, `avoids` lower it, and
 // `prior` is how strong the stance is with NO signal at all — a stated default, not a learned weight.
-// The priors are deliberately not uniform: "ship the smallest reversible slice" really is the better
+// The priors are deliberately not uniform: "start with the smallest step you can undo" really is the better
 // blind bet than "run both in parallel", and pretending otherwise would make the tool useless on the
 // short inputs most people type first.
 export const STANCES = [
-  { name: 'Ship the smallest reversible slice', move: 'Find the version you could undo on Monday, and do that one.', prior: 0.64, wants: ['reversible', 'unknown', 'speed'], avoids: ['irreversible'] },
+  { name: 'Start with the smallest step you can undo', move: 'Find the version of this you could undo by Monday, and do that one first.', prior: 0.64, wants: ['reversible', 'unknown', 'speed'], avoids: ['irreversible'] },
   { name: 'Verify before you commit',           move: 'Decide what would prove this wrong, and go look for it first.', prior: 0.62, wants: ['irreversible', 'risk', 'scale'], avoids: ['reversible'] },
-  { name: 'Cut the scope, not the quality',     move: 'Drop whole features rather than doing all of them badly.', prior: 0.60, wants: ['deadline', 'cost', 'scale'], avoids: [] },
+  { name: 'Do less, but do it properly',        move: 'Drop whole parts of it rather than doing all of it badly.', prior: 0.60, wants: ['deadline', 'cost', 'scale'], avoids: [] },
   { name: 'Do the irreversible part last',      move: 'Reorder the work so every undoable step happens before the one-way door.', prior: 0.54, wants: ['irreversible', 'risk'], avoids: [] },
   { name: 'Set a stop rule before you start',   move: 'Write down now what result would make you abandon this.', prior: 0.52, wants: ['cost', 'unknown', 'scale'], avoids: [] },
   { name: 'Buy or reuse instead of building',   move: 'Check whether the boring paid version ends this today.', prior: 0.50, wants: ['cost', 'deadline', 'existing'], avoids: ['scale'] },

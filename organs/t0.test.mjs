@@ -56,7 +56,7 @@ console.log('\n=== §4 · a question mark is genuine evidence of uncertainty ===
 
 console.log('\n=== §5 · SCORING — traceable up and down, and bounded ===');
 {
-  const ship = STANCES.find(s => s.name.startsWith('Ship the smallest'));
+  const ship = STANCES.find(s => s.name.startsWith('Start with the smallest'));
   const hi = scoreStance(ship, ['reversible', 'unknown', 'speed']);
   const lo = scoreStance(ship, ['irreversible']);
   ok(hi.score > lo.score, 'signals it wants raise it; a signal it avoids lowers it');
