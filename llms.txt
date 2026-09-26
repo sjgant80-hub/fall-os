@@ -18,7 +18,7 @@ You start by owning one, and the whole live page is a single self-contained game
 
 ## Credits & license
 
-fall-os's own code is MIT-licensed. The Dreaming (reflect) zone draws on dream-state design Gary W. Floyd shared with the estate — cite it as: Gary W. Floyd, Lumiea Systems Research Division — ThunderStruck Service LLC, "Dream State Architecture: GEP-Guided Memory Consolidation and Entropy Regulation in Artificial Consciousness Systems," 2025 (his own work, Open Defensive Prior Art / Creative Commons — not relicensed by fall-os). Built on the Konomi architecture, created by Thomas Frumkin.
+fall-os's own code is MIT-licensed (covers the estate's own code only; see LICENSE + NOTICE). fall-os is forked from Thomas Frumkin's assos (ASSOSIGNITION), used with permission, and built on the Konomi architecture he created — Powered by the Konomi architecture, created by Thomas Frumkin. The Dreaming (reflect) zone draws on dream-state design Gary W. Floyd shared with the estate — cite it as: Gary W. Floyd, Lumiea Systems Research Division — ThunderStruck Service LLC, "Dream State Architecture: GEP-Guided Memory Consolidation and Entropy Regulation in Artificial Consciousness Systems," 2025 (his own work, Open Defensive Prior Art / Creative Commons — not relicensed by fall-os).
 
 ## Citation
 

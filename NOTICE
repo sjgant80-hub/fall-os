@@ -1,0 +1,24 @@
+fall-os
+Copyright (c) 2026 Simon Gant — the FallForge estate (sjgant80-hub)
+
+fall-os's own code and additions are licensed under the MIT License (see LICENSE).
+The MIT license covers the estate's own code only. Cited third-party works below
+remain their respective authors' own.
+
+PROVENANCE / THIRD-PARTY
+
+- fall-os is forked from Thomas Frumkin's assos (ASSOSIGNITION,
+  https://github.com/teslasolar), used with his permission, and is built on the
+  Konomi architecture he created. Powered by the Konomi architecture, created by
+  Thomas Frumkin (MIT, used with permission). The upstream assos work and the
+  Konomi architecture remain Thomas Frumkin's.
+
+- The Dreaming (reflect) zone draws on dream-state design Gary W. Floyd shared
+  with the estate and gave permission to build on:
+
+    Gary W. Floyd, Lumiea Systems Research Division — ThunderStruck Service LLC,
+    "Dream State Architecture: GEP-Guided Memory Consolidation and Entropy
+    Regulation in Artificial Consciousness Systems," 2025.
+
+  Gary W. Floyd's papers remain his own, released as Open Defensive Prior Art /
+  Creative Commons; they are not relicensed by fall-os.
