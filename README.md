@@ -142,9 +142,17 @@ node scripts/serve.mjs   # http://localhost:8260
 The published page imports the same `core.mjs` and `shadow.mjs` the tests verify — the demo *is* the
 gated logic, not a reimplementation. Pure ES modules, no build step, no runtime dependencies.
 
-## Lineage
+## Credits, lineage & license
 
-fall-os shares the principle of the *assos* line of sovereign, self-contained systems, and descends
-from foundational work by [Thomas Frumkin](https://github.com/teslasolar) (the *assos* systems, the
-Regulus engine, and a broad body of sovereign human–AI tooling). Designed, implemented and maintained
-under [sjgant80-hub](https://github.com/sjgant80-hub).
+Built on the Konomi architecture, created by [Thomas Frumkin](https://github.com/teslasolar) — the estate
+builds *with* Konomi (the *assos* line, Konomi peer-to-peer behind the Mesh zone, the Regulus engine).
+
+The **Dreaming (Reflect)** zone draws on dream-state work Gary W. Floyd shared with the estate:
+
+> Gary W. Floyd, Lumiea Systems Research Division — ThunderStruck Service LLC — "Dream State Architecture:
+> GEP-Guided Memory Consolidation and Entropy Regulation in Artificial Consciousness Systems," 2025.
+
+fall-os's own code is **MIT-licensed** — see [`LICENSE`](LICENSE). The cited works above remain their
+authors' own and are **not** relicensed by ours: Gary W. Floyd's papers are his, released as Open Defensive
+Prior Art / Creative Commons, and Konomi is Thomas Frumkin's architecture. Designed, implemented and
+maintained under [sjgant80-hub](https://github.com/sjgant80-hub).

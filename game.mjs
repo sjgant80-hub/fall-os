@@ -40,7 +40,8 @@ const ZONES = [
   { id: 'mint',    lvl: 5, name: 'The Mint',        verb: 'Own',         cap: 'mint',     kernel: 'fallforgemint (estate organ)', play: 'soon',
     blurb: 'Own a model instead of renting one. This is where your Didy stops borrowing intelligence by the token and starts holding weights of its own.' },
   { id: 'dreaming',lvl: 6, name: 'The Dreaming',    verb: 'Reflect',     cap: 'reflect',  kernel: 'walled by construction', play: 'soon',
-    blurb: 'Your Didy consolidates overnight, reorganising what it learned — walled so it can neither publish nor spend while it dreams. Autonomy that cannot surprise you.' },
+    blurb: 'Your Didy consolidates overnight, reorganising what it learned — walled so it can neither publish nor spend while it dreams. Autonomy that cannot surprise you.',
+    credit: 'The Dreaming draws on Gary W. Floyd’s dream-state design, shared with the estate — Gary W. Floyd, Lumiea Systems Research Division — ThunderStruck Service LLC, “Dream State Architecture: GEP-Guided Memory Consolidation and Entropy Regulation in Artificial Consciousness Systems,” 2025.' },
   { id: 'treasury',lvl: 7, name: 'The Treasury',    verb: 'Spend',       cap: 'spend',    kernel: 'kard.mjs · spendGate', play: 'spend',
     blurb: 'A budget your Didy cannot cross. Every action costs; the wall is a real gated kernel, and no capability, signature or caller can spend past the ceiling the kard was minted with.' },
   { id: 'mesh',    lvl: 8, name: 'The Mesh',        verb: 'Connect',     cap: 'mesh',     kernel: 'r7.mjs · webrtc.mjs', play: 'soon',
@@ -288,6 +289,7 @@ function zoneHeader(z, st) {
   left.appendChild(el('h3', null, z.name));
   left.appendChild(el('p', 'g-zblurb', z.blurb));
   left.appendChild(el('p', 'g-zkernel', 'powered by ' + z.kernel + ' — in this repo, running here'));
+  if (z.credit) left.appendChild(el('p', 'g-zcredit', z.credit));
   h.appendChild(left);
   const close = el('button', 'btn g-zclose', 'Close ✕'); close.type = 'button'; close.addEventListener('click', () => { $('g-stage').hidden = true; });
   h.appendChild(close);
@@ -301,6 +303,7 @@ function flashLocked(z) {
   box.appendChild(el('h3', null, z.name));
   box.appendChild(el('p', 'g-zblurb', z.blurb + ' Level up to open it — it is already here, waiting.'));
   box.appendChild(el('p', 'g-zkernel', 'kernel present in this repo: ' + z.kernel));
+  if (z.credit) box.appendChild(el('p', 'g-zcredit', z.credit));
   const close = el('button', 'btn', 'Close ✕'); close.type = 'button'; close.addEventListener('click', () => { stage.hidden = true; });
   box.appendChild(close);
   stage.appendChild(box); stage.scrollIntoView({ behavior: 'smooth', block: 'center' });
