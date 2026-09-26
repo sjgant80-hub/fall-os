@@ -16,6 +16,29 @@ nothing leaves the machine unless you send it.
 
 ---
 
+## Play it — the whole page is one game
+
+Cloud AI rents you intelligence and keeps the memory. fall-os starts you the other way round: you
+**own one from the second one**, and you play your way in. The [live page](https://sjgant80-hub.github.io/fall-os/)
+is a single, self-contained game — one save file that grows, every system nested in the same page, nothing
+installed, nothing uploaded, nothing linking out:
+
+1. **Hatch** — a click mints a real Ed25519 identity *and* a signed capability card (a `kard`) that says what
+   your Didy may do. The private half never leaves your device.
+2. **Seed** — drop your ChatGPT or Claude export (`conversations.json`); the `seed.mjs` organ parses it here,
+   mines what it says about you, and files it into a five-part memory. Both providers merge, idempotently.
+3. **First recall** — ask your Didy about you. It answers from your own words — deterministic, offline, no
+   model required. That is the floor; a local model only enriches it.
+4. **Level up** — a world map of zones opens, each a real system already in this repo (the conductor, the
+   conformance tool, skin, the budget wall, the mesh). Each level grants a capability, and the level is
+   literally how much your Didy is allowed to do — enforced by `kard.canOpen` / `spendGate`, not cosmetics.
+
+Both save-file kernels are the same modules the tests and the mutation gate run against — the game *is* the
+gated logic. `seed.mjs` ships **67/67 mutants killed**; `kard.mjs` ships **49/49** — zero survivors, one
+content-address shared across the repo.
+
+---
+
 ## What it is
 
 Cloud AI rents you intelligence by the token and keeps the memory. fall-os inverts that: inference

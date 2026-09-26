@@ -183,6 +183,7 @@
 <nav><div class="wrap">
   <span class="brand"><span class="dot"></span>fall-os</span>
   <div class="links">
+    <a href="#game">Play</a>
     <a href="#what">What it is</a>
     <a href="#does">What it does</a>
     <a href="#how">How it works</a>
@@ -203,7 +204,8 @@
   <p class="sub">One core. One conductor. An estate of <span class="repoCount">1,548</span> repositories that runs on hardware you own.</p>
   <p class="lead">Every serious AI system today is rented: someone else's weights, someone else's datacenter, someone else's memory of your work. fall-os is the opposite bet, built to completion — a runtime where you direct a conductor in plain language, it runs on <strong>your own models</strong>, reasons over <strong>your own corpus</strong>, builds what you ask and proves it before it ships. Every agent carries a signed identity and a budget it cannot cross. Nothing leaves the machine unless you send it. This is not a prototype of that idea — it is an estate of <span class="repoCount">1,548</span> repositories already standing on it.</p>
   <div class="cta">
-    <a class="btn primary" href="#door">Use it now →</a>
+    <a class="btn primary" href="#game">Play — own your Didy →</a>
+    <a class="btn" href="#door">Use the conductor now</a>
     <a class="btn" href="#ecosystem">Explore the estate</a>
     <a class="btn" href="#how">How it works</a>
     <a class="btn" href="https://www.ai-nativesolutions.com/fall-os-deck.pdf" download>↓ Deck (PDF)</a>
@@ -218,6 +220,120 @@
     <span class="badge">offline · zero-dependency</span>
   </div>
 </div></header>
+
+<style>
+  /* ── FALL-OS: THE GAME — one PWA, one save file, every zone nested in this page. Scoped to #game; uses the site tokens. ── */
+  #game{padding-top:60px}
+  #game .wrap{padding:0 22px 72px}
+  #game .g-top h2{font-size:clamp(1.7rem,3.6vw,2.3rem);margin:.5rem 0 .6rem;max-width:20ch}
+  #game .g-top .lead{margin-bottom:8px}
+  /* HUD — the character that grows */
+  #game .g-hud{display:flex;flex-wrap:wrap;gap:12px 22px;align-items:center;margin:26px 0 8px;padding:16px 18px;border:1px solid var(--line);border-radius:14px;background:linear-gradient(180deg,var(--panel),var(--panel2))}
+  #game .g-hudcell{display:flex;flex-direction:column;gap:1px;min-width:56px}
+  #game .g-hudcell span{font-family:var(--mono);font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:var(--faint)}
+  #game .g-hudcell b{font-size:1.25rem;font-weight:850;letter-spacing:-.02em;color:var(--ink);font-variant-numeric:tabular-nums}
+  #game .g-hudcell.wide b{font-size:.86rem;font-family:var(--mono);font-weight:600;color:var(--accent)}
+  #game .g-hudcaps{display:flex;gap:5px;flex-wrap:wrap;margin-left:auto;max-width:340px}
+  #game .g-cap{font-family:var(--mono);font-size:.66rem;color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 40%,var(--line));border-radius:20px;padding:.16rem .5rem;background:color-mix(in srgb,var(--accent) 8%,transparent)}
+  #game .g-scope{font-family:var(--mono);font-size:.66rem;color:var(--ok)}
+  #game #g-new{margin-left:8px}
+  /* the world map / skill tree */
+  #game .g-map{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin:22px 0}
+  #game .g-zone{display:flex;flex-direction:column;gap:3px;text-align:left;padding:13px 14px;border:1px solid var(--line);border-radius:12px;background:var(--panel);cursor:pointer;font-family:var(--sans);color:var(--ink);position:relative;transition:transform .16s,border-color .16s,box-shadow .16s}
+  #game .g-zone:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--accent) 45%,var(--line));box-shadow:0 10px 30px -20px color-mix(in srgb,var(--accent) 70%,transparent)}
+  #game .g-zone.locked{opacity:.5;cursor:not-allowed}
+  #game .g-zone.open{border-color:color-mix(in srgb,var(--accent) 55%,var(--line));border-left:3px solid var(--accent)}
+  #game .g-zone.done{border-left:3px solid var(--ok)}
+  #game .g-zlvl{font-family:var(--mono);font-size:.64rem;font-weight:700;color:var(--accent)}
+  #game .g-zname{font-weight:750;font-size:.95rem}
+  #game .g-zverb{font-size:.76rem;color:var(--muted)}
+  #game .g-zstate{position:absolute;top:11px;right:12px;font-size:.9rem;color:var(--muted)}
+  #game .g-zone.done .g-zstate{color:var(--ok)}#game .g-zone.open .g-zstate{color:var(--accent)}
+  /* the stage — a zone opens here, in-page */
+  #game .g-stage{border:1px solid color-mix(in srgb,var(--accent) 30%,var(--line));border-radius:16px;background:var(--panel);padding:24px;margin-top:6px;box-shadow:0 20px 60px -40px color-mix(in srgb,var(--accent) 80%,transparent)}
+  #game .g-zhead{display:flex;gap:16px;justify-content:space-between;align-items:flex-start;flex-wrap:wrap}
+  #game .g-zhead h3,#game .g-locked h3{margin:.3rem 0 .5rem;font-size:1.3rem}
+  #game .g-zeye{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:700}
+  #game .g-zblurb{color:var(--muted);font-size:.94rem;max-width:64ch;margin:0 0 8px}
+  #game .g-zkernel{font-family:var(--mono);font-size:.72rem;color:var(--faint);margin:0}
+  #game .g-zbody{margin-top:18px}
+  #game .g-note{color:var(--muted);font-size:.92rem;margin:0 0 14px;max-width:64ch}
+  #game .g-zclose{flex:none}
+  #game .g-locked{text-align:left}
+  /* hatch identity */
+  #game .g-identity{margin-top:15px}
+  #game .g-idtag{font-family:var(--mono);font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:var(--faint)}
+  #game .g-idval{font-size:.82rem;display:block;margin:3px 0}
+  #game .g-idnote{font-size:.8rem;color:var(--muted);margin:4px 0 0}
+  /* seed */
+  #game .g-drop{border:1.5px dashed color-mix(in srgb,var(--accent) 42%,var(--line));border-radius:12px;padding:26px;text-align:center;cursor:pointer;background:color-mix(in srgb,var(--accent) 4%,transparent);transition:border-color .18s,background .18s}
+  #game .g-drop:hover,#game .g-drop:focus-visible,#game .g-drop.over{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,transparent);outline:none}
+  #game .g-drop b{color:var(--ink);font-size:.98rem;display:block}#game .g-drop small{color:var(--muted);font-size:.8rem}
+  #game .g-droprow{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:13px}
+  #game select,#game input[type=text]{font-family:var(--sans);font-size:.9rem;padding:.55rem .7rem;border:1px solid var(--line);border-radius:9px;background:var(--panel);color:var(--ink)}
+  #game .g-status{font-size:.86rem;margin-top:13px;padding:10px 13px;border-radius:9px;border:1px solid var(--line);background:var(--panel2);color:var(--muted)}
+  #game .g-status.ok{color:var(--ok);border-color:color-mix(in srgb,var(--ok) 42%,var(--line))}
+  #game .g-status.warn{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 42%,var(--line))}
+  #game .g-stats{display:flex;gap:26px;flex-wrap:wrap;margin-top:16px}
+  #game .g-stat b{display:block;font-size:1.6rem;font-weight:850;color:var(--ink);font-variant-numeric:tabular-nums}
+  #game .g-stat span{color:var(--muted);font-size:.76rem}
+  #game .g-buckets{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:16px}
+  @media(max-width:640px){#game .g-buckets{grid-template-columns:repeat(2,1fr)}}
+  #game .g-bucket{border:1px solid var(--line);border-radius:10px;padding:10px;background:var(--panel2)}
+  #game .g-bucket.empty{opacity:.5}
+  #game .g-bn{display:block;font-size:.72rem;color:var(--muted);line-height:1.3}#game .g-bc{font-size:1.25rem;font-weight:800;color:var(--accent)}
+  /* recall */
+  #game .g-askrow{display:flex;gap:8px;flex-wrap:wrap}#game .g-askrow input{flex:1 1 260px}
+  #game .g-examples{display:flex;gap:6px;flex-wrap:wrap;margin-top:11px;align-items:center}
+  #game .g-exlead{font-size:.74rem;color:var(--faint);font-family:var(--mono)}
+  #game .g-examples button{font-size:.78rem;color:var(--muted);border:1px solid var(--line);background:var(--panel);border-radius:20px;padding:.3rem .72rem;cursor:pointer;font-family:var(--sans)}
+  #game .g-examples button:hover{border-color:var(--accent);color:var(--ink)}
+  #game .g-answer{margin-top:15px;padding:11px 0 11px 15px;position:relative}
+  #game .g-answer::before{content:"";position:absolute;left:0;top:2px;bottom:2px;width:2px;background:linear-gradient(180deg,var(--ok),transparent)}
+  #game .g-ans{font-size:1.02rem;color:var(--ink);margin:0 0 9px}
+  #game .g-hits{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:5px}
+  #game .g-hits li{display:flex;gap:10px;font-size:.84rem;padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--panel)}
+  #game .g-hk{font-family:var(--mono);font-size:.71rem;color:var(--accent);min-width:78px;flex:none}#game .g-ht{color:var(--muted)}
+  /* skin */
+  #game .g-skins{display:flex;gap:12px;flex-wrap:wrap}
+  #game .g-skin{width:52px;height:52px;border-radius:14px;border:2px solid var(--line);cursor:pointer}
+  #game .g-skin.on{border-color:var(--ink);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 30%,transparent)}
+  /* treasury / spend */
+  #game .g-spendtrack{height:12px;border-radius:8px;background:var(--panel2);border:1px solid var(--line);overflow:hidden;margin:6px 0 14px}
+  #game .g-spendfill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .25s}
+  #game .g-spendrow{display:flex;gap:8px;flex-wrap:wrap}
+  /* reveal highlight on existing sections */
+  .g-flash{animation:gflash 1.6s ease}
+  @keyframes gflash{0%,100%{box-shadow:none}30%{box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 55%,transparent)}}
+  #game .g-foot{margin-top:26px;font-size:.82rem;color:var(--muted);max-width:78ch}
+  #game .g-foot a{color:var(--muted);text-decoration:underline}
+  @media (prefers-reduced-motion:reduce){#game .g-zone,.g-flash{transition:none;animation:none}}
+</style>
+
+<section id="game" class="anchor"><div class="wrap">
+  <div class="g-top">
+    <span class="eyebrow">Play it — become an estate</span>
+    <h2>Download an empty Didy. Feed it your history. Level up into your own OS.</h2>
+    <p class="lead big">This whole page is one game and one save file. You hatch an empty Didy, give it your own past, and level it up through the estate's real systems — memory, verify, skin, budget, mesh — each one a zone <em>inside here</em>. Nothing installs, nothing uploads, and nothing links out: every organ is nested in this one page, and each level is a real capability your Didy earns.</p>
+  </div>
+
+  <div class="g-hud">
+    <div class="g-hudcell wide"><span>your didy</span><b id="g-hudId">not hatched</b></div>
+    <div class="g-hudcell"><span>level</span><b id="g-hudLevel">0</b></div>
+    <div class="g-hudcell"><span>xp</span><b id="g-hudXp">0</b></div>
+    <div class="g-hudcell"><span>knows</span><b id="g-hudKnows">0</b></div>
+    <div class="g-hudcell"><span>caps</span><b id="g-hudCaps">0</b></div>
+    <div class="g-hudcaps" id="g-hudCapList"></div>
+    <span class="g-scope" id="g-hudScope"></span>
+    <button class="btn" id="g-new" type="button">New game</button>
+  </div>
+
+  <div class="g-map" id="g-map"><!-- zones built by game.mjs; each opens IN-PAGE, none links out --></div>
+
+  <div class="g-stage" id="g-stage" hidden><!-- the open zone renders here --></div>
+
+  <p class="g-foot">Every zone is a real, gated system in this one repo — the memory (<code>seed.mjs</code>, mutation gate 67/67) and the signed capability wallet (<code>kard.mjs</code>, 49/49) both run right here, offline. fall-os descends from the sovereign <em>assos</em> line of <a href="https://github.com/teslasolar" target="_blank" rel="noopener">Thomas Frumkin</a>; the mesh and reflection layers build on entropy-time work by Gary W. Floyd.</p>
+</div></section>
 <style>
   /* THE DOOR — the working part of the page. Uses the existing tokens so it reads as one site. */
   #door{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:linear-gradient(180deg,var(--panel),var(--bg))}
@@ -752,4 +868,5 @@ run();
 if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
 </script>
 
+<script type="module" src="./game.mjs?v=1"></script>
 <script type="module" src="./door.mjs?v=8"></script>

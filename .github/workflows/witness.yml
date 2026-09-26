@@ -15,6 +15,8 @@ jobs:
           node didy.test.mjs
           node depth.test.mjs
           node estate.test.mjs
+          node seed.test.mjs
+          node kard.test.mjs
           node organs/t0.test.mjs
           node organs/t1.test.mjs
           node organs/isa.test.mjs
@@ -40,3 +42,5 @@ jobs:
           node .witness/witness.mjs mutate r7.mjs          --cap 400 --test node r7.test.mjs
           node .witness/witness.mjs mutate pub.mjs         --cap 400 --test node pub.test.mjs
           node .witness/witness.mjs mutate verify-wire.mjs --cap 400 --test node verify-wire.test.mjs
+          node .witness/witness.mjs mutate seed.mjs         --cap 400 --test node seed.test.mjs
+          node .witness/witness.mjs mutate kard.mjs         --cap 400 --test node kard.test.mjs
