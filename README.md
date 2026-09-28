@@ -4,7 +4,13 @@
 
 **📄 [Download the pitch deck (PDF)](https://www.ai-nativesolutions.com/fall-os-deck.pdf)**  ·  **📄 [Download the prospectus (PDF)](https://www.ai-nativesolutions.com/fall-os-prospectus.pdf)**  ·  [Deck online](https://www.ai-nativesolutions.com/deck.html) · [Prospectus online](https://www.ai-nativesolutions.com/prospectus.html)
 
-*The sovereign operating system for an AI-run estate — 1,548 repositories, 371 live builds, one shared core.*
+*The sovereign operating system for an AI-run estate — 1,700+ public repositories, one shared core.*
+
+<!-- film-2026-09 -->
+**▶ [Watch the 90-second film](https://www.ai-nativesolutions.com/explainer.html#film)** — FallForge Mint, then the whole estate — fall-os included — and how it connects · [The brochure (PDF)](https://www.ai-nativesolutions.com/fall-os-prospectus.pdf) · [Every number, sourced](https://www.ai-nativesolutions.com/explainer.html#facts)
+
+[![The estate map: one front door, every door behind it live](https://www.ai-nativesolutions.com/media/images/estate-map.jpg)](https://www.ai-nativesolutions.com/explainer.html#film)
+
 
 ---
 
@@ -126,7 +132,7 @@ node test.mjs && node shadow.test.mjs && node wire.test.mjs && node didy.test.mj
 
 ## The ecosystem
 
-fall-os is the runtime beneath **1,548 repositories** (1,503 public, 45 private) — 371 live builds and the load-bearing organs across runtime & routing, the three tenses, memory & consolidation, deployed business
+fall-os is the runtime beneath **1,700+ public repositories** (counted 28 September 2026) — the live builds and the load-bearing organs across runtime & routing, the three tenses, memory & consolidation, deployed business
 operations, agents/identity/economy, the trust rail, geometric & neuromorphic compute, mesh &
 transport & sensing, legal & consumer, and open-web agents. The live site maps them with links.
 
