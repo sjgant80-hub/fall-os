@@ -43,6 +43,17 @@ Both save-file kernels are the same modules the tests and the mutation gate run 
 gated logic. `seed.mjs` ships **67/67 mutants killed**; `kard.mjs` ships **49/49** — zero survivors, one
 content-address shared across the repo.
 
+5. **It persists — and resumes byte-identical, with no cloud.** Every state change (hatch, level-up, skin,
+   seed) **exhales** a signed 6-byte packet into your browser's IndexedDB as a binary append-only ledger —
+   the *shadow fold*. Close the tab and reopen it: the Didy **inhales**, replays the ledger onto its immutable
+   DNA through an Ed25519 verify-before-parse gate, and **resumes in the exact state it closed in** — proven
+   byte-identical, including the signed kard. A forged or tampered packet sitting in the store is rejected on
+   replay, so a poisoned ledger cannot corrupt the Didy. This is the **KESTREL-LEDGER** kernel + **SENTINEL**
+   gate, vendored verbatim and sha256-pinned to kestrel-ledger's sealed commit (`vendor/kestrel/`), wired here
+   as `persist-ledger.mjs` (witness **49/49**, zero survivors). The claim is sealed-then-measured
+   (`scripts/seal-persist.mjs` → `scripts/measure-persist.mjs`, re-derived on CI) and verified live in a real
+   browser. The 6-byte Primorial-Fold codec is Thomas Frumkin's Konomi / LIGHT, used with permission.
+
 ---
 
 ## What it is

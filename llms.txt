@@ -6,6 +6,8 @@ fall-os is a sovereign, MIT-licensed build by Simon Gant (UK) — it runs in the
 
 You start by owning one, and the whole live page is a single self-contained game. You hatch an empty Didy (a signed Ed25519 identity + capability card minted in your browser), feed it your own ChatGPT or Claude export — parsed on your machine, never uploaded — so it recalls things from your own history, then level up through a world map of zones, each a real system nested in the same page (memory, conductor, conformance tool, skin, budget wall, mesh). Each level grants a real capability, enforced by the gated wallet kernel, not cosmetics. One save file, offline, nothing links out.
 
+Your Didy persists through the KESTREL shadow fold: every state change (hatch, level-up, skin, seed) exhales a signed 6-byte packet into your browser's IndexedDB as a binary append-only ledger; on boot it inhales — replays the ledger onto the immutable DNA through an Ed25519 verify-before-parse gate — and resumes in the exact state it closed in. Close the tab, reopen it, and the Didy comes back byte-identical, with no cloud. A forged or tampered packet in the store is rejected on replay, so a poisoned ledger cannot corrupt the Didy.
+
 ## Key pages
 
 - [Live page](https://sjgant80-hub.github.io/fall-os/)
@@ -18,7 +20,7 @@ You start by owning one, and the whole live page is a single self-contained game
 
 ## Credits & license
 
-fall-os's own code is MIT-licensed (covers the estate's own code only; see LICENSE + NOTICE). fall-os is forked from Thomas Frumkin's assos (ASSOSIGNITION), used with permission, and built on the Konomi architecture he created — Powered by the Konomi architecture, created by Thomas Frumkin. The Dreaming (reflect) zone draws on dream-state design Gary W. Floyd shared with the estate — cite it as: Gary W. Floyd, Lumiea Systems Research Division — ThunderStruck Service LLC, "Dream State Architecture: GEP-Guided Memory Consolidation and Entropy Regulation in Artificial Consciousness Systems," 2025 (his own work, Open Defensive Prior Art / Creative Commons — not relicensed by fall-os).
+fall-os's own code is MIT-licensed (covers the estate's own code only; see LICENSE + NOTICE). fall-os is forked from Thomas Frumkin's assos (ASSOSIGNITION), used with permission, and built on the Konomi architecture he created — Powered by the Konomi architecture, created by Thomas Frumkin. The persistence is the KESTREL-LEDGER kernel + SENTINEL gate, vendored and sha256-pinned (vendor/kestrel/): the 6-byte Primorial-Fold codec is Thomas Frumkin's Konomi / LIGHT, used with permission; the verify-before-parse gate is SENTINEL. The Dreaming (reflect) zone draws on dream-state design Gary W. Floyd shared with the estate — cite it as: Gary W. Floyd, Lumiea Systems Research Division — ThunderStruck Service LLC, "Dream State Architecture: GEP-Guided Memory Consolidation and Entropy Regulation in Artificial Consciousness Systems," 2025 (his own work, Open Defensive Prior Art / Creative Commons — not relicensed by fall-os).
 
 ## Citation
 

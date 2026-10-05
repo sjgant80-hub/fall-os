@@ -13,10 +13,15 @@
 import { seedMemory, recall } from './seed.mjs';
 import { mintKard, attachSignature, verifyKard, kardSignable, canOpen, spendGate } from './kard.mjs';
 import { sha256 } from './organs/estate.mjs';
+// ── sovereign persistence: the KESTREL shadow fold (vendored, pinned — vendor/kestrel/VENDOR.md) ──────────────────
+import { openKestrelDB, putGenome, getGenome, putWallet, getWallet, exhale, getLedger } from './vendor/kestrel/kestrel-db.mjs';
+import { genome as kestrelGenome, reconstruct as kestrelReconstruct, canonicalState as kestrelCanon, replayStore, WIRE, PAYLOAD } from './vendor/kestrel/kestrelledger.mjs';
+import { encodeGrant, encodeSkin, encodeSeed, packEvent, gatedSurvivors, reduceProgress, DIDY_SOURCE } from './persist-ledger.mjs';
+import { ZONE_LEDGER, SKIN_ORDER, zoneIndexById, skinIndex } from './zone-ledger-map.mjs';
 
 const $ = (id) => document.getElementById(id);
 const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
-const SAVE_KEY = 'fallos.game.v1';
+const SAVE_KEY = 'fallos.game.v1';           // legacy local save — the graceful fallback where in-tab Ed25519 is absent
 const bufToHex = (buf) => [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, '0')).join('');
 
 // ── THE WORLD — every zone is a system already in THIS repo. lvl = the level it unlocks at; cap = the
@@ -56,12 +61,84 @@ let save = null;
 let memory = null;       // in-session five-solid memory
 const sources = [];      // accumulated export sources (ChatGPT + Claude merge)
 let signKey = null;      // the WebCrypto private key, this tab only
+let pubKeyObj = null;    // the WebCrypto public key, for the gated inhale (verify-before-parse)
 let spent = 0;           // running spend for the Treasury demo
+
+// ── THE SHADOW FOLD — IndexedDB as a binary append-only ledger of signed 6-byte packets ──────────────────────────
+let db = null;           // the KESTREL_OS IndexedDB handle (this tab)
+let ledgerSeq = 0;       // monotonic exhale counter (= stored frame count) — makes every legit frame unique
+let livePackets = 0;     // count of VALID (applied) frames — what the HUD shows (rejected poison is not counted)
+let lastInhale = null;   // { gated, frames, applied, rejectedTotal } from the last boot replay, for the HUD
+const ZONE_TABLE = ZONE_LEDGER.map((z) => ({ id: z.id, cap: z.cap, lvl: z.lvl }));
+const ledgerActive = () => !!(db && signKey && pubKeyObj);
+const wcSign = (msg) => crypto.subtle.sign({ name: 'Ed25519' }, signKey, msg);
+const wcVerify = (key, msg, sig) => crypto.subtle.verify({ name: 'Ed25519' }, key, sig, msg);
 
 function blankSave() {
   return { id: null, kard: null, level: -1, xp: 0, caps: [], skin: 'aurora', seededStats: null, done: {} };
 }
+
+async function ensureDB() {
+  if (db) return db;
+  try { db = await openKestrelDB(); } catch { db = null; }
+  return db;
+}
+
+// EXHALE — fold one state transition into the ledger as a signed 71-byte frame, BEFORE the UI repaints. Crash/close
+// after this line loses nothing: the coordinate is already committed to the shadow fold. No sovereign key → no-op
+// (the legacy local save covers that browser).
+async function exhaleFrame(cmd) {
+  if (!ledgerActive()) return false;
+  const p = packEvent(cmd); if (!(p instanceof Uint8Array)) return false;
+  const msg = new Uint8Array(1 + PAYLOAD); msg[0] = DIDY_SOURCE; msg.set(p, 1);
+  let sig; try { sig = new Uint8Array(await wcSign(msg)); } catch { return false; }
+  const raw = new Uint8Array(WIRE); raw[0] = DIDY_SOURCE; raw.set(p, 1); raw.set(sig, 1 + PAYLOAD);
+  try { await exhale(db, raw); ledgerSeq += 1; livePackets += 1; return true; } catch { return false; }
+}
+const exhaleGrant = (zoneId) => exhaleFrame(encodeGrant(zoneIndexById(zoneId), ledgerSeq));
+const exhaleSkinEvt = (name) => exhaleFrame(encodeSkin(skinIndex(name), ledgerSeq));
+const exhaleSeedEvt = (facts) => exhaleFrame(encodeSeed(facts, ledgerSeq));
+
+// INHALE — germination on boot. Open the DB, read the DNA + keypair, gate-replay the ledger, reduce it back into a
+// save. Returns null when there is no ledger yet (fresh player / no in-tab Ed25519), so the caller falls back.
+async function inhale() {
+  if (typeof indexedDB === 'undefined') return null;
+  await ensureDB(); if (!db) return null;
+  let g; try { g = await getGenome(db); } catch { g = null; }
+  if (!g || !g.id) return null;
+  try { const w = await getWallet(db); if (w && w.priv && w.pub) { signKey = w.priv; pubKeyObj = w.pub; } } catch { /* keyless → local-trust replay below */ }
+  let frames = []; try { frames = await getLedger(db); } catch { frames = []; }
+  ledgerSeq = frames.length;
+  let payloads;
+  if (pubKeyObj) {
+    const ctx = { keys: { [DIDY_SOURCE]: pubKeyObj }, lattice: { [DIDY_SOURCE]: { maxBudget: 65535, resources: 0xFF } }, seen: replayStore(8192), verify: wcVerify };
+    const r = await gatedSurvivors(frames, ctx);
+    payloads = r.survivors;
+    lastInhale = { gated: true, frames: frames.length, applied: payloads.length, rejectedTotal: r.rejectedTotal };
+  } else {
+    payloads = frames.map((f) => f.subarray(1, 1 + PAYLOAD));   // local-trust replay (no in-tab Ed25519)
+    lastInhale = { gated: false, frames: frames.length, applied: payloads.length, rejectedTotal: 0 };
+  }
+  const prog = reduceProgress(payloads, ZONE_TABLE, SKIN_ORDER);
+  livePackets = payloads.length;        // the HUD shows applied frames; a rejected poison frame is not counted
+  const kestrelDigest = kestrelReconstruct({ ...kestrelGenome(), id: g.id }, payloads);
+  lastInhale.fold = (kestrelDigest.state.fold >>> 0);
+  return {
+    id: g.id, level: prog.level, xp: prog.xp, caps: prog.caps.slice(), skin: prog.skin,
+    done: prog.done, seededStats: prog.facts != null ? { facts: prog.facts } : null, kard: null, _scopeOk: false,
+  };
+}
+
+async function wipeLedger() {
+  try { if (db && db.close) db.close(); } catch { /* ignore */ }
+  db = null;
+  try { await new Promise((res) => { const r = indexedDB.deleteDatabase('KESTREL_OS'); r.onsuccess = r.onerror = r.onblocked = () => res(); }); } catch { /* ignore */ }
+}
+
+// persist(): with the sovereign ledger active, state already lives in the shadow fold (exhaled per transition), so
+// this is a no-op. Only the fallback browser (no in-tab Ed25519) writes the legacy local save.
 function persist() {
+  if (ledgerActive()) return;
   try { localStorage.setItem(SAVE_KEY, JSON.stringify({ ...save, kard: save.kard })); } catch { /* private/quota — plays fine this session */ }
 }
 function restore() {
@@ -75,19 +152,29 @@ async function hatch() {
   let id = '', signed = false;
   try {
     if (window.crypto && crypto.subtle && crypto.subtle.generateKey) {
-      const kp = await crypto.subtle.generateKey({ name: 'Ed25519' }, true, ['sign', 'verify']);
+      // non-extractable private key (it can sign + be stored, but never exported); the public key stays exportable
+      const kp = await crypto.subtle.generateKey({ name: 'Ed25519' }, false, ['sign', 'verify']);
       id = bufToHex(await crypto.subtle.exportKey('raw', kp.publicKey));   // 32-byte pubkey → 64 hex = a kard owner
-      signKey = kp.privateKey; signed = true;
+      signKey = kp.privateKey; pubKeyObj = kp.publicKey; signed = true;
     } else { throw new Error('no-ed25519'); }
   } catch {
     const buf = new Uint8Array(32);
     (window.crypto && crypto.getRandomValues) ? crypto.getRandomValues(buf) : buf.forEach((_, i) => (buf[i] = (Math.random() * 256) | 0));
     id = sha256(bufToHex(buf)).slice(0, 64);   // a well-formed 64-hex id when this browser lacks in-tab Ed25519
-    signed = false;
+    signKey = null; pubKeyObj = null; signed = false;
   }
   save.id = id; save.caps = ['identity'];
+  // write the immutable DNA + the keypair into the shadow fold, so a reload can wake this exact Didy from the ledger
+  if (signed) {
+    await ensureDB();
+    if (db) {
+      try { await putGenome(db, { ...kestrelGenome(), id, structureRef: 'fallos-didy-v1', bornSkin: save.skin || 'aurora', createdAt: '2026-01-01T00:00:00Z' }); } catch { /* genome write failed — fall back to local save */ }
+      try { await putWallet(db, { priv: signKey, pub: pubKeyObj, pubHex: id, budgetCap: BUDGET_CAP }); } catch { /* keyless → local save */ }
+      ledgerSeq = 0; livePackets = 0;
+    }
+  }
   await remintKard();
-  await grant('hatch', 0);
+  await grant('hatch', 0);         // the first exhaled event (GRANT of the hatch zone)
   renderIdentity(signed);
   return id;
 }
@@ -136,6 +223,7 @@ async function grant(zoneId, lvl) {
   // prove the scope with the real kernel: a node presenting the earned caps can open the kard
   const opened = canOpen(save.kard, { capabilities: save.caps.slice() });
   save._scopeOk = !!(opened.ok && opened.canOpen);
+  await exhaleGrant(zoneId);        // EXHALE this level-up into the shadow fold before the UI repaints
   persist(); renderHUD(); renderMap();
 }
 
@@ -158,12 +246,13 @@ async function ingestFile(file) {
   sources.push({ source: pick, data });
   reseed(`Added ${file.name} · read as ${pick}.`);
 }
-function reseed(note) {
+async function reseed(note) {
   const res = seedMemory(sources);
   if (!res.ok) { seedStatus(res.why || 'Could not seed from that file.', 'warn'); sources.pop(); return; }
   memory = res.memory; save.seededStats = res.stats;
   renderSeedStats(res.stats, note);
-  grant('memory', 1);
+  await exhaleSeedEvt(res.stats.facts || 0);   // EXHALE the seed's headline fact count into the shadow fold
+  await grant('memory', 1);
   const rc = $('g-recallWrap'); if (rc) rc.hidden = false;
   renderSuggestions();
 }
@@ -221,11 +310,13 @@ function seedStatus(html, kind) { const s = $('g-seedStatus'); if (!s) return; s
 
 // ── L3 · SKIN — a cosmetic written into the kard ────────────────────────────────────────────────────────
 const SKINS = { aurora: ['#5c7cfa', '#9775fa'], ember: ['#ff8f5e', '#f0664f'], forest: ['#2fbd85', '#3bc9a0'], slate: ['#8d99a9', '#5c7cfa'], gold: ['#e6a23c', '#f0c674'] };
-function applySkin(name) {
+async function applySkin(name, record) {
   const pair = SKINS[name] || SKINS.aurora;
   document.documentElement.style.setProperty('--accent', pair[0]);
   document.documentElement.style.setProperty('--accent2', pair[1]);
-  save.skin = name; remintKard();
+  const changed = save.skin !== name;
+  save.skin = name; await remintKard();
+  if (record && changed) await exhaleSkinEvt(name);   // EXHALE a real skin change (not the start/new-game re-apply)
 }
 
 // ── L7 · TREASURY — the real spendGate budget wall ──────────────────────────────────────────────────────
@@ -249,6 +340,16 @@ function renderHUD() {
   const idn = $('g-hudId'); if (idn) idn.textContent = save.id ? save.id.slice(0, 10) + '…' : 'not hatched';
   const caps = $('g-hudCapList'); if (caps) { caps.innerHTML = ''; for (const c of save.caps) caps.appendChild(el('span', 'g-cap', c)); }
   const scope = $('g-hudScope'); if (scope) scope.textContent = save._scopeOk ? 'scope verified' : (save.caps.length ? 'scope open' : '');
+  const led = $('g-hudLedger');
+  if (led) {
+    if (!save.id) led.textContent = '—';
+    else if (!ledgerActive()) led.textContent = 'local save';
+    else {
+      const resumed = lastInhale && lastInhale.frames > 0;
+      const dropped = lastInhale && lastInhale.rejectedTotal ? ' · ' + lastInhale.rejectedTotal + ' rejected' : '';
+      led.textContent = livePackets + ' packet' + (livePackets === 1 ? '' : 's') + (resumed ? ' · resumed' : '') + (lastInhale && lastInhale.gated ? ' · gated' : '') + dropped;
+    }
+  }
 }
 function zoneState(z) {
   if (save.done[z.id]) return 'done';
@@ -349,7 +450,7 @@ function buildZoneBody(z, body, st) {
       const sw = el('button', 'g-skin' + (save.skin === name ? ' on' : '')); sw.type = 'button';
       sw.style.background = `linear-gradient(135deg,${SKINS[name][0]},${SKINS[name][1]})`;
       sw.title = name; sw.setAttribute('aria-label', 'skin ' + name);
-      sw.addEventListener('click', () => { applySkin(name); [...row.children].forEach((c) => c.classList.remove('on')); sw.classList.add('on'); if (!save.done.skin) grant('skin', 3); });
+      sw.addEventListener('click', async () => { await applySkin(name, true); [...row.children].forEach((c) => c.classList.remove('on')); sw.classList.add('on'); if (!save.done.skin) grant('skin', 3); });
       row.appendChild(sw);
     }
     body.appendChild(row);
@@ -391,21 +492,26 @@ function wireSeed() {
   }
 }
 
-function newGame() {
-  save = blankSave(); memory = null; sources.length = 0; signKey = null; spent = 0;
+async function newGame() {
+  save = blankSave(); memory = null; sources.length = 0; signKey = null; pubKeyObj = null; spent = 0; ledgerSeq = 0; livePackets = 0; lastInhale = null;
   try { localStorage.removeItem(SAVE_KEY); } catch { /* nothing to clear */ }
-  applySkin('aurora');
+  await wipeLedger();        // the shadow fold is wiped — a new Didy starts from an empty ledger
+  await applySkin('aurora');
   renderHUD(); renderMap(); const st = $('g-stage'); if (st) st.hidden = true;
   openZone('hatch');
 }
 
-function start() {
+async function start() {
   if (!$('g-map')) return;   // game not on this page
-  const prior = restore();
+  let prior = null;
+  try { prior = await inhale(); } catch { prior = null; }        // the sovereign ledger first
+  if (!prior) { const ls = restore(); if (ls && ls.id) prior = ls; }   // legacy local save fallback
   save = (prior && prior.id) ? { ...blankSave(), ...prior } : blankSave();
-  if (save.skin) applySkin(save.skin);
+  // rebuild the signed kard from the restored key + replayed caps/skin — byte-identical to the one at close
+  if (save.id && ledgerActive()) { try { await remintKard(); } catch { /* keep the restored kard */ } }
+  if (save.skin) await applySkin(save.skin);
   renderHUD(); renderMap();
-  const ng = $('g-new'); if (ng) ng.addEventListener('click', newGame);
+  const ng = $('g-new'); if (ng) ng.addEventListener('click', () => { newGame(); });
   // open the first unfinished playable zone to guide the player in
   const first = save.id ? (save.seededStats ? 'recall' : 'memory') : 'hatch';
   openZone(first);
