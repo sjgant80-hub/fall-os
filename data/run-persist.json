@@ -1,0 +1,71 @@
+{
+  "organ": "fall-os-persist",
+  "id": "9ca0da86726d8282ce4e0719df6d1f4db2902bdfe78632ac4890d0b9a8e38e27",
+  "session": {
+    "events": 15,
+    "frames": 15,
+    "level": 8,
+    "xp": 1000,
+    "caps": 9,
+    "skin": "slate",
+    "facts": 14
+  },
+  "reconstruction": {
+    "byteIdentical": true,
+    "foldIdentical": true,
+    "canonLen": 1197,
+    "fold": 94821161
+  },
+  "tamper": {
+    "forged": 2,
+    "replay": 1,
+    "rejectedTotal": 3,
+    "poisonedEqualsClean": true
+  },
+  "repeat": {
+    "xp": 300,
+    "expected": 300
+  },
+  "stress": {
+    "events": 2000,
+    "frames": 2000,
+    "byteIdentical": true,
+    "pureReplayMs": 1.103,
+    "gatedReplayMs": 324.504,
+    "rejectedTotal": 0
+  },
+  "storage": {
+    "signedLedgerBytes": 1065,
+    "legacyBlobBytes": 1203,
+    "ratioLedgerVsBlob": 0.89
+  },
+  "verdict": {
+    "F1-byte-identical": true,
+    "F2-kestrel-fold": true,
+    "F3-tamper-rejected": true,
+    "F4-repeat-safe": true,
+    "F5-scales": true,
+    "F6-storage-honest": true,
+    "passed": 6,
+    "of": 6
+  },
+  "inputs": {
+    "persist-ledger.mjs": "8dc672fd080b3b162eca834d8c2028c8623389daa2c329e7ac6cf3df8805812f",
+    "zone-ledger-map.mjs": "57cf33bc0c0bef31ae57308b7b333985f8fba5ee98a0ca3c1d955f653f20848c",
+    "vendor/kestrel/sentinel.mjs": "81f05c11fa98c72e7119f3b8166d2cf4ff10cdeccaa1ae0d711367d778944440",
+    "vendor/kestrel/kestrelledger.mjs": "8d3b7d0173a0e6aef2c77e663aab83f6c3418ae396a87eba5867f2db369acd37",
+    "vendor/kestrel/kestrel-db.mjs": "097eef818850b57f60daa5602370eecc3cf7f03c385cef6277ebe843fa12060b",
+    "vendor/kestrel/idb-mock.mjs": "e7a543b9fa5f9e943508860a72b33df1371030cc56e4f6b81c47c90fc9831575",
+    "kard.mjs": "7b918f0aa5321a9020f7bd5e8812b7d6c39387a626fff32d506badaf01881c44",
+    "organs/estate.mjs": "80c5f6bd8deeabdad0580a4332e4e2009b50a2b72e94748e36914db64b1c7149",
+    "scripts/measure-persist.mjs": "63ba04dcad4475e632cdb9d93c247820a561ae61cfa2ba2003b8b88dc49d8dfd"
+  },
+  "predictions": [
+    "F1-byte-identical",
+    "F2-kestrel-fold",
+    "F3-tamper-rejected",
+    "F4-repeat-safe",
+    "F5-scales",
+    "F6-storage-honest"
+  ]
+}
