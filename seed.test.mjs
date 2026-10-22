@@ -131,6 +131,16 @@ test('extractFacts catches preference / identity / project / correction from USE
   assert.ok(!r.facts.some((f) => /I am a bot/.test(f.text)), 'assistant turns are not mined');
 });
 
+test('a dislike is its own kind: filed beside preferences, recalled as a dislike, never as a preference', () => {
+  const said = (text, i) => ({ source: 'x', conversationId: 'c', turnIndex: i, role: 'user', text, ts: 10 + i });
+  const r = extractFacts([said('I dislike jargon', 0), said("I can't stand long meetings", 1), said("I don't like cold calls", 2), said('I hate spam', 3), said('I prefer short answers', 4)]);
+  assert.deepEqual(r.facts.map((f) => f.kind + ':' + f.text), ['dislike:jargon', 'dislike:long meetings', 'dislike:cold calls', 'dislike:spam', 'preference:short answers']);
+  const m = bucket(dedupe(r.facts).facts).memory;
+  assert.deepEqual(m.dodeca.map((f) => f.kind).sort(), ['dislike', 'dislike', 'dislike', 'dislike', 'preference'], 'dislikes sit beside preferences');
+  assert.equal(recall(m, 'jargon').answer, 'From your history: you dislike jargon.');
+  assert.ok(!/you prefer (jargon|spam|long meetings)/.test(recall(m, 'jargon spam meetings').answer), 'a dislike is never read back as a preference');
+});
+
 test('extractFacts surfaces recurring entities (2+ turns) but not one-offs, and never mines assistant turns', () => {
   const turns = [
     { source: 'x', conversationId: 'c', turnIndex: 0, role: 'user', text: 'Crumb needs a new logo', ts: 1 },

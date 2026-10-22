@@ -144,10 +144,12 @@ const STOP = new Set(('a an the and or but if then else of to in on for with at 
 
 const PREF_RE = [
   /\bi (?:really )?(?:prefer|like|love|enjoy|favou?r) ([^.,;!?\n]{2,120})/i,
-  /\bi (?:hate|dislike|can'?t stand|don'?t (?:like|want)) ([^.,;!?\n]{2,120})/i,
   /\bi (?:always|usually|tend to|normally) ([^.,;!?\n]{2,120})/i,
   /\bmy favou?rite [a-z ]{0,30}?(?:is|are) ([^.,;!?\n]{2,120})/i,
 ];
+// a dislike is its own kind: filed beside preferences, never read back as one (found 2026-10-22: "I dislike jargon"
+// came back as "you prefer jargon")
+const DISLIKE_RE = /\bi (?:hate|dislike|can'?t stand|don'?t (?:like|want)) ([^.,;!?\n]{2,120})/i;
 const ID_RE = [
   /\bi(?:'m| am) (?:a|an) ([^.,;!?\n]{2,80})/i,
   /\bmy name is ([^.,;!?\n]{2,60})/i,
@@ -167,6 +169,7 @@ function mineTurn(turn, out) {
   if (turn.role !== 'user') return;
   const t = turn.text;
   for (const re of PREF_RE) { const m = t.match(re); if (m) out.push(fact('preference', m[1], turn, 3)); }
+  const dm = t.match(DISLIKE_RE); if (dm) out.push(fact('dislike', dm[1], turn, 3));
   for (const re of ID_RE) { const m = t.match(re); if (m) out.push(fact('identity', m[1], turn, 4)); }
   for (const re of PROJ_RE) { const m = t.match(re); if (m) out.push(fact('project', m[1], turn, 3)); }
   const pm = t.match(PERSON_RE); if (pm) out.push(fact('person', pm[1], turn, 3));
@@ -255,7 +258,7 @@ function scoreFacts(facts) {
   return facts;
 }
 
-const KIND_BUCKET = { identity: 'crystal', correction: 'crystal', preference: 'dodeca', project: 'board', person: 'addressbook', entity: 'board' };
+const KIND_BUCKET = { identity: 'crystal', correction: 'crystal', preference: 'dodeca', dislike: 'dodeca', project: 'board', person: 'addressbook', entity: 'board' };
 
 /** bucket(facts) — sort each fact into one of the five memory solids, ordered by weight (desc). The
  *  `skin` (self-model) is DERIVED: the top identity + top preferences, the short "who this Didy is". */
@@ -331,7 +334,7 @@ export function recall(memory, query, topN) {
   }
   scored.sort((a, b) => (b.score - a.score) || (b.fact.ts - a.fact.ts) || a.fact.text.localeCompare(b.fact.text));
   const hits = scored.slice(0, n);
-  const phrase = { identity: 'you are', preference: 'you prefer', project: "you're working on", correction: 'you corrected me that', person: 'you mentioned', entity: 'you often bring up' };
+  const phrase = { identity: 'you are', preference: 'you prefer', dislike: 'you dislike', project: "you're working on", correction: 'you corrected me that', person: 'you mentioned', entity: 'you often bring up' };
   const parts = hits.filter((h) => h.overlap > 0).map((h) => (phrase[h.fact.kind] || 'you noted') + ' ' + h.fact.text);
   const answer = parts.length > 0
     ? 'From your history: ' + parts.slice(0, 3).join('; ') + '.'
