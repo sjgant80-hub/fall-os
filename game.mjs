@@ -9,7 +9,7 @@
 //   · organs/estate.mjs — the one content-address (sha256) both of the above share
 //   · the Forge and the Tag Foundry are the estate's real conductor + conformance tool, already in this page
 //
-// — Kar (karma-didy), fall-os · the game
+// — Kar, fall-os · the game
 import { seedMemory, recall } from './seed.mjs';
 import { mintKard, attachSignature, verifyKard, kardSignable, canOpen, spendGate } from './kard.mjs';
 import { sha256 } from './organs/estate.mjs';
